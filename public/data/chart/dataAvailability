@@ -1,0 +1,235 @@
+{
+    "chart": {
+        "type": "data availability",
+        "from": "2018-03-12 00:00:00",
+        "to": "2018-06-01 00:00:00"
+    },
+    "data": {
+        "id": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37
+        ],
+        "table": [
+            {
+                "from": "2018-03-12 00:00:00",
+                "to": "2018-03-19 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-03-19 00:00:00",
+                "to": "2018-03-26 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-03-26 00:00:00",
+                "to": "2018-04-02 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-04-02 00:00:00",
+                "to": "2018-04-09 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-04-09 00:00:00",
+                "to": "2018-04-16 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-04-16 00:00:00",
+                "to": "2018-04-23 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-04-23 00:00:00",
+                "to": "2018-04-30 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-04-30 00:00:00",
+                "to": "2018-05-07 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-05-07 00:00:00",
+                "to": "2018-05-14 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-05-14 00:00:00",
+                "to": "2018-05-21 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-05-21 00:00:00",
+                "to": "2018-05-28 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            },
+            {
+                "from": "2018-05-28 00:00:00",
+                "to": "2018-06-01 00:00:00",
+                "windAverages": {
+                    "speed": 100.0,
+                    "direction": 100.0,
+                    "powerAverage": 100.0
+                },
+                "turbineState": {
+                    "alarm": 100.0,
+                    "state": 100.0
+                },
+                "metMast": {
+                    "speed": 0.0,
+                    "direction": 0.0,
+                    "temperature": 0.0
+                }
+            }
+        ]
+    }
+}

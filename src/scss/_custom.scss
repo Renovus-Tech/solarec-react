@@ -1,0 +1,328 @@
+
+/* General */
+
+.flex-center {
+	align-items: center!important;
+}
+.flex-end {
+    align-items: flex-end !important;
+}
+.flex-justify-end {
+    justify-content: end!important;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.animate-rotate {
+    transition: .3s all;
+}
+.animate-rotate:hover {
+    transform: rotate(15deg);
+}
+.text-dark-blue {
+    color: var(--color) !important;
+} 
+.input-xs {
+    max-width: 100%;
+    width: 80px;
+}
+.input-sm {
+    max-width: 100%;
+    width: 120px;
+}
+.input-md {
+    max-width: 100%;
+    width: 220px;
+}
+.spinner-border {
+	margin: 30px;
+}
+.spinner-border-sm {
+	margin: 10px;
+}
+.bg-gradient-custom {
+    background: #f8ff8f !important;
+    background: linear-gradient(0deg, #eec90e 0%, #f8ff8f 100%) !important;
+    border-color: #f8ff8f !important;
+}
+.bg-gradient-purple {
+    background: #a24aca !important;
+    background: linear-gradient(0deg, #9873b7 0%, #a24aca 100%) !important;
+    border-color: #a24aca !important;
+}
+.dropdown-toggle::after {
+    margin-bottom: -2px;
+}
+.react-datepicker-wrapper {
+    width: auto!important;
+}
+.collapse-horizontal.collapsing {
+    height: auto!important;
+    transition: width 0.35s ease;
+    width: 0;
+}
+.collapse-horizontal.collapse.show {
+    width: 100%;
+}
+div#collapseWidth {
+    overflow: hidden;
+    display: inline-block;
+    text-align: left;
+}
+.focus-shadow-0:focus {
+    box-shadow: none!important;
+}
+.overview-box .card-body {
+    max-height: 25%;
+}
+
+
+
+/* Sidebars */
+
+.c-sidebar-brand{
+	background-color: white!important;
+	background-image: url(../assets/logo-solarec.png)!important;
+	background-size: contain!important;
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+}
+.c-header-brand{
+	width: 100px;
+	height: 50px;
+	display: block;
+	background-color: white!important;
+	background-image: url(../assets/logo-solarec.png)!important;
+	background-size: contain!important;
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+}
+
+
+
+/* Buttons */
+
+.btn-generator:not(.selected) {
+    opacity: .3;
+}
+.btn-generator:not(.selected):hover {
+    opacity: 0.6;
+}
+.btn-generator.selected {
+	transform: scale(1.07);
+}
+
+
+
+/* Links */
+
+.page-item.active .page-link {
+    background-color: #303C54;
+    border-color: #303C54;
+}
+.page-link {
+	color: #303C54;
+}
+
+
+
+/* Multiselect */
+.multiselect-container {
+    min-width: 150px;
+}
+.multiselect-container .chip {
+    margin-bottom: 1px;
+    margin-top: 1px;
+    background-color: #303c50;
+}
+.multiselect-container, .multiselect-container > div {
+    width:100%
+}
+.multiselect-container #search_input {
+    width: 50px;
+}
+.multiSelectContainer  {
+    max-height: 35px;
+}
+.searchWrapper {
+    display: flex;
+    overflow-x: scroll;
+    padding: 2px 5px 1px!important;
+}
+/* height */
+.searchWrapper::-webkit-scrollbar {
+height: 4px;
+}
+
+/* Track */
+.searchWrapper::-webkit-scrollbar-track {
+background: white; 
+}
+
+/* Handle */
+.searchWrapper::-webkit-scrollbar-thumb {
+background: #888; 
+}
+
+/* Handle on hover */
+.searchWrapper::-webkit-scrollbar-thumb:hover {
+background: #555; 
+}
+
+
+/* Tables */
+
+.table-header-center th:not(:first-child) {
+    text-align: center;
+}
+.table-item-circle { 
+    height: 34px;
+    width: 34px;
+    padding: 6px 2px 6px 2px;
+    text-align: center;
+    border-radius: 50%;
+    margin: -7px 0;
+}
+.monitor-park-table span.badge {
+    width: 18px;
+    height: 18px;
+    display: block;
+    border-radius: 50%;
+}
+.monitor-park-table tbody tr:first-child {
+    font-weight: 700;
+}
+.monitor-park-table tbody tr:first-child td {
+    background: #e1e2ea;
+}
+.col-solar .monitor-park-table tbody tr:first-child td {
+    background: #f6f6b2;
+}
+.col-solar .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(214, 215, 0, 0.1);
+}
+.table td {
+    vertical-align: middle;
+}
+
+
+
+/* Datepicker */
+
+option[value="xx"] {
+	display: none;
+}
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::before, 
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before, 
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle::after, 
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+    left: -22px!important;
+}
+@media only screen and (min-width:1200px) {
+    #period {
+        min-width: 186px;
+    }
+}
+
+
+
+/* others */
+
+.search-wrapper.searchWrapper {
+    background-color: white;
+    padding: 3px 5px;
+}
+
+
+
+
+/* Solar */
+
+.c-app.solar .c-sidebar {
+    background: #f7cf27;
+}
+.c-app.solar .c-sidebar .c-sidebar-nav-link, .c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle {
+    color: #615127;
+}
+.c-app.solar .c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon, .c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon {
+    color: #615127;
+}
+.c-app.solar .c-sidebar .c-sidebar-nav-link:hover, .c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+    background: #ffdd4e;
+}
+.c-app.solar .c-sidebar .c-sidebar-nav-dropdown.c-show {
+    background: #ffdd4e;
+}
+.c-app.solar .c-sidebar .c-sidebar-minimizer {
+    background-color: rgba(0, 0, 21, 0.1);
+}
+.c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle::after {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='rgba(97, 81, 39, 0.9)' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E")!important;
+}
+.c-app.solar .c-sidebar .c-sidebar-minimizer::before {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='rgba(97, 81, 39, 0.6)' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E")!important;
+}
+.c-app.solar .c-sidebar .c-sidebar-minimizer:hover::before {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='rgba(97, 81, 39, 0.9)' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E")!important;
+}
+
+
+/*Menu*/
+.c-sidebar-nav-dropdown .c-sidebar-nav-dropdown-items > .c-sidebar-nav-item > a, .c-sidebar-nav-dropdown .c-sidebar-nav-dropdown-items > .c-sidebar-nav-dropdown > a {
+    padding-left: 68px!important;
+}
+.c-sidebar-nav-dropdown .c-sidebar-nav-dropdown-items .c-sidebar-nav-dropdown-items > .c-sidebar-nav-item > a, .c-sidebar-nav-dropdown .c-sidebar-nav-dropdown-items .c-sidebar-nav-dropdown-items > .c-sidebar-nav-dropdown > a {
+    padding-left: 82px!important;
+}
+li.c-sidebar-nav-item a[addlinkclasses="premium"] {
+    background: #027509!important;
+    border-top: 2px solid #407240;
+    padding: 0.7rem 1rem;
+    border-bottom: 2px solid #305b30;
+}
+a.c-sidebar-nav-link[addlinkclasses="premium"]:after {
+    content: "";
+    background-image: url(../assets/icons/premium.png);
+    width: 30px;
+    height: 30px;
+    background-position: 0;
+    background-size: 19px;
+    background-repeat: no-repeat;
+    right: 4px;
+    position: absolute;
+}
+
+
+/* Maintenance */
+select.open, .select-status option[value="open"] {
+    background-color: #ffd8d8!important;
+}
+select.closed, .select-status option[value="closed"] {
+    background-color: #ddffd8!important;
+}
+
+
+/* Language selector */
+#flags-select ul {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+#flags-select  {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+#app-lang-btn {
+    border: none;
+    outline: none;
+}
+#flags-select li:hover {
+    background: transparent;
+}
+#flags-select li svg {
+    transition: .2s all ease;
+}
+#flags-select li:hover svg {
+    transform: scale(1.2);
+}
