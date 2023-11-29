@@ -114,7 +114,7 @@ const Settings = () => {
           <CCard sm="7" className="mb-4">
             <CCardHeader>
               <CRow>
-                <CCol sm="6">
+                <CCol>
                   <h3 id="settings" className="card-title mb-0">
                   {t('User Settings')}
                   </h3>
@@ -123,7 +123,7 @@ const Settings = () => {
             </CCardHeader>
             <CCardBody className={'px-md-5 pb-md-5 pt-md-4'}>
               <CRow className="">
-                <CCol md="6" >
+                <CCol>
                   <CForm>
                     <CInputGroup className="mb-3">
                       <CInputGroupPrepend>

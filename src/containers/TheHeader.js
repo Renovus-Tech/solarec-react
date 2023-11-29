@@ -211,20 +211,21 @@ const TheHeader = () => {
   
 
   return (
-    <CHeader withSubheader>
-      <CToggler
-        inHeader
-        className="ml-md-3 d-lg-none"
-        onClick={toggleSidebarMobile}
-      />
-      <CToggler
-        inHeader
-        className="ml-3 d-md-down-none"
-        onClick={toggleSidebar}
-      />
-      <CHeaderBrand className="mx-auto d-lg-none" to="/"></CHeaderBrand>
+    <CHeader withSubheader className={'justify-content-between'}>
+      <div className='d-flex'>
+        <CToggler
+          inHeader
+          className="ml-md-3 d-lg-none"
+          onClick={toggleSidebarMobile}
+        />
+        <CToggler
+          inHeader
+          className="ml-3 d-md-down-none"
+          onClick={toggleSidebar}
+        />
+        <CHeaderBrand className="mx-auto ml-0 d-lg-none" to="/"></CHeaderBrand>
 
-
+      </div>
 
       {true && <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3" >
@@ -240,7 +241,7 @@ const TheHeader = () => {
 
       {/* { getCookie('name') }&nbsp;<a onClick={(ev) => { setCookie('name', ''); ev.preventDefault(); ev.stopPropagation(); window.location.reload(); return false;   }} href="#">Logout</a> */}
 
-        <CSelect value={getCookie('client')} onChange={(ev) => { updateClient(ev.target.value); }} custom name="client" id="client" className="w-auto mx-2 mr-3">
+        <CSelect value={getCookie('client')} onChange={(ev) => { updateClient(ev.target.value); }} custom name="client" id="client" className="w-auto mx-2 mr-1 mr-sm-3">
           {clients && clients.map((client) => (
             <option key={client.id} value={client.id}>
               {client.name}

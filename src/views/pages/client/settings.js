@@ -12,7 +12,8 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CRow
+  CRow,
+  CInputGroupAppend
 } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react'
@@ -137,7 +138,7 @@ const Settings = () => {
           <CCard sm="7" className="mb-4">
             <CCardHeader>
               <CRow>
-                <CCol sm="6">
+                <CCol>
                   <h3 id="settings" className="card-title mb-0">
                     {t('Client Settings')}
                   </h3>
@@ -156,26 +157,36 @@ const Settings = () => {
               </CRow> */}
 
               <CRow className="mb-0">
-                <CCol md="3" sm="6" >
+                <CCol>
                   <CForm>
-                    <CFormGroup>
-                      <CInputGroup className={'mb-2'}>
+                    <CFormGroup style={{maxWidth:'270px'}}>
+                      <CInputGroup className={'mb-3'}>
                         <CInputGroupPrepend>
-                          <CInputGroupText >
-                          {t('Select dRecs Sold Porcentage')}
+                          <CInputGroupText style={{maxWidth:'156px'}}>
+                          {t('dRecs Sold Porcentage')}
                           </CInputGroupText>
                         </CInputGroupPrepend>
                         <CInput type='number' min='0' max='100' custom value={dRecsSoldPorcentage} onChange={(ev) => { handleDRecsSoldPorcentageChange(ev.target.value)}} name="dRecsSoldPorcentage" id="dRecsSoldPorcentage" className={"input-sm"} >
                         </CInput>
+                        <CInputGroupAppend>
+                          <CInputGroupText className={'bg-white text-dark'} style={{width:'50px'}}>
+                            %
+                          </CInputGroupText>
+                        </CInputGroupAppend>
                       </CInputGroup>
                       <CInputGroup>
                         <CInputGroupPrepend>
-                          <CInputGroupText >
-                          {t('Select dRecs Price')}
+                          <CInputGroupText style={{maxWidth:'156px'}}>
+                          {t('dRecs Price')}
                           </CInputGroupText>
                         </CInputGroupPrepend>
                         <CInput type='number' min='0' custom value={dRecsPrice} onChange={(ev) => { handleDRecsPriceChange(ev.target.value)}} name="dRecsPrice" id="dRecsPrice" className={"input-sm"} >
                         </CInput>
+                        <CInputGroupAppend>
+                          <CInputGroupText className={'bg-white text-dark'} style={{width:'50px'}}>
+                            USD
+                          </CInputGroupText>
+                        </CInputGroupAppend>
                       </CInputGroup>
                     </CFormGroup>
                   </CForm>
@@ -183,15 +194,13 @@ const Settings = () => {
               </CRow>
 
 
-              <CRow className="mb-4">
+              <CRow className="mt-1">
                 <CCol>
                   <CForm>
-                    <CFormGroup className={"mt-4"}>
                       <CButton onClick={() => {saveClientPreferences();} } color="primary" className="px-4 mr-3" disabled={!clientPreferencesChanged}>{t('Save Preferences')}</CButton>
                       { clientPreferencesSaved && !clientPreferencesChanged &&
                         <div className="text-success d-inline-block" style={{fontWeight:"500"}}>Saved!</div> 
                       }
-                    </CFormGroup>
                   </CForm>
                 </CCol>
               </CRow>

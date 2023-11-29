@@ -243,17 +243,19 @@ const Trends = () => {
       <CCard>
 
       <CCardHeader>
-          <CRow>
-            <CCol sm="4">
+          <CRow className={'justify-content-between'}>
+            <CCol sm="auto">
               <h3 id="traffic" className="card-title mb-0">
               {t('Climate - Trends')}
               </h3>
               <div className="small text-medium-emphasis">{getDateLabel(dateRange)}</div>
             </CCol>
 
-            <CCol sm="8" className="text-right d-flex flex-center flex-justify-end">
-              <h6 className="mr-2 ml-4 m-0" style={{lineHeight:1.2}}>{t('Period')}</h6>
-              <DateFilter options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
+            <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
+              <div className='d-flex py-1'>
+                <h6 className="mr-2 ml-2 m-0 align-self-center">{t('Period')}</h6>
+                <DateFilter options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
+              </div>
             </CCol>
           </CRow>
 
@@ -263,7 +265,7 @@ const Trends = () => {
 
           <CRow className={"py-3 mb-4 mx-0 bg-light"} style={{borderRadius:"3px"}}>
             <CCol sm="10" className={"d-flex "} >
-              <h6 className="mx-2 my-2 pt-1" style={{lineHeight:1.2,minWidth:'110px'}}>{t('Select inverter')}:</h6>   
+              <h6 className="mx-2 my-2 pt-1" style={{lineHeight:1.2,minWidth:'110px'}}>{t('Select inverters')}:</h6>   
               {generatorsLoaded ? 
                 <div>
                   <CButton 

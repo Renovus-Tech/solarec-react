@@ -280,26 +280,30 @@ const Performance = () => {
 
         <CCard className="mb-4">
           <CCardHeader>
-            <CRow>
+            <CRow className={'justify-content-between'}>
 
-              <CCol sm="7">
+              <CCol sm="auto" >
                 <h3 id="traffic" className="card-title mb-0">
                   {t('Performance')}
                 </h3>
                 <div className="small text-medium-emphasis">{getDateLabel(dateRange)}</div>
-                </CCol>
+              </CCol>
 
-                <CCol sm="5" className="text-right d-flex flex-center flex-justify-end">
-                  <h6 className="mr-2 ml-4 m-0" style={{lineHeight:2.4,minWidth:'60px'}}>{t('Group by')}</h6>
-                  <CSelect className={'input-md'} value={groupBy} style={{maxWidth:'150px'}} disabled={loading} onChange={(ev) => { setGroupBy(ev.target.value); }} custom name="groupby" id="groupby">
+              <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
+                <div className='d-flex py-1'>
+                  <h6 className="mr-2 ml-2 m-0 align-self-center" >{t('Group by')}</h6>
+                  <CSelect className={'input-sm'} value={groupBy} disabled={loading} onChange={(ev) => { setGroupBy(ev.target.value); }} custom name="groupby" id="groupby">
                     <option value="day">{t('Day')}</option>
                     <option value="week" selected>{t('Week')}</option>
                     <option value="month">{t('Month')}</option>
                   </CSelect>
-                  <h6 className="mr-2 ml-4 m-0" style={{lineHeight:2.4}}>{t('Period')}</h6>
+                </div>
+                <div className='d-flex py-1'>
+                  <h6 className="mr-2 ml-4 m-0 align-self-center">{t('Period')}</h6>
                   <DateFilter value={dateRange} options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
-                
-                </CCol>
+                </div>
+              
+              </CCol>
             </CRow>
 
           </CCardHeader>

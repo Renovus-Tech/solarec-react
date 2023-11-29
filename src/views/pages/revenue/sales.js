@@ -290,17 +290,19 @@ const Sales = () => {
       <CCard>
 
       <CCardHeader>
-          <CRow>
-            <CCol sm="4">
+          <CRow className={'justify-content-between'}>
+            <CCol sm="auto">
               <h3 id="traffic" className="card-title mb-0">
                 Climate - Trends
               </h3>
               <div className="small text-medium-emphasis">{getDateLabel(dateRange)}</div>
             </CCol>
 
-            <CCol sm="8" className="text-right d-flex flex-center flex-justify-end">
-              <h6 className="mr-2 ml-4 m-0" style={{lineHeight:1.2}}>{t('Period')}</h6>
-              <DateFilter options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
+            <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
+              <div className='d-flex py-1'>
+                <h6 className="mr-2 ml-2 m-0 align-self-center">{t('Period')}</h6>
+                <DateFilter options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
+              </div>
             </CCol>
           </CRow>
 

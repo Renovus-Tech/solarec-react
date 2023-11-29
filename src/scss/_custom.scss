@@ -83,9 +83,9 @@ div#collapseWidth {
 .c-sidebar-brand{
 	background-color: white!important;
 	background-image: url(../assets/logo-solarec.png)!important;
-	background-size: contain!important;
-    background-repeat: no-repeat!important;
-    background-position: center!important;
+    background-size: auto 90% !important;
+    background-repeat: no-repeat !important;
+    background-position: 16px 0!important;
 }
 .c-header-brand{
 	width: 100px;

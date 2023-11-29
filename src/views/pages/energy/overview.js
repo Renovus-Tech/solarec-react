@@ -40,6 +40,8 @@ const Overview = () => {
   const [timeAvailability, setTimeAvailability] = useState('');
   const [performanceRatio, setPerformanceRatio] = useState('');
 
+  const [alerts, setAlerts] = useState([]);
+
   const [timeAvailabilityChartData, setTimeAvailabilityChartData] = useState(
     {
       datasets: [],
@@ -119,19 +121,20 @@ const fetchData = (period) => {
           }
       }
 
-      let chartData = response.data && response.data[0];
+      let responseData = response.data && response.data[0];
 
-      if (chartData) {
+      if (responseData) {
 
-        const timeAvailability = round(chartData.timeBasedAvailability);
-        const performanceRatio = round(chartData.performanceRatio)
-        const totalACProductionMwh = round(chartData.productionMwh);
-        const irradiationKwhM2 = round(chartData.irradiationKwhM2);
-        const avgAmbientTemp = round(chartData.avgAmbientTemp);
+        const timeAvailability = round(responseData.timeBasedAvailability);
+        const performanceRatio = round(responseData.performanceRatio)
+        const totalACProductionMwh = round(responseData.productionMwh);
+        const irradiationKwhM2 = round(responseData.irradiationKwhM2);
+        const avgAmbientTemp = round(responseData.avgAmbientTemp);
+        // const alerts = responseData.alerts;
 
         const timeAvailabilityDataset = {
           clip:true,
-          labels: [i18n.t('Time-based Availability')],
+          labels: [t('Time-based Availability')],
           datasets: [{
             borderWidth: 0,
             data: [timeAvailability,100-timeAvailability],
@@ -141,7 +144,7 @@ const fetchData = (period) => {
 
         const performanceDataset = {
           clip:true,
-          labels: [i18n.t('Performance Ratio')],
+          labels: [t('Performance Ratio')],
           datasets: [{
             borderWidth: 0,
             data: [performanceRatio,100-performanceRatio],
@@ -158,6 +161,8 @@ const fetchData = (period) => {
         
         setTimeAvailabilityChartData(timeAvailabilityDataset)
         setPerformanceChartData(performanceDataset)
+
+        setAlerts(alerts)
         
         setDataLoaded(true)
 
@@ -242,13 +247,13 @@ const fetchData = (period) => {
       <CCard>
         <CCardHeader>
           <CRow>
-            <CCol sm="9">
+            <CCol col="6" sm="9">
               <h3 id="traffic" className="card-title mb-0">
                 {i18n.t('Overview')}
               </h3>
               <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
             </CCol>
-            <CCol sm="3" className="text-right">
+            <CCol col="6" sm="3" className="text-right">
               <DateFilter warning={"Seleccionar un rango máximo de 31 días"} options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { filterData(value); }} />
             </CCol>
           </CRow>
@@ -266,6 +271,7 @@ const fetchData = (period) => {
                 <CCard
                   color={"gradient-warning"}
                   textColor={"white"}
+                  className={"mb-0 mb-sm-3"}
                   style={{opacity: loading ? 0.7 : 1}}
                 >
                   <CCardBody>
@@ -284,6 +290,7 @@ const fetchData = (period) => {
                 <CCard
                   color={"success"}
                   textColor={"white"}
+                  className={"mb-3"}
                   style={{opacity: loading ? 0.7 : 1}}
                 >
                   <CCardBody>
@@ -295,15 +302,69 @@ const fetchData = (period) => {
                     </CCardText>
                   </CCardBody>
                 </CCard>
+
+                <CCard
+                  color={"danger"}
+                  textColor={"white"}
+                  className={"mb-0"}
+                >
+            
+                  <CCardBody>
+                    <CCardTitle>{t('ALERTS')}</CCardTitle>
+                    <CCardText>
+
+                    { alerts.map((alert, index) => (  
+                      <p class="">{alert.title}: 
+                        { alert.generators.map((gen, index) => (  
+                          <h5>{index > 1 ? gen : " - " + gen}</h5>
+                        )) }
+                      </p>
+                      )) }
+
+                      {
+                      // <p class="">Wind turbines with negative change exceeding -6% in performance (yesterday): 
+                      //   <h5>{alert2.length > 0 ? alert2.join(' - ') : " - "}</h5>
+                      // </p>
+                      // <p class="">Wind turbines with long stops (yesterday): 
+                      //   <h5>{alert3.length > 0 ? alert3.join(' - ') : " - "}</h5>
+                      // </p>
+                      }
+                    </CCardText>
+                  </CCardBody>
+                </CCard>
+
               </CCol>
 
 
               <CCol sm="6" lg="3" className="px-2 pb-3">
-                <CWidgetDropdown
+                <CCard
+                  color={"gradient-info"}
+                  textColor={"white"}
+                  className={"mb-3 h-100"}
+                  style={{opacity: loading ? 0.7 : 1}}
+                >
+                  <CCardBody className={'d-flex flex-column justify-content-between'}>
+                    <CCardTitle className="mb-0">
+                      <div className='mb-1'>{t('TIME-BASED AVAILABILITY')+"(%)"}</div>
+                      <h5 className='mb-0 font-weight-normal'>{timeAvailability}</h5>
+                    </CCardTitle>
+                    <CCardText>
+                      <div className="d-inline-block w-100" style={{maxWidth:'300px'}}>
+                        <Doughnut
+                          data={timeAvailabilityChartData}
+                          options={optionsDoughnut}
+                        />
+                      </div>
+                    </CCardText>
+                  </CCardBody>
+                </CCard>
+                
+
+                {/* <CWidgetDropdown
                   color="gradient-info"
                   header={t('TIME-BASED AVAILABILITY')+"(%)"}
                   text={timeAvailability}
-                  className="h-100 overview-box"
+                  className="h-100 overview-box mb-0 mb-sm-3"
                   style={{opacity: loading ? 0.7 : 1}}
                   footerSlot={
                     <div className="px-lg-3 pb-lg-3 text-center">
@@ -316,15 +377,38 @@ const fetchData = (period) => {
                     </div>
                   }
                 >
-                </CWidgetDropdown>
+                </CWidgetDropdown> */}
               </CCol>
 
               <CCol sm="6" lg="3" className="px-2 pb-3">
-                <CWidgetDropdown
+
+              <CCard
+                  color={"gradient-purple"}
+                  textColor={"white"}
+                  className={"mb-3 h-100"}
+                  style={{opacity: loading ? 0.7 : 1}}
+                >
+                  <CCardBody className={'d-flex flex-column justify-content-between'}>
+                    <CCardTitle className="mb-0" >
+                      <div className='mb-1'>{t('PERFORMANCE RATIO')+"(%)"}</div>
+                      <h5 className='mb-0 font-weight-normal'>{performanceRatio}</h5>
+                    </CCardTitle>
+                    <CCardText>
+                      <div className="d-inline-block w-100" style={{maxWidth:'300px'}}>
+                        <Doughnut
+                          data={performanceChartData}
+                          options={optionsDoughnut}
+                        />
+                      </div>
+                    </CCardText>
+                  </CCardBody>
+                </CCard>
+
+                {/* <CWidgetDropdown
                   color="gradient-purple"
                   header={t('PERFORMANCE RATIO') + '(%)'}
                   text={performanceRatio}
-                  className="h-100 overview-box"
+                  className="h-100 overview-box mb-0 mb-sm-3"
                   style={{opacity: loading ? 0.7 : 1}}
                   footerSlot={
                     <div className="px-lg-3 pb-lg-3 text-center">
@@ -337,7 +421,7 @@ const fetchData = (period) => {
                     </div>
                   }
                 >
-                </CWidgetDropdown>
+                </CWidgetDropdown> */}
               </CCol>
 
             </CRow>

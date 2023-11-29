@@ -88,7 +88,7 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol md="8">
             <CCardGroup className="shadow">
-              <CCard className="p-4 border-light">
+              <CCard className="p-3 p-sm-4 border-light">
                 <CCardBody>
                   <CForm>
                     <h1 className="text-dark-blue">{t('Login')}</h1>
@@ -111,10 +111,10 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
-                        <CButton onClick={authenticateUser} color="primary" className="px-4 mr-3">{t('Login')}</CButton>
+                        <CButton onClick={authenticateUser} color="primary" className="px-4 mr-1">{t('Login')}</CButton>
                         
                       </CCol>
-                      <CCol xs="6" className="text-right d-flex justify-content-end align-items-center">
+                      <CCol xs="6" className="text-right d-flex justify-content-end align-items-center pl-0">
                         <CLink to="/requestPasswordReset" className="text-dark-blue">{t('Reset password?')}</CLink>
                       </CCol>
                     </CRow>
