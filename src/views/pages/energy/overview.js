@@ -15,12 +15,12 @@ import {
   CModalBody,
   CModalTitle,
   CButton,
+  CImage,
 } from '@coreui/react'
-
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
-
 import DataAPI from '../../../helpers/DataAPI.js'
+import {GOOGLE_MAPS_API_KEY} from '../../../constants.js'
 import {DateFilter, round, formatNumber, getDateLabel } from '../../../helpers/utils.js'
 import {setCookie,getCookie} from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
@@ -38,11 +38,13 @@ ChartJS.register(ArcElement,Legend,Tooltip,Title);
 
 const Overview = () => {
   const { t, i18n } = useTranslation()
-  const [loading, setLoading] = useState(false);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [dataLoaded2, setDataLoaded2] = useState(false);
-  const [generators, setGenerators] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [dataLoaded, setDataLoaded] = useState(false)
+  const [userDataLoaded, setUserDataLoaded] = useState(false)
+  const [dataLoaded2, setDataLoaded2] = useState(false)
+  const [generators, setGenerators] = useState([])
   const [visible, setVisible] = useState(false)
+  const [viewMap, setViewMap] = useState(false)
   
   const [period, setPeriod] = useState('y');
 
@@ -50,6 +52,8 @@ const Overview = () => {
   const [region, setRegion] = useState();
   const [country, setCountry] = useState();
   const [capacity, setCapacity] = useState();
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
 
   const [totalACProductionMwh, setTotalACProductionMwh] = useState();
   const [irradiationKwhM2, setIrradiationKwhM2] = useState();
@@ -101,10 +105,13 @@ const loadGenerators = () => {
             })
           setGenerators(gen);
         }
+        setUserDataLoaded(true)
         setUser(response.name)
         setRegion(response.state)
         setCountry(response.country)
         setCapacity(formatNumber(response.outputCapacity))
+        setLatitude(response.latitude)
+        setLongitude(response.longitude)
       }
     }
   );
@@ -306,6 +313,23 @@ const fetchData = (period) => {
                       <p className="h6">{t('Region')+':'} {region!=undefined?region:''}</p>
                       <p className="h6">{t('Country')+':'} {country!=undefined?country:''}</p>
                       <p className="h6">{t('Capacity')+':'} {capacity!=undefined?round(capacity)+' KW':''}</p>
+                      <p className="h6">{t('Location')+': '} 
+                        { userDataLoaded &&
+                          <span className={"link cursor-pointer btn-link"} onClick={() => setViewMap(true)}>{t('View map')}</span>
+                        }
+                      </p>
+                      <CModal
+                        visible={viewMap}
+                        onClose={() => setViewMap(false)}
+                        className={'modal-google-map'}
+                        >
+                        <CModalBody>
+                          <CImage className='mw-100' src={'https://maps.googleapis.com/maps/api/staticmap?center='+latitude+','+longitude+'&zoom=11&size=640x450&maptype=terrain&markers=size:medium%7Ccolor:0xf7cf27|'+latitude+','+longitude+'&key='+GOOGLE_MAPS_API_KEY} /> 
+                        </CModalBody>
+                        <CModalFooter>
+                          <CButton color="secondary" onClick={() => setViewMap(false)}>{i18n.t('Close')}</CButton>
+                        </CModalFooter>
+                      </CModal>
                     </CCardText>
                   </CCardBody>
                 </CCard>

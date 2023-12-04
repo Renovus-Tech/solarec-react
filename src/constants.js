@@ -5,3 +5,4 @@ export const OPEN_WEATHER_API = 'https://api.openweathermap.org/data/2.5/forecas
 export const STORMGLASS_API_KEY = '59f054e0-ee44-11ec-bea1-0242ac130002-59f0554e-ee44-11ec-bea1-0242ac130002'
 // export const STORMGLASS_API = 'https://api.stormglass.io/v2/weather/point?lat='+LAT+'&lng='+LON+'&params=windSpeed100m,windDirection100m&start=@START@&end=@END@&source=noaa,sg'
 export const STORMGLASS_API = 'https://api.stormglass.io/v2/weather/point?lat='+LAT+'&lng='+LON+'&params=windSpeed100m,windDirection100m&start=@START@&source=sg'
+export const GOOGLE_MAPS_API_KEY = 'AIzaSyBUuEeKO9-yrJM50bujszPhseg0mUyWWSw'

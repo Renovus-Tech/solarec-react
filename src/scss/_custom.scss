@@ -370,3 +370,9 @@ select.closed, .select-status option[value="closed"] {
 #flags-select li:hover svg {
     transform: scale(1.2);
 }
+
+
+/* Google Maps */
+.modal-google-map .modal-dialog {
+    max-width: 670px!important;
+}
