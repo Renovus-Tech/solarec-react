@@ -7,17 +7,34 @@ import {
   CCol,
   CRow,
   CSpinner,
-  CWidgetDropdown,
   CCardTitle,
-  CCardText
+  CCardText,
+  CModal,
+  CModalHeader,
+  CModalFooter,
+  CModalBody,
+  CModalTitle,
+  CButton,
 } from '@coreui/react'
+
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 import DataAPI from '../../../helpers/DataAPI.js'
 import {DateFilter, round, getDateLabel } from '../../../helpers/utils.js'
 import {setCookie,getCookie} from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
-import { Doughnut } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Doughnut } from 'react-chartjs-2'
 import i18n from '../../../helpers/i18n'
+
+ChartJS.register(ArcElement,Legend,Tooltip,Title);
 
 const Overview = () => {
   const { t, i18n } = useTranslation()
@@ -25,6 +42,7 @@ const Overview = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [dataLoaded2, setDataLoaded2] = useState(false);
   const [generators, setGenerators] = useState([]);
+  const [visible, setVisible] = useState(false)
   
   const [period, setPeriod] = useState('y');
 
@@ -233,7 +251,8 @@ const fetchData = (period) => {
         callbacks: {
           label: function(tooltipItem) {
             return round(tooltipItem.raw,1) + ' %'
-          }
+          },
+          title: function() { return '' }
         }
       },
     },
@@ -243,18 +262,20 @@ const fetchData = (period) => {
 
   return (
     <>
-      
       <CCard>
         <CCardHeader>
-          <CRow>
-            <CCol col="6" sm="9">
+          <CRow className={'justify-content-between'}>
+            <CCol sm="auto">
               <h3 id="traffic" className="card-title mb-0">
                 {i18n.t('Overview')}
               </h3>
               <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
             </CCol>
-            <CCol col="6" sm="3" className="text-right">
-              <DateFilter warning={"Seleccionar un rango máximo de 31 días"} options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { filterData(value); }} />
+            <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
+              <div className='d-flex py-1'>
+
+                <DateFilter warning={"Seleccionar un rango máximo de 31 días"} options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { filterData(value); }} />
+              </div>
             </CCol>
           </CRow>
         </CCardHeader>
@@ -275,12 +296,12 @@ const fetchData = (period) => {
                   style={{opacity: loading ? 0.7 : 1}}
                 >
                   <CCardBody>
-                    <CCardTitle>{t('PLANT CHARACTERISTICS')}</CCardTitle>
+                    <CCardTitle component="h4">{t('PLANT CHARACTERISTICS')}</CCardTitle>
                     <CCardText>
-                      <p class="h6">{t('User')+':'} {user!=undefined?user:''}</p>
-                      <p class="h6">{t('Region')+':'} {region!=undefined?region:''}</p>
-                      <p class="h6">{t('Country')+':'} {country!=undefined?country:''}</p>
-                      <p class="h6">{t('Capacity')+':'} {capacity!=undefined?round(capacity)+' KW':''}</p>
+                      <p className="h6">{t('User')+':'} {user!=undefined?user:''}</p>
+                      <p className="h6">{t('Region')+':'} {region!=undefined?region:''}</p>
+                      <p className="h6">{t('Country')+':'} {country!=undefined?country:''}</p>
+                      <p className="h6">{t('Capacity')+':'} {capacity!=undefined?round(capacity)+' KW':''}</p>
                     </CCardText>
                   </CCardBody>
                 </CCard>
@@ -294,11 +315,11 @@ const fetchData = (period) => {
                   style={{opacity: loading ? 0.7 : 1}}
                 >
                   <CCardBody>
-                    <CCardTitle>{t('PRODUCTION AND CLIMATE')}</CCardTitle>
+                    <CCardTitle component="h4">{t('PRODUCTION AND CLIMATE')}</CCardTitle>
                     <CCardText>
-                      <p class="h6">{t('Production')+':'} {totalACProductionMwh!=undefined?round(totalACProductionMwh )+' MWh':''}</p>
-                      <p class="h6">{t('Irradiation')+':'}  {irradiationKwhM2!=undefined?round(irradiationKwhM2)+' Kwh/m2':''}</p>
-                      <p class="h6">{t('Average Ambient Temperature')+':'} {avgAmbientTemp!=undefined?round(avgAmbientTemp)+' °C':''}</p>
+                      <p className="h6">{t('Production')+':'} {totalACProductionMwh!=undefined?round(totalACProductionMwh )+' MWh':''}</p>
+                      <p className="h6">{t('Irradiation')+':'}  {irradiationKwhM2!=undefined?round(irradiationKwhM2)+' Kwh/m2':''}</p>
+                      <p className="h6">{t('Average Ambient Temperature')+':'} {avgAmbientTemp!=undefined?round(avgAmbientTemp)+' °C':''}</p>
                     </CCardText>
                   </CCardBody>
                 </CCard>
@@ -310,16 +331,16 @@ const fetchData = (period) => {
                 >
             
                   <CCardBody>
-                    <CCardTitle>{t('ALERTS')}</CCardTitle>
+                    <CCardTitle component="h4">{t('ALERTS')}</CCardTitle>
                     <CCardText>
 
-                    { alerts.map((alert, index) => (  
+                    {/* { alerts.map((alert, index) => (  
                       <p class="">{alert.title}: 
                         { alert.generators.map((gen, index) => (  
                           <h5>{index > 1 ? gen : " - " + gen}</h5>
                         )) }
                       </p>
-                      )) }
+                      )) } */}
 
                       {
                       // <p class="">Wind turbines with negative change exceeding -6% in performance (yesterday): 
@@ -345,7 +366,7 @@ const fetchData = (period) => {
                 >
                   <CCardBody className={'d-flex flex-column justify-content-between'}>
                     <CCardTitle className="mb-0">
-                      <div className='mb-1'>{t('TIME-BASED AVAILABILITY')+"(%)"}</div>
+                      <h4 className='mb-1'>{t('TIME-BASED AVAILABILITY')+"(%)"}</h4>
                       <h5 className='mb-0 font-weight-normal'>{timeAvailability}</h5>
                     </CCardTitle>
                     <CCardText>
@@ -390,7 +411,7 @@ const fetchData = (period) => {
                 >
                   <CCardBody className={'d-flex flex-column justify-content-between'}>
                     <CCardTitle className="mb-0" >
-                      <div className='mb-1'>{t('PERFORMANCE RATIO')+"(%)"}</div>
+                      <h4 className='mb-1'>{t('PERFORMANCE RATIO')+"(%)"}</h4>
                       <h5 className='mb-0 font-weight-normal'>{performanceRatio}</h5>
                     </CCardTitle>
                     <CCardText>

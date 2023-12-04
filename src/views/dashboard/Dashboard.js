@@ -1,293 +1,460 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+
 import {
+  CAvatar,
+  CButton,
+  CButtonGroup,
   CCard,
   CCardBody,
+  CCardFooter,
   CCardHeader,
-  CDataTable,
-  CRow,
   CCol,
-  CSpinner,
-  CBadge
+  CProgress,
+  CRow,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
 } from '@coreui/react'
-
+import { CChartLine } from '@coreui/react-chartjs'
+import { getStyle, hexToRgba } from '@coreui/utils'
+import CIcon from '@coreui/icons-react'
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+  cibCcAmex,
+  cibCcApplePay,
+  cibCcMastercard,
+  cibCcPaypal,
+  cibCcStripe,
+  cibCcVisa,
+  cibGoogle,
+  cibFacebook,
+  cibLinkedin,
+  cifBr,
+  cifEs,
+  cifFr,
+  cifIn,
+  cifPl,
+  cifUs,
+  cibTwitter,
+  cilCloudDownload,
+  cilPeople,
+  cilUser,
+  cilUserFemale,
+} from '@coreui/icons'
 
-import { freeSet } from '@coreui/icons'
-import DataAPI from '../../helpers/DataAPI.js'
-import { formatDateWithSeconds, round, formatNumber } from '../../helpers/utils.js'
-import CIcon from '@coreui/icons-react';
-import {setCookie,getCookie} from '../../helpers/sessionCookie.js'
+import avatar1 from 'src/assets/images/avatars/1.jpg'
+import avatar2 from 'src/assets/images/avatars/2.jpg'
+import avatar3 from 'src/assets/images/avatars/3.jpg'
+import avatar4 from 'src/assets/images/avatars/4.jpg'
+import avatar5 from 'src/assets/images/avatars/5.jpg'
+import avatar6 from 'src/assets/images/avatars/6.jpg'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import WidgetsBrand from '../widgets/WidgetsBrand'
+import WidgetsDropdown from '../widgets/WidgetsDropdown'
 
 const Dashboard = () => {
+  const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
-  const [lastUpdated, setLastUpdated] = useState('');
+  const progressExample = [
+    { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
+    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
+    { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
+    { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
+    { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
+  ]
 
-  const [loading, setLoading] = useState(false);
-  const [dataLoadError, setDataLoadError] = useState(false);
+  const progressGroupExample1 = [
+    { title: 'Monday', value1: 34, value2: 78 },
+    { title: 'Tuesday', value1: 56, value2: 94 },
+    { title: 'Wednesday', value1: 12, value2: 67 },
+    { title: 'Thursday', value1: 43, value2: 91 },
+    { title: 'Friday', value1: 22, value2: 73 },
+    { title: 'Saturday', value1: 53, value2: 82 },
+    { title: 'Sunday', value1: 9, value2: 69 },
+  ]
 
-  const [hasSolarParks, setHasSolarParks] = useState(false);
+  const progressGroupExample2 = [
+    { title: 'Male', icon: cilUser, value: 53 },
+    { title: 'Female', icon: cilUserFemale, value: 43 },
+  ]
 
-  const [solarGeneratorsTableData, setSolarGeneratorsTableData] = useState([]);
-  const [tableDataSolarCurrentStatus, setTableDataSolarCurrentStatus] = useState(false);
+  const progressGroupExample3 = [
+    { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
+    { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
+    { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
+    { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
+  ]
 
-  const fetchData = () => {
-
-    DataAPI(
-      {
-      'method': 'GET',
-      'endpoint': 'solar/dashboard/now',
-      // 'body': body
-    }).then(function (responseData) {
-
-      setLoading(false);
-      if (responseData.error) {
-        setDataLoadError(true);
-          if (responseData.error.message) {
-          return(alert(responseData.error.message))
-          } else {
-          return(alert(responseData.error)) 
-          }
-      }
-
-      if (responseData.dateData != undefined)
-        setLastUpdated(formatDateWithSeconds(responseData.dateData));
-
-      if (responseData.locations.length > 0)
-        setHasSolarParks(true);
-
-      const tableDataSolarCurrentStatus = {
-        items: [{
-                  item:"Production:",
-                  now:formatNumber(round(responseData.dataNow.production,1))+" MWh",
-                },
-                {
-                  item:"Irradiance average:",
-                  now:round(responseData.dataNow.irradiance,2)+" kW/m2",
-                },
-                {
-                  item:"Inverters in operation:",
-                  now:responseData.amountGeneratorsOk+"/"+responseData.amountGenerators,
-                },
-              ],
-        fields:  [
-          { key: 'item', label: '' },
-          'now'
-        ]
-      }
-      setTableDataSolarCurrentStatus(tableDataSolarCurrentStatus)
-
-      const solarGeneratorsTableData = [];
-      responseData.locations.forEach((rL,index) => {
-        if(rL.generators.length > 0) {
-          const park = rL.name;
-          const generatorStatus = rL.generators.map((d) => {
-            let line = {}
-            line.inverter = d.code
-            line.production = (d.dataNow.production!=undefined?formatNumber(round(d.dataNow.production,3)):"")
-            line.irradiance = ""
-            return line
-          });
-
-          const total =  {
-            inverter: "Total",
-            production: formatNumber(round(rL.dataNow.production,3)),
-            irradiance: formatNumber(round(rL.dataNow.irradiance,3))
-          };
-      
-          const tableData = {
-            park: park,
-            items: [total].concat(generatorStatus),
-            fields:  [
-              'inverter',
-              { key: 'production', label: 'Production (MWh)'},
-              { key: 'irradiance', label: 'Irradiance (kw/m2)' }
-            ]
-          }
-    
-          solarGeneratorsTableData.push(tableData);
-        }
-        
-      });
-
-      setSolarGeneratorsTableData(solarGeneratorsTableData);
-
-    })
-
-
-
-
-  }
-
-  useEffect(() => {
-    loadGenerators();
-    const interval = setInterval(() => fetchData(), 5000)
-    return () => clearInterval(interval) // cleanup
-  }, []);
-
-
-  const loadGenerators = () => {
-    DataAPI({
-      'endpoint': 'admin/locations/current',
-      'method': 'GET'
-    }).then(
-      response => {
-        if (response && response.error) {
-          setCookie('lastTimeStamp', '');
-          setCookie('name', '');
-          window.location.reload();
-        }
-        else if (response  && !response.error) {
-          // setGenerators(response.generators);
-          setLoading(true);
-          fetchData();
-        }
-      }
-    );
-  }
-
-  const getBadge = status => {
-    switch (status) {
-      case 'green': return 'success'
-      case 'red': return 'danger'
-      default: return ''
-    }
-  }
-
+  const tableExample = [
+    {
+      avatar: { src: avatar1, status: 'success' },
+      user: {
+        name: 'Yiorgos Avraamu',
+        new: true,
+        registered: 'Jan 1, 2021',
+      },
+      country: { name: 'USA', flag: cifUs },
+      usage: {
+        value: 50,
+        period: 'Jun 11, 2021 - Jul 10, 2021',
+        color: 'success',
+      },
+      payment: { name: 'Mastercard', icon: cibCcMastercard },
+      activity: '10 sec ago',
+    },
+    {
+      avatar: { src: avatar2, status: 'danger' },
+      user: {
+        name: 'Avram Tarasios',
+        new: false,
+        registered: 'Jan 1, 2021',
+      },
+      country: { name: 'Brazil', flag: cifBr },
+      usage: {
+        value: 22,
+        period: 'Jun 11, 2021 - Jul 10, 2021',
+        color: 'info',
+      },
+      payment: { name: 'Visa', icon: cibCcVisa },
+      activity: '5 minutes ago',
+    },
+    {
+      avatar: { src: avatar3, status: 'warning' },
+      user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2021' },
+      country: { name: 'India', flag: cifIn },
+      usage: {
+        value: 74,
+        period: 'Jun 11, 2021 - Jul 10, 2021',
+        color: 'warning',
+      },
+      payment: { name: 'Stripe', icon: cibCcStripe },
+      activity: '1 hour ago',
+    },
+    {
+      avatar: { src: avatar4, status: 'secondary' },
+      user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2021' },
+      country: { name: 'France', flag: cifFr },
+      usage: {
+        value: 98,
+        period: 'Jun 11, 2021 - Jul 10, 2021',
+        color: 'danger',
+      },
+      payment: { name: 'PayPal', icon: cibCcPaypal },
+      activity: 'Last month',
+    },
+    {
+      avatar: { src: avatar5, status: 'success' },
+      user: {
+        name: 'Agapetus Tadeáš',
+        new: true,
+        registered: 'Jan 1, 2021',
+      },
+      country: { name: 'Spain', flag: cifEs },
+      usage: {
+        value: 22,
+        period: 'Jun 11, 2021 - Jul 10, 2021',
+        color: 'primary',
+      },
+      payment: { name: 'Google Wallet', icon: cibCcApplePay },
+      activity: 'Last week',
+    },
+    {
+      avatar: { src: avatar6, status: 'danger' },
+      user: {
+        name: 'Friderik Dávid',
+        new: true,
+        registered: 'Jan 1, 2021',
+      },
+      country: { name: 'Poland', flag: cifPl },
+      usage: {
+        value: 43,
+        period: 'Jun 11, 2021 - Jul 10, 2021',
+        color: 'success',
+      },
+      payment: { name: 'Amex', icon: cibCcAmex },
+      activity: 'Last week',
+    },
+  ]
 
   return (
-    <CCard>
-      <CCardHeader>
+    <>
+      <WidgetsDropdown />
+      <CCard className="mb-4">
+        <CCardBody>
           <CRow>
-            <CCol xs="10">
-              <h3 id="traffic" className="card-title mb-0">
-                Current Status
-              </h3>
-              <div className="text-medium-emphasis">Last updated on: {lastUpdated}</div>
+            <CCol sm={5}>
+              <h4 id="traffic" className="card-title mb-0">
+                Traffic
+              </h4>
+              <div className="small text-medium-emphasis">January - July 2021</div>
             </CCol>
-            <CCol xs="2" className="text-right d-flex flex-center flex-justify-end">
-              <CIcon content={freeSet.cilReload} className={"cursor-pointer animate-rotate"} size={'lg'} title={'Refresh'}
-                onClick={() => fetchData()}/>
+            <CCol sm={7} className="d-none d-md-block">
+              <CButton color="primary" className="float-end">
+                <CIcon icon={cilCloudDownload} />
+              </CButton>
+              <CButtonGroup className="float-end me-3">
+                {['Day', 'Month', 'Year'].map((value) => (
+                  <CButton
+                    color="outline-secondary"
+                    key={value}
+                    className="mx-0"
+                    active={value === 'Month'}
+                  >
+                    {value}
+                  </CButton>
+                ))}
+              </CButtonGroup>
             </CCol>
-            
           </CRow>
+          <CChartLine
+            style={{ height: '300px', marginTop: '40px' }}
+            data={{
+              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+              datasets: [
+                {
+                  label: 'My First dataset',
+                  backgroundColor: hexToRgba(getStyle('--cui-info'), 10),
+                  borderColor: getStyle('--cui-info'),
+                  pointHoverBackgroundColor: getStyle('--cui-info'),
+                  borderWidth: 2,
+                  data: [
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                  ],
+                  fill: true,
+                },
+                {
+                  label: 'My Second dataset',
+                  backgroundColor: 'transparent',
+                  borderColor: getStyle('--cui-success'),
+                  pointHoverBackgroundColor: getStyle('--cui-success'),
+                  borderWidth: 2,
+                  data: [
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                  ],
+                },
+                {
+                  label: 'My Third dataset',
+                  backgroundColor: 'transparent',
+                  borderColor: getStyle('--cui-danger'),
+                  pointHoverBackgroundColor: getStyle('--cui-danger'),
+                  borderWidth: 1,
+                  borderDash: [8, 5],
+                  data: [65, 65, 65, 65, 65, 65, 65],
+                },
+              ],
+            }}
+            options={{
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              scales: {
+                x: {
+                  grid: {
+                    drawOnChartArea: false,
+                  },
+                },
+                y: {
+                  ticks: {
+                    beginAtZero: true,
+                    maxTicksLimit: 5,
+                    stepSize: Math.ceil(250 / 5),
+                    max: 250,
+                  },
+                },
+              },
+              elements: {
+                line: {
+                  tension: 0.4,
+                },
+                point: {
+                  radius: 0,
+                  hitRadius: 10,
+                  hoverRadius: 4,
+                  hoverBorderWidth: 3,
+                },
+              },
+            }}
+          />
+        </CCardBody>
+        <CCardFooter>
+          <CRow xs={{ cols: 1 }} md={{ cols: 5 }} className="text-center">
+            {progressExample.map((item, index) => (
+              <CCol className="mb-sm-2 mb-0" key={index}>
+                <div className="text-medium-emphasis">{item.title}</div>
+                <strong>
+                  {item.value} ({item.percent}%)
+                </strong>
+                <CProgress thin className="mt-2" color={item.color} value={item.percent} />
+              </CCol>
+            ))}
+          </CRow>
+        </CCardFooter>
+      </CCard>
 
+      <WidgetsBrand withCharts />
 
-        </CCardHeader>
-        {!loading || dataLoadError
-                    ? 
-          <CCardBody>
+      <CRow>
+        <CCol xs>
+          <CCard className="mb-4">
+            <CCardHeader>Traffic {' & '} Sales</CCardHeader>
+            <CCardBody>
+              <CRow>
+                <CCol xs={12} md={6} xl={6}>
+                  <CRow>
+                    <CCol sm={6}>
+                      <div className="border-start border-start-4 border-start-info py-1 px-3">
+                        <div className="text-medium-emphasis small">New Clients</div>
+                        <div className="fs-5 fw-semibold">9,123</div>
+                      </div>
+                    </CCol>
+                    <CCol sm={6}>
+                      <div className="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
+                        <div className="text-medium-emphasis small">Recurring Clients</div>
+                        <div className="fs-5 fw-semibold">22,643</div>
+                      </div>
+                    </CCol>
+                  </CRow>
 
-            <CRow>
-
-              { hasSolarParks &&
-                <CCol xl={"12"} className="col-solar px-sm-4 mb-4">
-
-                <div style={{marginBottom:'30px'}}>
-                      <CRow>
-                      
-                        { tableDataSolarCurrentStatus &&
-                          <CCol xl={"6"} className="px-sm-4 mb-4">
-                            <h4>Solar Portfolio</h4>
-                            <CDataTable
-                                addTableClasses="current-status-table"
-                                striped
-                                items={tableDataSolarCurrentStatus.items}
-                                fields={tableDataSolarCurrentStatus.fields}
-                              />
-                          </CCol>
-                        }
-
-                      </CRow>
+                  <hr className="mt-0" />
+                  {progressGroupExample1.map((item, index) => (
+                    <div className="progress-group mb-4" key={index}>
+                      <div className="progress-group-prepend">
+                        <span className="text-medium-emphasis small">{item.title}</span>
+                      </div>
+                      <div className="progress-group-bars">
+                        <CProgress thin color="info" value={item.value1} />
+                        <CProgress thin color="danger" value={item.value2} />
+                      </div>
                     </div>
-
+                  ))}
                 </CCol>
-              }
 
-            </CRow>
+                <CCol xs={12} md={6} xl={6}>
+                  <CRow>
+                    <CCol sm={6}>
+                      <div className="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
+                        <div className="text-medium-emphasis small">Pageviews</div>
+                        <div className="fs-5 fw-semibold">78,623</div>
+                      </div>
+                    </CCol>
+                    <CCol sm={6}>
+                      <div className="border-start border-start-4 border-start-success py-1 px-3 mb-3">
+                        <div className="text-medium-emphasis small">Organic</div>
+                        <div className="fs-5 fw-semibold">49,123</div>
+                      </div>
+                    </CCol>
+                  </CRow>
 
-            <CRow>
+                  <hr className="mt-0" />
 
-              { hasSolarParks &&
+                  {progressGroupExample2.map((item, index) => (
+                    <div className="progress-group mb-4" key={index}>
+                      <div className="progress-group-header">
+                        <CIcon className="me-2" icon={item.icon} size="lg" />
+                        <span>{item.title}</span>
+                        <span className="ms-auto fw-semibold">{item.value}%</span>
+                      </div>
+                      <div className="progress-group-bars">
+                        <CProgress thin color="warning" value={item.value} />
+                      </div>
+                    </div>
+                  ))}
 
-                <CCol xl={"12"} className="col-solar px-sm-4 mb-4">
-                  <div style={{marginBottom:'50px'}}>
-                    <CRow>
-                    
-                      { solarGeneratorsTableData.length > 0 &&
-                        solarGeneratorsTableData.map(park => (  
-                        <CCol xl={"6"} className="px-sm-4 mb-4" key={'col-'+park.park}>
-                          <h5>{park.park}</h5>
-                          <CDataTable
-                              key={park.park}
-                              addTableClasses="monitor-park-table table-header-center"
-                              striped
-                              items={park.items}
-                              fields={park.fields}
-                              // itemsPerPage={15}
-                              // pagination
-                              sorter
-                              scopedSlots = {{
-                                'indicator':
-                                  (item)=>(
-                                    <td>
-                                      <CBadge color={getBadge(item.indicator)}>
-                                      </CBadge>
-                                    </td>
-                                  ),
-                                  'production':
-                                  (item)=>(
-                                    <td className="text-right">
-                                      {item.production}
-                                    </td>
-                                  ),
-                                  'irradiance':
-                                  (item)=>(
-                                    <td className="text-right">
-                                      {item.irradiance}
-                                    </td>
-                                  )
-                              }}
-                            />
-                        </CCol>
-                        ))
-                      }
+                  <div className="mb-5"></div>
 
-                    </CRow>
-                  </div>
-                  
+                  {progressGroupExample3.map((item, index) => (
+                    <div className="progress-group" key={index}>
+                      <div className="progress-group-header">
+                        <CIcon className="me-2" icon={item.icon} size="lg" />
+                        <span>{item.title}</span>
+                        <span className="ms-auto fw-semibold">
+                          {item.value}{' '}
+                          <span className="text-medium-emphasis small">({item.percent}%)</span>
+                        </span>
+                      </div>
+                      <div className="progress-group-bars">
+                        <CProgress thin color="success" value={item.percent} />
+                      </div>
+                    </div>
+                  ))}
                 </CCol>
-              }
+              </CRow>
 
-            </CRow>
+              <br />
 
-
-          </CCardBody>
-          :
-          <CCardBody style={{textAlign:'center'}}>
-            <CSpinner 
-              className="loading-spinner"
-              color='#321fdb'
-            />
-          </CCardBody>
-        }
-    </CCard>
+              <CTable align="middle" className="mb-0 border" hover responsive>
+                <CTableHead color="light">
+                  <CTableRow>
+                    <CTableHeaderCell className="text-center">
+                      <CIcon icon={cilPeople} />
+                    </CTableHeaderCell>
+                    <CTableHeaderCell>User</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">Country</CTableHeaderCell>
+                    <CTableHeaderCell>Usage</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">Payment Method</CTableHeaderCell>
+                    <CTableHeaderCell>Activity</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {tableExample.map((item, index) => (
+                    <CTableRow v-for="item in tableItems" key={index}>
+                      <CTableDataCell className="text-center">
+                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div>{item.user.name}</div>
+                        <div className="small text-medium-emphasis">
+                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
+                          {item.user.registered}
+                        </div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div className="clearfix">
+                          <div className="float-start">
+                            <strong>{item.usage.value}%</strong>
+                          </div>
+                          <div className="float-end">
+                            <small className="text-medium-emphasis">{item.usage.period}</small>
+                          </div>
+                        </div>
+                        <CProgress thin color={item.usage.color} value={item.usage.value} />
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <CIcon size="xl" icon={item.payment.icon} />
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div className="small text-medium-emphasis">Last login</div>
+                        <strong>{item.activity}</strong>
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
+                </CTableBody>
+              </CTable>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+    </>
   )
 }
 

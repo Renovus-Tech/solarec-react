@@ -13,7 +13,27 @@ import {
   CSpinner,
 } from '@coreui/react'
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Trends = () => {
   const { t, i18n } = useTranslation()
@@ -253,7 +273,7 @@ const Trends = () => {
 
             <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
               <div className='d-flex py-1'>
-                <h6 className="mr-2 ml-2 m-0 align-self-center">{t('Period')}</h6>
+                <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
                 <DateFilter options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
               </div>
             </CCol>
@@ -276,7 +296,7 @@ const Trends = () => {
                     {t('ALL')}
                   </CButton>
                   { generators.map((gen, index) => (  
-                    <CButton 
+                    <CButton key={gen.id}
                       style={{backgroundColor:generatorColors[gen.code],color: 'white'}} 
                       className={(selectedGenerators.includes(gen.id) ? "selected" : "") + " btn-generator mx-1 my-1"}
                       onClick={() => selectGenerator(gen.id)} 

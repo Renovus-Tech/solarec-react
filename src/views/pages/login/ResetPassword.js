@@ -1,5 +1,5 @@
 import { 
-  Redirect,
+  Navigate,
   useLocation } from "react-router-dom";
 
 import DataAPI from '../../../helpers/DataAPI.js'
@@ -13,9 +13,8 @@ import {
   CCol,
   CContainer,
   CForm,
-  CInput,
+  CFormInput,
   CInputGroup,
-  CInputGroupPrepend,
   CInputGroupText,
   CRow
 } from '@coreui/react'
@@ -76,7 +75,7 @@ const ResetPassword = () => {
 
     authenticated ?
 
-      <Redirect to={'/'} />:
+      <Navigate to={'/'} />:
 
   
     
@@ -91,20 +90,16 @@ const ResetPassword = () => {
                     <h1 className="text-dark-blue">Reset Password</h1>
                     <p className="text-muted">Enter your e-mail address</p>
                     <CInputGroup className="mb-3">
-                      <CInputGroupPrepend>
                         <CInputGroupText>
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput onChange={(ev) => {setNewPassword(ev.target.value)}} type="password" placeholder="New Password" maxLength={100} />
+                      <CFormInput onChange={(ev) => {setNewPassword(ev.target.value)}} type="password" placeholder="New Password" maxLength={100} />
                     </CInputGroup>
                     <CInputGroup className="mb-3">
-                      <CInputGroupPrepend>
                         <CInputGroupText>
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput onChange={(ev) => {setNewPasswordConfirm(ev.target.value)}} type="password" placeholder="Confirm New Password" maxLength={100}  />
+                      <CFormInput onChange={(ev) => {setNewPasswordConfirm(ev.target.value)}} type="password" placeholder="Confirm New Password" maxLength={100}  />
                     </CInputGroup>
                     <CRow>
                       <CCol xs="12">

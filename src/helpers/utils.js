@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import {CSelect,
+import {CFormSelect,
   CButton,
   CModal,
   CModalHeader,
@@ -181,13 +181,8 @@ export const DateFilter = (props) => {
   
 
 	return (<>
-
-
-
-
-
             <CModal 
-              show={modal} 
+              visible={modal} 
               onClose={setModal}
               size="sm"
             >
@@ -201,9 +196,9 @@ export const DateFilter = (props) => {
                 {props.warning && <p><strong>{props.warning}</strong></p>}
 
                 <CInputGroup className="mb-3">
-                  <CInput placeholder="Desde" onChange={(ev) => { setFrom(ev.target.value) }} aria-label="Username" />
+                  <CFormInput placeholder="Desde" onChange={(ev) => { setFrom(ev.target.value) }} aria-label="Username" />
                   &nbsp;
-                  <CInput placeholder="Hasta" onChange={(ev) => { setTo(ev.target.value) }} aria-label="Server" />
+                  <CFormInput placeholder="Hasta" onChange={(ev) => { setTo(ev.target.value) }} aria-label="Server" />
                 </CInputGroup> */}
 
                 <DatePicker
@@ -219,7 +214,6 @@ export const DateFilter = (props) => {
                     setEndDate(end)
                   }}
                   inline
-                  
                 />
 
 
@@ -233,12 +227,12 @@ export const DateFilter = (props) => {
               </CModalFooter>
             </CModal>
 
-      <CSelect value={value} disabled={props.disabled} onChange={changeListener} custom name="period" id="period" className='input-sm'>{options.map((option) => {
+      <CFormSelect value={value} disabled={props.disabled} onChange={changeListener} custom name="period" id="period" className='input-sm'>{options.map((option) => {
 
                 return <option key={option} selected={props.selected==option} value={option} onClick={changeListener}>
                   {getDateLabel(option,from,to)}
                 </option>
-              })}</CSelect>
+              })}</CFormSelect>
 
 
 

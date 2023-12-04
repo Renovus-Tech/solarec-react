@@ -3,7 +3,6 @@ import {
   CCard,
   CCardBody,
   CCardHeader,
-  CDataTable,
   CRow,
   CCol,
   CSpinner,
@@ -215,12 +214,12 @@ const StatusTenMinAverage = () => {
                         { tableDataSolarStatus &&
                           <CCol xl={"6"} className="px-sm-4 mb-4">
                             <h4>Solar Portfolio</h4>
-                            <CDataTable
+                            {/* <CDataTable
                                 addTableClasses="current-status-table"
                                 striped
                                 items={tableDataSolarStatus.items}
                                 fields={tableDataSolarStatus.fields}
-                              />
+                              /> */}
                           </CCol>
                         }
 
@@ -244,7 +243,7 @@ const StatusTenMinAverage = () => {
                         solarGeneratorsTableData.map(park => (  
                         <CCol xl={"6"} className="px-sm-4 mb-4" key={'col-'+park.park}>
                           <h5>{park.park}</h5>
-                          <CDataTable
+                          {/* <CDataTable
                               key={park.park}
                               addTableClasses="monitor-park-table table-header-center"
                               striped
@@ -274,7 +273,7 @@ const StatusTenMinAverage = () => {
                                     </td>
                                   )
                               }}
-                            />
+                            /> */}
                         </CCol>
                         ))
                       }

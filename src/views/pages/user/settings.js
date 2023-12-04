@@ -6,12 +6,10 @@ import {
   CCardBody,
   CCol,
   CForm,
-  CInput,
+  CFormInput,
   CInputGroup,
-  CInputGroupPrepend,
   CInputGroupText,
   CAlert,
-  CLabel,
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -126,20 +124,16 @@ const Settings = () => {
                 <CCol>
                   <CForm>
                     <CInputGroup className="mb-3">
-                      <CInputGroupPrepend>
                         <CInputGroupText>
                           <CIcon name="cil-user" />
                         </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput onChange={enableSave} value={name} type="text" placeholder={t('Name')} disabled />
+                      <CFormInput onChange={enableSave} value={name} type="text" placeholder={t('Name')} disabled />
                     </CInputGroup>
                     <CInputGroup className="mb-3">
-                      <CInputGroupPrepend>
                         <CInputGroupText>
                           <CIcon name="cil-envelope-closed" />
                         </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput onChange={enableSave} value={email} type="text" placeholder={t('E-mail')} disabled />
+                      <CFormInput onChange={enableSave} value={email} type="text" placeholder={t('E-mail')} disabled />
                     </CInputGroup>
 
                     { passwordChanged &&
@@ -152,22 +146,18 @@ const Settings = () => {
                     { changePassword ?
                       <div>
                         <CInputGroup className="mb-3">
-                          <CInputGroupPrepend>
                             <CInputGroupText>
                               <CIcon name="cil-lock-locked" />
                             </CInputGroupText>
-                          </CInputGroupPrepend>
-                          <CInput onChange={(ev) => {setDifferentPassword(false);setNewPassword(ev.target.value)}} type="password" placeholder={t('New Password')} maxLength={100} />
+                          <CFormInput onChange={(ev) => {setDifferentPassword(false);setNewPassword(ev.target.value)}} type="password" placeholder={t('New Password')} maxLength={100} />
                         </CInputGroup>
                         <CInputGroup className="mb-3">
-                          <CInputGroupPrepend>
                             <CInputGroupText>
                               <CIcon name="cil-lock-locked" />
                             </CInputGroupText>
-                          </CInputGroupPrepend>
-                          <CInput onChange={(ev) => {setDifferentPassword(false);setNewPasswordConfirm(ev.target.value)}} type="password" placeholder={t('Confirm New Password')} maxLength={100}  />
+                          <CFormInput onChange={(ev) => {setDifferentPassword(false);setNewPasswordConfirm(ev.target.value)}} type="password" placeholder={t('Confirm New Password')} maxLength={100}  />
                           { differentPassword &&
-                            <CLabel className={'text-danger mt-1 w-100'}>{t('Please make sure your passwords match.')}</CLabel>
+                            <div className={'text-danger mt-1 w-100'}>{t('Please make sure your passwords match.')}</div>
                           }
                         </CInputGroup>
                         <CRow>

@@ -6,7 +6,7 @@ import {
   CRow,
   CCol,
   CButton,
-  CSelect,
+  CFormSelect,
   CSpinner,
   Fade
 } from '@coreui/react'
@@ -16,7 +16,27 @@ import DataAPI from '../../../helpers/DataAPI.js'
 import {round, getDateLabel, DateFilter, formatNumber} from '../../../helpers/utils.js'
 import {setCookie,getCookie} from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Performance = () => {
   const { t, i18n } = useTranslation()
@@ -291,15 +311,15 @@ const Performance = () => {
 
               <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
                 <div className='d-flex py-1'>
-                  <h6 className="mr-2 ml-2 m-0 align-self-center" >{t('Group by')}</h6>
-                  <CSelect className={'input-sm'} value={groupBy} disabled={loading} onChange={(ev) => { setGroupBy(ev.target.value); }} custom name="groupby" id="groupby">
+                  <h6 className="mx-2 m-0 align-self-center" >{t('Group by')}</h6>
+                  <CFormSelect className={'input-sm'} value={groupBy} disabled={loading} onChange={(ev) => { setGroupBy(ev.target.value); }} custom name="groupby" id="groupby">
                     <option value="day">{t('Day')}</option>
                     <option value="week" selected>{t('Week')}</option>
                     <option value="month">{t('Month')}</option>
-                  </CSelect>
+                  </CFormSelect>
                 </div>
                 <div className='d-flex py-1'>
-                  <h6 className="mr-2 ml-4 m-0 align-self-center">{t('Period')}</h6>
+                  <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
                   <DateFilter value={dateRange} options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
                 </div>
               
@@ -317,7 +337,7 @@ const Performance = () => {
                 {generatorsLoaded && 
                   <div>
                   { generators.map((gen, index) => (  
-                      <CButton 
+                      <CButton key={gen.id}
                         style={{backgroundColor:generatorColors[gen.code],color: 'white'}} 
                         className={(selectedGenerators.includes(gen.id) ? "selected" : "") + "btn-generator mx-1 my-1"}
                         onClick={() => selectGenerator(gen.id)} 
@@ -358,12 +378,12 @@ const Performance = () => {
                 </div>
 
                 :
-                <CRow style={{justifyContent:'center'}}>
+                <div className='text-center'>
                   <CSpinner 
                     className="loading-spinner"
                     color='#321fdb'
                   />
-                </CRow>
+                </div>
                 }
               </div>
             }

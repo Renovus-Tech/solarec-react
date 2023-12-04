@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import {
   CBadge,
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
-  CDataTable,
   CRow,
   CPagination
 } from '@coreui/react'
@@ -24,13 +23,13 @@ const getBadge = status => {
 }
 
 const Users = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
   const [page, setPage] = useState(currentPage)
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
+    currentPage !== newPage && navigate.push(`/users?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const Users = () => {
             <small className="text-muted"> example</small>
           </CCardHeader>
           <CCardBody>
-          <CDataTable
+          {/* <CDataTable
             items={usersData}
             fields={[
               { key: 'name', _classes: 'font-weight-bold' },
@@ -57,7 +56,7 @@ const Users = () => {
             itemsPerPage={5}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/users/${item.id}`)}
+            onRowClick={(item) => navigate.push(`/users/${item.id}`)}
             scopedSlots = {{
               'status':
                 (item)=>(
@@ -68,7 +67,7 @@ const Users = () => {
                   </td>
                 )
             }}
-          />
+          /> */}
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}

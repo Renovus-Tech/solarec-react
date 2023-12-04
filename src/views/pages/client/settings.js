@@ -7,10 +7,8 @@ import {
   CCardBody,
   CCol,
   CForm,
-  CFormGroup,
-  CInput,
+  CFormInput,
   CInputGroup,
-  CInputGroupPrepend,
   CInputGroupText,
   CRow,
   CInputGroupAppend
@@ -159,36 +157,26 @@ const Settings = () => {
               <CRow className="mb-0">
                 <CCol>
                   <CForm>
-                    <CFormGroup style={{maxWidth:'270px'}}>
                       <CInputGroup className={'mb-3'}>
-                        <CInputGroupPrepend>
                           <CInputGroupText style={{maxWidth:'156px'}}>
                           {t('dRecs Sold Porcentage')}
                           </CInputGroupText>
-                        </CInputGroupPrepend>
-                        <CInput type='number' min='0' max='100' custom value={dRecsSoldPorcentage} onChange={(ev) => { handleDRecsSoldPorcentageChange(ev.target.value)}} name="dRecsSoldPorcentage" id="dRecsSoldPorcentage" className={"input-sm"} >
-                        </CInput>
-                        <CInputGroupAppend>
+                        <CFormInput type='number' min='0' max='100' custom value={dRecsSoldPorcentage} onChange={(ev) => { handleDRecsSoldPorcentageChange(ev.target.value)}} name="dRecsSoldPorcentage" id="dRecsSoldPorcentage" className={"input-sm"} >
+                        </CFormInput>
                           <CInputGroupText className={'bg-white text-dark'} style={{width:'50px'}}>
                             %
                           </CInputGroupText>
-                        </CInputGroupAppend>
                       </CInputGroup>
                       <CInputGroup>
-                        <CInputGroupPrepend>
                           <CInputGroupText style={{maxWidth:'156px'}}>
                           {t('dRecs Price')}
                           </CInputGroupText>
-                        </CInputGroupPrepend>
-                        <CInput type='number' min='0' custom value={dRecsPrice} onChange={(ev) => { handleDRecsPriceChange(ev.target.value)}} name="dRecsPrice" id="dRecsPrice" className={"input-sm"} >
-                        </CInput>
-                        <CInputGroupAppend>
+                        <CFormInput type='number' min='0' custom value={dRecsPrice} onChange={(ev) => { handleDRecsPriceChange(ev.target.value)}} name="dRecsPrice" id="dRecsPrice" className={"input-sm"} >
+                        </CFormInput>
                           <CInputGroupText className={'bg-white text-dark'} style={{width:'50px'}}>
                             USD
                           </CInputGroupText>
-                        </CInputGroupAppend>
                       </CInputGroup>
-                    </CFormGroup>
                   </CForm>
                 </CCol>
               </CRow>

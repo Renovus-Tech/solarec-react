@@ -1,4 +1,4 @@
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import DataAPI from '../../../helpers/DataAPI.js'
 import {getCookie} from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next';
@@ -11,15 +11,13 @@ import {
   CCol,
   CContainer,
   CForm,
-  CInput,
+  CFormInput,
   CInputGroup,
-  CInputGroupPrepend,
   CInputGroupText,
-  CLabel,
-  CLink,
   CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { freeSet } from '@coreui/icons'
 
 const RequestPasswordReset = () => {
 
@@ -62,7 +60,7 @@ const RequestPasswordReset = () => {
 
     authenticated ?
 
-      <Redirect to={'/'} />
+      <Navigate to={'/'} />
       
     :
     
@@ -77,25 +75,23 @@ const RequestPasswordReset = () => {
                     <h1 className="text-dark-blue">{t('Reset Password')}</h1>
                     <p className="text-muted">{t('Enter your e-mail address')}</p>
                     <CInputGroup className="mb-3">
-                      <CInputGroupPrepend>
                         <CInputGroupText>
-                          <CIcon name="cil-envelope-closed" />
+                          <CIcon icon={freeSet.cilEnvelopeClosed} />
                         </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput onChange={(ev) => {setEmail(ev.target.value)}} value={email} type="text" placeholder={t('E-mail')} autoComplete="username" />
+                      <CFormInput onChange={(ev) => {setEmail(ev.target.value)}} value={email} type="text" placeholder={t('E-mail')} autoComplete="username" />
                     </CInputGroup>
                     <CRow>
                       <CCol xs="12">
                         <CButton onClick={sendPasswordResetRequest} color="primary" className="px-4 mr-3">{t('Send')}</CButton>
-                        <CLink className="px-3 mr-3 text-dark-blue" to="/" >{t('Back to Login')}</CLink>
+                        <CButton color="link" className="px-3 mr-3 text-dark-blue" href="/">{t('Back to Login')}</CButton>
                       </CCol>
                     </CRow>
                   </CForm>
                   :
                   <div className="text-center">
-                    <CLabel className='text-dark mb-3'>{message}</CLabel>
+                    <div className='text-dark mb-3'>{message}</div>
                     <CButton onClick={resendRequest} color="primary" className="px-4 mr-3">{t('Re-send email')}</CButton>
-                    <CLink className="pt-2 mr-3 text-dark-blue d-block" to="/" >{t('Back to Login')}</CLink>
+                    <CButton color="link" className="px-3 mr-3 text-dark-blue d-block" href="/">{t('Back to Login')}</CButton>
                   </div>
                 }
 

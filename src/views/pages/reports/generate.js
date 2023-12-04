@@ -7,10 +7,8 @@ import {
   CRow,
   CCol,
   CAlert,
-  CLabel,
   CButton,
-  CDataTable,
-  CSelect,
+  CFormSelect,
   CInputCheckbox
 } from '@coreui/react'
 import DataAPI from '../../../helpers/DataAPI.js'
@@ -126,13 +124,13 @@ const Reports = () => {
             <CRow className={'mb-3'}>
               <CCol className="d-flex flex-center">
                 <h6 className="mr-2 mb-0" style={{minWidth:'128px'}}>Select report type</h6>
-                <CSelect disabled={loading} onChange={(ev) => {setType(ev.target.value);setRequires(ev.target.selectedOptions[0].dataset.requires);setCanRequest(false);setStartDate('');setEndDate('');setGenerated(false); }} custom name="type" id="type" className="input-md">
+                <CFormSelect disabled={loading} onChange={(ev) => {setType(ev.target.value);setRequires(ev.target.selectedOptions[0].dataset.requires);setCanRequest(false);setStartDate('');setEndDate('');setGenerated(false); }} custom name="type" id="type" className="input-md">
                   <option value="" disabled selected>-- Select --</option>
                   {reports.map((report) => (
-                    <option value={report.id} data-requires={report.requires}>
+                    <option key={report.id} value={report.id} data-requires={report.requires}>
                       {report.title}
                     </option>
-                  ))}</CSelect>
+                  ))}</CFormSelect>
                 </CCol>
             </CRow>
             <CRow className={'mb-3'}>
@@ -155,7 +153,7 @@ const Reports = () => {
                                   const [start, end] = dates;
                                   setStartDate(start)
                                   setEndDate(end)
-                                  setCanRequest(start!=undefined && end!=undefined);
+                                  setCanRequest(start!==undefined && end!==undefined);
                                   setGenerated(false);
                                 }}
                               /> 
@@ -189,11 +187,11 @@ const Reports = () => {
                   }
                 })()}
 
-                  { requires == 'week' &&
-                    <span className='ml-2'>the selected day and the previous 6 days</span>
+                  { requires === 'week' &&
+                    <span className='mx-2'>the selected day and the previous 6 days</span>
                   }
                   {/* { requires == 'month' &&
-                    <span className='ml-2'>the month of the selected day</span>
+                    <span className='mx-2'>the month of the selected day</span>
                   } */}
               </CCol>
             </CRow>

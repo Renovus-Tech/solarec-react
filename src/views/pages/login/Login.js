@@ -1,4 +1,4 @@
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 
 import DataAPI from '../../../helpers/DataAPI.js'
@@ -16,14 +16,14 @@ import {
   CCol,
   CContainer,
   CForm,
-  CInput,
+  CFormInput,
   CInputGroup,
-  CInputGroupPrepend,
   CInputGroupText,
   CLink,
   CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { freeSet } from '@coreui/icons'
 import logo from '../../../assets/logo-solarec.png'
 import LanguageSwitcher from "src/views/others/LanguageSwitcher.js"
 
@@ -79,7 +79,7 @@ const Login = () => {
 
     authenticated ?
 
-      <Redirect to={'/'} />:
+      <Navigate to={'/'} />:
 
   
     
@@ -94,20 +94,16 @@ const Login = () => {
                     <h1 className="text-dark-blue">{t('Login')}</h1>
                     <p className="text-muted">{t('Sign In to your account')}</p>
                     <CInputGroup className="mb-3">
-                      <CInputGroupPrepend>
                         <CInputGroupText>
-                          <CIcon name="cil-user" />
+                          <CIcon icon={freeSet.cilUser} />
                         </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput onChange={(ev) => {setUsername(ev.target.value)}} value={username} type="text" placeholder={t('E-mail')} autoComplete="username" />
+                      <CFormInput onChange={(ev) => {setUsername(ev.target.value)}} value={username} type="text" placeholder={t('E-mail')} autoComplete="username" />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
-                      <CInputGroupPrepend>
                         <CInputGroupText>
-                          <CIcon name="cil-lock-locked" />
+                          <CIcon icon={freeSet.cilLockLocked} />
                         </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput onChange={(ev) => {setPassword(ev.target.value)}} type="password" placeholder={t('Password')} autoComplete="current-password" />
+                      <CFormInput onChange={(ev) => {setPassword(ev.target.value)}} type="password" placeholder={t('Password')} autoComplete="current-password" />
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
@@ -115,7 +111,8 @@ const Login = () => {
                         
                       </CCol>
                       <CCol xs="6" className="text-right d-flex justify-content-end align-items-center pl-0">
-                        <CLink to="/requestPasswordReset" className="text-dark-blue">{t('Reset password?')}</CLink>
+                        {/* <a href="/requestPasswordReset" className="text-dark-blue">{t('Reset password?')}</a> */}
+                        <CButton color="link" className="text-dark-blue" href="/requestPasswordReset">{t('Reset password?')}</CButton>
                       </CCol>
                     </CRow>
                   </CForm>
@@ -124,7 +121,7 @@ const Login = () => {
               <CCard className="text-dark bg-login-right border-light py-5 d-md-down-none" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
-                    <img src={logo} width="250" alt="Solarec" class="mb-3"/>
+                    <img src={logo} width="250" alt="Solarec" className="mb-3"/>
                     <p>{t('Please login with your e-mail and password.')}</p>
                   </div>
                 </CCardBody>

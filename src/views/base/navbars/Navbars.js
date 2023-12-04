@@ -7,59 +7,50 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
+  CForm,
+  CFormInput,
+  CImage,
   CNavbar,
   CNavbarNav,
   CNavbarBrand,
   CNavbarText,
-  CToggler,
+  CNavbarToggler,
   CNavLink,
   CDropdown,
-  CForm,
-  CInput,
   CButton,
-  CImg
 } from '@coreui/react'
-import { DocsLink } from 'src/reusable'
+import { DocsLink } from 'src/components'
 
 const CNavbars = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [visible, setVisible] = useState(false)
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
   const [navbarText, setNavbarText] = useState(false)
 
   return (
     <>
-
-      <CCard>
+      <CCard className="mb-4">
         <CCardHeader>
           CNavbar
-          <DocsLink name="CNavbar"/>
+          <DocsLink name="CNavbar" />
         </CCardHeader>
         <CCardBody>
-          <CNavbar expandable="sm" color="info" >
-            <CToggler inNavbar onClick={() => setIsOpen(!isOpen)}/>
-            <CNavbarBrand>
-              NavbarBrand
-            </CNavbarBrand>
-            <CCollapse show={isOpen} navbar>
+          <CNavbar expandable="sm" color="info">
+            <CNavbarToggler onClick={() => setVisible(!visible)} />
+            <CNavbarBrand>NavbarBrand</CNavbarBrand>
+            <CCollapse show={visible} navbar>
               <CNavbarNav>
                 <CNavLink>Home</CNavLink>
                 <CNavLink>Link</CNavLink>
               </CNavbarNav>
-              <CNavbarNav className="ml-auto">
-                <CForm inline>
-                  <CInput
-                    className="mr-sm-2"
-                    placeholder="Search"
-                    size="sm"
-                  />
-                  <CButton color="light" className="my-2 my-sm-0" type="submit">Search</CButton>
+              <CNavbarNav className="ms-auto">
+                <CForm className="d-flex">
+                  <CFormInput className="me-sm-2" placeholder="Search" size="sm" />
+                  <CButton color="light" className="my-2 my-sm-0" type="submit">
+                    Search
+                  </CButton>
                 </CForm>
-                <CDropdown
-                  inNav
-                >
-                  <CDropdownToggle color="primary">
-                    Lang
-                  </CDropdownToggle>
+                <CDropdown inNav>
+                  <CDropdownToggle color="primary">Lang</CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem>EN</CDropdownItem>
                     <CDropdownItem>ES</CDropdownItem>
@@ -67,12 +58,8 @@ const CNavbars = () => {
                     <CDropdownItem>FA</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
-                <CDropdown
-                  inNav
-                >
-                  <CDropdownToggle color="primary">
-                    User
-                  </CDropdownToggle>
+                <CDropdown inNav>
+                  <CDropdownToggle color="primary">User</CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem>Account</CDropdownItem>
                     <CDropdownItem>Settings</CDropdownItem>
@@ -84,14 +71,12 @@ const CNavbars = () => {
         </CCardBody>
       </CCard>
 
-      <CCard>
-        <CCardHeader>
-          CNavbar brand
-        </CCardHeader>
+      <CCard className="mb-4">
+        <CCardHeader>CNavbar brand</CCardHeader>
         <CCardBody>
           <CNavbar color="faded" light>
             <CNavbarBrand>
-              <CImg
+              <CImage
                 src="https://placekitten.com/g/30/30"
                 className="d-inline-block align-top"
                 alt="CoreuiVue"
@@ -102,15 +87,15 @@ const CNavbars = () => {
         </CCardBody>
       </CCard>
 
-      <CCard>
-        <CCardHeader>
-          CNavbar text
-        </CCardHeader>
+      <CCard className="mb-4">
+        <CCardHeader>CNavbar text</CCardHeader>
         <CCardBody>
           <CNavbar toggleable="sm" light color="light">
-            <CToggler
+            <CNavbarToggler
               inNavbar
-              onClick={()=>{ setNavbarText(!navbarText)}}
+              onClick={() => {
+                setNavbarText(!navbarText)
+              }}
             />
             <CNavbarBrand>NavbarBrand</CNavbarBrand>
             <CCollapse show={navbarText}>
@@ -122,23 +107,22 @@ const CNavbars = () => {
         </CCardBody>
       </CCard>
 
-      <CCard>
-        <CCardHeader>
-          CNavbar dropdown
-        </CCardHeader>
+      <CCard className="mb-4">
+        <CCardHeader>CNavbar dropdown</CCardHeader>
         <CCardBody>
-          <CNavbar expandable="false" color="primary" >
-            <CToggler inNavbar onClick={()=>{setIsOpenDropdown(!isOpenDropdown)}} />
+          <CNavbar expandable="false" color="primary">
+            <CNavbarToggler
+              inNavbar
+              onClick={() => {
+                setIsOpenDropdown(!isOpenDropdown)
+              }}
+            />
             <CCollapse show={isOpenDropdown} navbar>
               <CNavbarNav>
                 <CNavLink>Home</CNavLink>
                 <CNavLink>Link</CNavLink>
-                <CDropdown
-                  inNav
-                >
-                  <CDropdownToggle color="primary">
-                    Lang
-                  </CDropdownToggle>
+                <CDropdown inNav>
+                  <CDropdownToggle color="primary">Lang</CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem>EN</CDropdownItem>
                     <CDropdownItem>ES</CDropdownItem>
@@ -146,12 +130,8 @@ const CNavbars = () => {
                     <CDropdownItem>FA</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
-                <CDropdown
-                  inNav
-                >
-                  <CDropdownToggle color="primary">
-                    User
-                  </CDropdownToggle>
+                <CDropdown inNav>
+                  <CDropdownToggle color="primary">User</CDropdownToggle>
                   <CDropdownMenu>
                     <CDropdownItem>Account</CDropdownItem>
                     <CDropdownItem>Settings</CDropdownItem>
@@ -163,35 +143,26 @@ const CNavbars = () => {
         </CCardBody>
       </CCard>
 
-      <CCard>
-        <CCardHeader>
-          CNavbar form
-        </CCardHeader>
+      <CCard className="mb-4">
+        <CCardHeader>CNavbar form</CCardHeader>
         <CCardBody>
           <CNavbar light color="light">
-            <CForm inline>
-              <CInput
-                className="mr-sm-2"
-                placeholder="Search"
-                size="sm"
-              />
-              <CButton color="outline-success" className="my-2 my-sm-0" type="submit">Search</CButton>
+            <CForm className="d-flex">
+              <CFormInput className="me-sm-2" placeholder="Search" size="sm" />
+              <CButton color="outline-success" className="my-2 my-sm-0" type="submit">
+                Search
+              </CButton>
             </CForm>
           </CNavbar>
         </CCardBody>
       </CCard>
 
-      <CCard>
-        <CCardHeader>
-          CNavbar input group
-        </CCardHeader>
+      <CCard className="mb-4">
+        <CCardHeader>CNavbar input group</CCardHeader>
         <CCardBody>
           <CNavbar light color="light">
-            <CForm inline>
-              <CInput
-                className="mr-sm-2"
-                placeholder="Username"
-              />
+            <CForm className="d-flex">
+              <CFormInput className="me-sm-2" placeholder="Username" />
             </CForm>
           </CNavbar>
         </CCardBody>

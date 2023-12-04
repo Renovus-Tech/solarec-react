@@ -7,9 +7,7 @@ import {
   CRow,
   CCol,
   CAlert,
-  CLabel,
   CButton,
-  CDataTable,
   CInputCheckbox
 } from '@coreui/react'
 
@@ -218,12 +216,12 @@ const saveChanges = () => {
             <h5 className={'mb-4'} >Please select reports you wish to receive by e-mail</h5>
             {loaded &&
               <div>
-                <CDataTable
+                {/* <CDataTable
                       items={tableData}
                       fields={tableFields}
                       striped
                       scopedSlots = {scopedSlots}
-                    />
+                    /> */}
 
                 
               </div>
