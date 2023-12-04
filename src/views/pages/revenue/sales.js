@@ -15,8 +15,29 @@ import { useTranslation } from 'react-i18next'
 import { formatNumber, round, DateFilter } from '../../../helpers/utils.js'
 import { getCookie } from 'src/helpers/sessionCookie.js'
 
-import { Bar } from 'react-chartjs-2';
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  BarElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2'
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+);
 
 const Sales = () => {
 
@@ -148,17 +169,19 @@ const Sales = () => {
       <CCard className="mb-4">
 
       <CCardHeader>
-          <CRow>
-            <CCol sm="6">
+          <CRow className={'justify-content-between'}>
+            <CCol sm="auto">
               <h3 id="sales" className="card-title mb-0">
                 {t('Sales')}
               </h3>
             </CCol>
 
-            <CCol sm="6" className="text-right d-flex flex-center flex-justify-end">
-              <h6 className="mr-2 ml-4 m-0" style={{lineHeight:2.4}}>{t('Period')}</h6>
-              <DateFilter value={period} options={['cy','cy-1','cy-2','cy-3']} disabled={loading} onChange={(value) => { setPeriod(value);}} />
-              <CButton color="primary" disabled={loading} className="mr-2 ml-3" onClick={() => { fetchData();}} >{t('Submit')}</CButton>
+            <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap">
+              <div className='d-flex py-1'>
+                <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
+                <DateFilter value={period} options={['cy','cy-1','cy-2','cy-3']} disabled={loading} onChange={(value) => { setPeriod(value);}} />
+                <CButton color="primary" disabled={loading} className="mx-2" onClick={() => { fetchData();}} >{t('Submit')}</CButton>
+              </div>
             </CCol>
             
           </CRow>
@@ -177,7 +200,7 @@ const Sales = () => {
                   <div style={{marginBottom:'50px'}}>
                     <div className='d-flex'>
                       <div className="text-left" style={{width: '50%'}}>MWh</div>
-                      <div className="text-right" style={{width: '50%'}}>USD</div>
+                      <div className="text-end" style={{width: '50%'}}>USD</div>
                     </div>
                       <Bar 
                             data={graphData}

@@ -271,7 +271,7 @@ const Trends = () => {
               <div className="small text-medium-emphasis">{getDateLabel(dateRange)}</div>
             </CCol>
 
-            <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
+            <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap">
               <div className='d-flex py-1'>
                 <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
                 <DateFilter options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { setDateRange(value); }} />
@@ -314,7 +314,7 @@ const Trends = () => {
                 />
               }
             </CCol>
-            <CCol sm="2" className="text-right d-flex flex-end flex-justify-end ">
+            <CCol sm="2" className="text-end d-flex flex-end flex-justify-end ">
               <CButton color="primary" className="mx-2 mb-1" onClick={() => filterGenerators()} >{t('Submit')}</CButton>
             </CCol>
         </CRow>
@@ -332,7 +332,7 @@ const Trends = () => {
                     <h4 className="pb-2 mb-4 border-bottom" >{t('Production and Irradiance')}</h4>
                     <div className='d-flex'>
                       <div className="text-left" style={{width: '50%'}}>MWh</div>
-                      <div className="text-right" style={{width: '50%'}}>Kwh/m2</div>
+                      <div className="text-end" style={{width: '50%'}}>Kwh/m2</div>
                     </div>
                     <Line
                       data={lineChartOneData}

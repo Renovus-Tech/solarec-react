@@ -13,6 +13,7 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { freeSet } from '@coreui/icons'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
 
@@ -31,9 +32,6 @@ const Settings = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [generators, setGenerators] = useState([]);
   const [generatorsLoaded, setGeneratorsLoaded] = useState(false);
-  
-  
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   useEffect(() => {
     loadUser();
@@ -125,13 +123,13 @@ const Settings = () => {
                   <CForm>
                     <CInputGroup className="mb-3">
                         <CInputGroupText>
-                          <CIcon name="cil-user" />
+                          <CIcon icon={freeSet.cilUser} />
                         </CInputGroupText>
                       <CFormInput onChange={enableSave} value={name} type="text" placeholder={t('Name')} disabled />
                     </CInputGroup>
                     <CInputGroup className="mb-3">
                         <CInputGroupText>
-                          <CIcon name="cil-envelope-closed" />
+                          <CIcon icon={freeSet.cilEnvelopeClosed}  />
                         </CInputGroupText>
                       <CFormInput onChange={enableSave} value={email} type="text" placeholder={t('E-mail')} disabled />
                     </CInputGroup>
@@ -147,29 +145,31 @@ const Settings = () => {
                       <div>
                         <CInputGroup className="mb-3">
                             <CInputGroupText>
-                              <CIcon name="cil-lock-locked" />
+                              <CIcon icon={freeSet.cilLockLocked} />
                             </CInputGroupText>
                           <CFormInput onChange={(ev) => {setDifferentPassword(false);setNewPassword(ev.target.value)}} type="password" placeholder={t('New Password')} maxLength={100} />
                         </CInputGroup>
                         <CInputGroup className="mb-3">
                             <CInputGroupText>
-                              <CIcon name="cil-lock-locked" />
+                              <CIcon icon={freeSet.cilLockLocked} />
                             </CInputGroupText>
                           <CFormInput onChange={(ev) => {setDifferentPassword(false);setNewPasswordConfirm(ev.target.value)}} type="password" placeholder={t('Confirm New Password')} maxLength={100}  />
                           { differentPassword &&
                             <div className={'text-danger mt-1 w-100'}>{t('Please make sure your passwords match.')}</div>
                           }
                         </CInputGroup>
-                        <CRow>
-                          <CCol xs="12">
+                        <CRow xs={{gutterX: 2}}>
+                          <CCol xs="auto">
                             <CButton onClick={saveNewPassword} color="primary" className="px-4 mr-3" disabled={newPassword==='' || changing}>{t('Save new password')}</CButton>
+                          </CCol>
+                          <CCol xs="auto">
                             <CButton onClick={() => setChangePassword(false)} color="secondary" className="px-4" disabled={changing}>{t('Cancel')}</CButton>
                           </CCol>
                         </CRow>
                       </div>
                       :
-                      <CRow className={'mt-4'}>
-                        <CCol xs="12">
+                      <CRow xs={{gutterX: 2}} className={'mt-4'}>
+                        <CCol xs="auto">
                           <CButton onClick={() => {setChangePassword(true); setPasswordChanged(false);} } color="primary" className="px-4 mr-3">{t('Change Password')}</CButton>
                         </CCol>
                       </CRow>

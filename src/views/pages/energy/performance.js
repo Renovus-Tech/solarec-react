@@ -309,7 +309,7 @@ const Performance = () => {
                 <div className="small text-medium-emphasis">{getDateLabel(dateRange)}</div>
               </CCol>
 
-              <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
+              <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap">
                 <div className='d-flex py-1'>
                   <h6 className="mx-2 m-0 align-self-center" >{t('Group by')}</h6>
                   <CFormSelect className={'input-sm'} value={groupBy} disabled={loading} onChange={(ev) => { setGroupBy(ev.target.value); }} custom name="groupby" id="groupby">
@@ -349,7 +349,7 @@ const Performance = () => {
                   </div>
                 }
               </CCol>
-              <CCol sm="2" className="text-right d-flex flex-end flex-justify-end">
+              <CCol sm="2" className="text-end d-flex flex-end flex-justify-end">
                 <CButton disabled={selectedGenerators.length==0} color="primary" className="mx-2 mb-1" onClick={() => filterGenerators()} >{t('Submit')}</CButton>
               </CCol>
             </CRow>
@@ -371,7 +371,7 @@ const Performance = () => {
                   <div style={{marginBottom:'50px'}}>
                     <h4 className="pb-2 mb-4 border-bottom" >{t('Production and Irradiance')}</h4>
                     <div className="text-left float-left" style={{width: '50%'}}>MWh</div>
-                    <div className="text-right float-right" style={{width: '50%'}}>Kwh/m2</div>
+                    <div className="text-end float-right" style={{width: '50%'}}>Kwh/m2</div>
                     <Line data={graphData2} options={options2} />
                     <CRow className="text-center d-block mt-2" style={{textTransform: 'capitalize'}}>{groupBy}</CRow>
                   </div>

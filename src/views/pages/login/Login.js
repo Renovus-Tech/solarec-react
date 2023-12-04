@@ -19,7 +19,6 @@ import {
   CFormInput,
   CInputGroup,
   CInputGroupText,
-  CLink,
   CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -110,7 +109,7 @@ const Login = () => {
                         <CButton onClick={authenticateUser} color="primary" className="px-4 mr-1">{t('Login')}</CButton>
                         
                       </CCol>
-                      <CCol xs="6" className="text-right d-flex justify-content-end align-items-center pl-0">
+                      <CCol xs="6" className="text-end d-flex justify-content-end align-items-center pl-0">
                         {/* <a href="/requestPasswordReset" className="text-dark-blue">{t('Reset password?')}</a> */}
                         <CButton color="link" className="text-dark-blue" href="/requestPasswordReset">{t('Reset password?')}</CButton>
                       </CCol>

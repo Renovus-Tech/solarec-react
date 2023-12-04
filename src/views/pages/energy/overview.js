@@ -21,7 +21,7 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
 import DataAPI from '../../../helpers/DataAPI.js'
-import {DateFilter, round, getDateLabel } from '../../../helpers/utils.js'
+import {DateFilter, round, formatNumber, getDateLabel } from '../../../helpers/utils.js'
 import {setCookie,getCookie} from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 import {
@@ -101,6 +101,10 @@ const loadGenerators = () => {
             })
           setGenerators(gen);
         }
+        setUser(response.name)
+        setRegion(response.state)
+        setCountry(response.country)
+        setCapacity(formatNumber(response.outputCapacity))
       }
     }
   );
@@ -271,7 +275,7 @@ const fetchData = (period) => {
               </h3>
               <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
             </CCol>
-            <CCol sm="auto" className="text-right d-flex flex-center flex-justify-end flex-wrap">
+            <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap">
               <div className='d-flex py-1'>
 
                 <DateFilter warning={"Seleccionar un rango máximo de 31 días"} options={['y','cm','cy','x','xx']} disabled={loading} onChange={(value) => { filterData(value); }} />
@@ -367,7 +371,7 @@ const fetchData = (period) => {
                   <CCardBody className={'d-flex flex-column justify-content-between'}>
                     <CCardTitle className="mb-0">
                       <h4 className='mb-1'>{t('TIME-BASED AVAILABILITY')+"(%)"}</h4>
-                      <h5 className='mb-0 font-weight-normal'>{timeAvailability}</h5>
+                      <h5 className='mb-0' style={{fontWeight: '400'}}>{timeAvailability}</h5>
                     </CCardTitle>
                     <CCardText>
                       <div className="d-inline-block w-100" style={{maxWidth:'300px'}}>
@@ -412,7 +416,7 @@ const fetchData = (period) => {
                   <CCardBody className={'d-flex flex-column justify-content-between'}>
                     <CCardTitle className="mb-0" >
                       <h4 className='mb-1'>{t('PERFORMANCE RATIO')+"(%)"}</h4>
-                      <h5 className='mb-0 font-weight-normal'>{performanceRatio}</h5>
+                      <h5 className='mb-0' style={{fontWeight: '400'}}>{performanceRatio}</h5>
                     </CCardTitle>
                     <CCardText>
                       <div className="d-inline-block w-100" style={{maxWidth:'300px'}}>

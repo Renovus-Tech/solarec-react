@@ -190,7 +190,7 @@ const StatusTenMinAverage = () => {
               </h3>
               <div className="text-medium-emphasis">Last updated on: {lastUpdated}</div>
             </CCol>
-            <CCol xs="2" className="text-right d-flex flex-center flex-justify-end">
+            <CCol xs="2" className="text-end d-flex flex-center flex-justify-end">
               <CIcon content={freeSet.cilReload} className={"cursor-pointer animate-rotate"} size={'lg'} title={'Refresh'}
                 onClick={() => fetchData()}/>
             </CCol>
@@ -262,13 +262,13 @@ const StatusTenMinAverage = () => {
                                   ),
                                   'production':
                                   (item)=>(
-                                    <td className="text-right">
+                                    <td className="text-end">
                                       {item.production}
                                     </td>
                                   ),
                                   'irradiance':
                                   (item)=>(
-                                    <td className="text-right">
+                                    <td className="text-end">
                                       {item.irradiance}
                                     </td>
                                   )

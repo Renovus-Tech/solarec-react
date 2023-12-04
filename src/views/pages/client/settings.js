@@ -155,7 +155,7 @@ const Settings = () => {
               </CRow> */}
 
               <CRow className="mb-0">
-                <CCol>
+                <CCol style={{maxWidth:'280px'}}>
                   <CForm>
                       <CInputGroup className={'mb-3'}>
                           <CInputGroupText style={{maxWidth:'156px'}}>
@@ -182,7 +182,7 @@ const Settings = () => {
               </CRow>
 
 
-              <CRow className="mt-1">
+              <CRow className="mt-3">
                 <CCol>
                   <CForm>
                       <CButton onClick={() => {saveClientPreferences();} } color="primary" className="px-4 mr-3" disabled={!clientPreferencesChanged}>{t('Save Preferences')}</CButton>

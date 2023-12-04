@@ -123,4 +123,8 @@ const routes = [
 
 ]
 
-export default routes
+const functionalities = JSON.parse(getCookie('functionalities'))
+const filteredRoutes = routes.filter(r => functionalities.indexOf(r.path) > -1 )
+
+export default filteredRoutes
+
