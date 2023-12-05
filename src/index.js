@@ -1,16 +1,16 @@
-import 'react-app-polyfill/ie11'; // For IE 11 support
-import 'react-app-polyfill/stable';
+import 'react-app-polyfill/ie11' // For IE 11 support
+import 'react-app-polyfill/stable'
 import './polyfill'
 import 'core-js'
-import * as serviceWorker from './serviceWorker';
-import {React,StrictMode} from 'react'
+import * as serviceWorker from './serviceWorker'
+import { React, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import store from './store'
-import { I18nextProvider } from "react-i18next"
-import i18next from "./helpers/i18n"
+import { I18nextProvider } from 'react-i18next'
+import i18next from './helpers/i18n'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -19,7 +19,7 @@ createRoot(document.getElementById('root')).render(
         <App />
       </I18nextProvider>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 )
 
 // If you want to start measuring performance in your app, pass a function

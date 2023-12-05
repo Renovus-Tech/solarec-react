@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from 'react'
-
-import {
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CRow,
-  CCol,
-  CSpinner,
-  CButton,
-} from '@coreui/react'
-
+import { CCard, CCardBody, CCardHeader, CRow, CCol, CSpinner, CButton } from '@coreui/react'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
 import { formatNumber, round, DateFilter } from '../../../helpers/utils.js'
 import { getCookie } from 'src/helpers/sessionCookie.js'
-
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,7 +14,7 @@ import {
   Legend,
   PointElement,
   LineElement,
-} from 'chart.js';
+} from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 ChartJS.register(
   CategoryScale,
@@ -37,198 +25,193 @@ ChartJS.register(
   Legend,
   PointElement,
   LineElement,
-);
+)
 
 const Sales = () => {
-
-  const { t, i18n } = useTranslation()
-  const [period, setPeriod] = useState('cy');
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [dataLoadError, setDataLoadError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { t } = useTranslation()
+  const [period, setPeriod] = useState('cy')
+  const [dataLoaded, setDataLoaded] = useState(false)
+  const [dataLoadError, setDataLoadError] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [graphData, setGraphData] = useState({
     labels: [],
-    datasets: []
-  });
-
-  
+    datasets: [],
+  })
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
+    fetchData()
+  }, [])
 
   const fetchData = () => {
-
     setLoading(true)
     setDataLoaded(false)
 
     const body = {}
-    body.location = getCookie('location');
+    body.location = getCookie('location')
     body.period = period
-    
+
     DataAPI({
-      'endpoint': 'chart/revenue/sales',
-      'method': 'POST',
-      'body': body
-    }).then(
-      response => {
+      endpoint: 'chart/revenue/sales',
+      method: 'POST',
+      body: body,
+    }).then((response) => {
+      setLoading(false)
 
-
-        setLoading(false);
-
-        if (response.error) {
-          setDataLoadError(true);
-          if (response.error.message) {
-            return(alert(response.error.message))
-          } else {
-            return(alert(response.error)) 
-          }
+      if (response.error) {
+        setDataLoadError(true)
+        if (response.error.message) {
+          return alert(response.error.message)
+        } else {
+          return alert(response.error)
         }
-
-        setDataLoaded(true);
-        if (response.months.length==0) return;
-        const months = response.months;
-
-        const graphData = {
-          labels: months.map((x, i) => { return x.label }),
-          datasets: [
-            {
-              label: t('Income'),
-              data: months.map((x, i) => { return x.dRecIncome }),
-              borderColor: '#7a5195',
-              backgroundColor: '#7a5195',
-              type: 'line',
-              yAxisID: 'yIncome',
-              order: 0
-            },
-            {
-              label: t('D-RECs sold'),
-              data: months.map((x, i) => { return x.dRecSold }),
-              borderColor: '#bc5090',
-              backgroundColor: '#bc5090',
-              yAxisID: 'yProduction',
-              order: 1
-            },
-          ],
-        }
-
-        setGraphData(graphData);
-
       }
-    );
 
+      setDataLoaded(true)
+      if (response.months.length === 0) return
+      const months = response.months
+
+      const graphData = {
+        labels: months.map((x, i) => {
+          return x.label
+        }),
+        datasets: [
+          {
+            label: t('Income'),
+            data: months.map((x, i) => {
+              return x.dRecIncome
+            }),
+            borderColor: '#7a5195',
+            backgroundColor: '#7a5195',
+            type: 'line',
+            yAxisID: 'yIncome',
+            order: 0,
+          },
+          {
+            label: t('D-RECs sold'),
+            data: months.map((x, i) => {
+              return x.dRecSold
+            }),
+            borderColor: '#bc5090',
+            backgroundColor: '#bc5090',
+            yAxisID: 'yProduction',
+            order: 1,
+          },
+        ],
+      }
+
+      setGraphData(graphData)
+    })
   }
-
 
   const options = {
     responsive: true,
-    animation: {duration: loading ? 0 : 1000},
+    animation: { duration: loading ? 0 : 1000 },
     tooltips: {
-      enabled: true
-    }
-  };
+      enabled: true,
+    },
+  }
 
-
-  const optionsGraph =  {
-                  ...options,
-                  scales: {
-                    yIncome: {
-                      type: 'linear',
-                      display: true,
-                      position: 'right',
-                      beginAtZero: false,
-                    },
-                    yProduction: {
-                      type: 'linear',
-                      display: true,
-                      position: 'left',
-                      grid: {
-                        drawOnChartArea: false, // only want the grid lines for one axis to show up
-                      },
-                    },
-                    
-                  },
-                  plugins: {
-                    tooltip: {
-                      mode: 'index',
-                      callbacks: {
-                        label: function(tooltipItem, data) {
-                          if (tooltipItem.dataset.label == 'Income')
-                            return tooltipItem.dataset.label + ': ' + formatNumber(round(tooltipItem.raw,1)) + ' USD';
-                          else
-                            return tooltipItem.dataset.label + ': ' + round(tooltipItem.raw,2) + ' MWh';
-                        }
-                      }
-                    }
-                  }
-                };
-
+  const optionsGraph = {
+    ...options,
+    scales: {
+      yIncome: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        beginAtZero: false,
+      },
+      yProduction: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        grid: {
+          drawOnChartArea: false, // only want the grid lines for one axis to show up
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        mode: 'index',
+        callbacks: {
+          label: function (tooltipItem, data) {
+            if (tooltipItem.dataset.label === 'Income')
+              return (
+                tooltipItem.dataset.label + ': ' + formatNumber(round(tooltipItem.raw, 1)) + ' USD'
+              )
+            else return tooltipItem.dataset.label + ': ' + round(tooltipItem.raw, 2) + ' MWh'
+          },
+        },
+      },
+    },
+  }
 
   return (
-      <CCard className="mb-4">
-
+    <CCard className="mb-4">
       <CCardHeader>
-          <CRow className={'justify-content-between'}>
-            <CCol sm="auto">
-              <h3 id="sales" className="card-title mb-0">
-                {t('Sales')}
-              </h3>
-            </CCol>
+        <CRow className={'justify-content-between'}>
+          <CCol sm="auto">
+            <h3 id="sales" className="card-title mb-0">
+              {t('Sales')}
+            </h3>
+          </CCol>
 
-            <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap">
-              <div className='d-flex py-1'>
-                <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
-                <DateFilter value={period} options={['cy','cy-1','cy-2','cy-3']} disabled={loading} onChange={(value) => { setPeriod(value);}} />
-                <CButton color="primary" disabled={loading} className="mx-2" onClick={() => { fetchData();}} >{t('Submit')}</CButton>
-              </div>
-            </CCol>
-            
-          </CRow>
+          <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap">
+            <div className="d-flex py-1">
+              <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
+              <DateFilter
+                value={period}
+                options={['cy', 'cy-1', 'cy-2', 'cy-3']}
+                disabled={loading}
+                onChange={(value) => {
+                  setPeriod(value)
+                }}
+              />
+              <CButton
+                color="primary"
+                disabled={loading}
+                className="mx-2"
+                onClick={() => {
+                  fetchData()
+                }}
+              >
+                {t('Submit')}
+              </CButton>
+            </div>
+          </CCol>
+        </CRow>
+      </CCardHeader>
 
-        </CCardHeader>
-
-        <CCardBody>
-
-         { (loading || dataLoaded) &&
+      <CCardBody>
+        {(loading || dataLoaded) && (
           <div>
-
             <CRow>
               <CCol>
-
-                {!loading || dataLoadError ?
-                  <div style={{marginBottom:'50px'}}>
-                    <div className='d-flex'>
-                      <div className="text-left" style={{width: '50%'}}>MWh</div>
-                      <div className="text-end" style={{width: '50%'}}>USD</div>
+                {!loading || dataLoadError ? (
+                  <div style={{ marginBottom: '50px' }}>
+                    <div className="d-flex">
+                      <div className="text-left" style={{ width: '50%' }}>
+                        MWh
+                      </div>
+                      <div className="text-end" style={{ width: '50%' }}>
+                        USD
+                      </div>
                     </div>
-                      <Bar 
-                            data={graphData}
-                            options={optionsGraph} 
-                          />
-                    <div className="text-center" style={{width: '100%'}}>Months</div>
+                    <Bar data={graphData} options={optionsGraph} />
+                    <div className="text-center" style={{ width: '100%' }}>
+                      Months
+                    </div>
                   </div>
-                : 
-                  <div className='text-center'>
-                    <CSpinner 
-                      className="loading-spinner"
-                      color='#321fdb'
-                    />
+                ) : (
+                  <div className="text-center">
+                    <CSpinner className="loading-spinner" color="#321fdb" />
                   </div>
-                }
-                
-
+                )}
               </CCol>
             </CRow>
           </div>
-         }
-          
-        </CCardBody>
-
-      </CCard>
-
-
-
+        )}
+      </CCardBody>
+    </CCard>
   )
 }
 

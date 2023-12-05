@@ -20,7 +20,8 @@ module.exports = {
   ],
   plugins: ['react', 'react-hooks'],
   rules: {
-    'prettier/prettier': 0,
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    // 'prettier/prettier': 0,
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export const LAT = -33.88407117097632
 export const LON = -56.394190075925366
 export const OPEN_WEATHER_API_KEY = '4af80eb5231f63b96e642933915c14d8'

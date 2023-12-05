@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import {getCookie} from './helpers/sessionCookie.js'
+import { getCookie } from './helpers/sessionCookie.js'
 import './scss/style.scss'
 
 const loading = (
@@ -23,13 +23,12 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state ={
-      authenticated: getCookie('name')!==false && getCookie('name')!==''
+    this.state = {
+      authenticated: getCookie('name') !== false && getCookie('name') !== '',
     }
   }
   render() {
-    return (
-      this.state.authenticated ?
+    return this.state.authenticated ? (
       <BrowserRouter>
         <Suspense fallback={loading}>
           <Routes>
@@ -41,15 +40,19 @@ class App extends Component {
           </Routes>
         </Suspense>
       </BrowserRouter>
-      :
+    ) : (
       <BrowserRouter>
-          <Suspense fallback={loading}>
-            <Routes>
-              <Route path="/requestPasswordReset" name="Request password reset" element={<RequestPasswordReset />} />
-              <Route path="/resetPassword" name="Reset password" element={<ResetPassword />} />
-              <Route path="*" name="Home" element={<Login />} />
-            </Routes>
-          </Suspense>
+        <Suspense fallback={loading}>
+          <Routes>
+            <Route
+              path="/requestPasswordReset"
+              name="Request password reset"
+              element={<RequestPasswordReset />}
+            />
+            <Route path="/resetPassword" name="Reset password" element={<ResetPassword />} />
+            <Route path="*" name="Home" element={<Login />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     )
   }
