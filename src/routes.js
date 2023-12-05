@@ -54,8 +54,8 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 // Users
-const Users = React.lazy(() => import('./views/users/Users'))
-const User = React.lazy(() => import('./views/users/User'))
+// const Users = React.lazy(() => import('./views/users/Users'))
+// const User = React.lazy(() => import('./views/users/User'))
 const UserSettings = React.lazy(() => import('./views/pages/user/settings'))
 const ClientSettings = React.lazy(() => import('./views/pages/client/settings'))
 
@@ -111,8 +111,8 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
-  { path: '/users', exact: true, name: i18n.t('Users'), element: Users },
-  { path: '/users/:id', exact: true, name: i18n.t('User Details'), element: User },
+  // { path: '/users', exact: true, name: i18n.t('Users'), element: Users },
+  // { path: '/users/:id', exact: true, name: i18n.t('User Details'), element: User },
   { path: '/user/settings', exact: true, name: i18n.t('User Settings'), element: UserSettings },
   { path: '/client/settings', exact: true, name: i18n.t('Client Settings'), element: ClientSettings },
   { path: '/modules/energy/overview', exact: true, name: i18n.t('Overview'), element: Overview },
