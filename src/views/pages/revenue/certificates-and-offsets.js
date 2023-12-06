@@ -12,7 +12,8 @@ import {
 
 import DataAPI from '../../../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
-import { round, getDateLabel, DateFilter, formatNumber } from '../../../helpers/utils.js'
+import { round, getDateLabel, formatNumber } from '../../../helpers/utils.js'
+import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 
 import {
@@ -305,12 +306,11 @@ const CertificatesAndOffsets = () => {
                 onChange={(ev) => {
                   setGroupBy(ev.target.value)
                 }}
-                custom
                 name="groupby"
                 id="groupby"
               >
                 <option value="day">{t('Day')}</option>
-                <option value="week" selected>
+                <option value="week">
                   {t('Week')}
                 </option>
                 <option value="month">{t('Month')}</option>

@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from 'react-router-dom'
+import { Navigate, useSearchParams } from 'react-router-dom'
 
 import DataAPI from '../../../helpers/DataAPI.js'
 import { getCookie } from '../../../helpers/sessionCookie.js'
@@ -24,19 +24,15 @@ const ResetPassword = () => {
   const [newPasswordConfirm, setNewPasswordConfirm] = useState(false)
   const [changed, setChanged] = useState(false)
   const [message, setMessage] = useState('')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const authenticated = getCookie('name') !== false && getCookie('name') !== ''
 
-  const useQuery = () => {
-    const { search } = useLocation()
-    return React.useMemo(() => new URLSearchParams(search), [search])
-  }
-
-  const query = useQuery()
+  const [queryParameters] = useSearchParams()
+  const hasParameters = queryParameters.get('reset_token')!==null
 
   const sendResetPassword = () => {
-    const reset_token = query.get('reset_token')
+    const reset_token = queryParameters.get('reset_token')
 
     DataAPI({
       endpoint: 'security/authenticate/reset',
@@ -62,7 +58,7 @@ const ResetPassword = () => {
       })
   }
 
-  return authenticated ? (
+  return (authenticated || !hasParameters) ? (
     <Navigate to={'/'} />
   ) : (
     <div className="bg-gradient-custom c-app solar c-default-layout flex-row align-items-center">

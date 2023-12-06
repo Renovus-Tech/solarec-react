@@ -1460,14 +1460,14 @@ $card-cap-bg:                       $white !default;//rgba($black, .03) !default
 
 // List group
 // scss-docs-start list-group-variables
-// $list-group-color:                  unset !default;
-// $list-group-bg:                     $white !default;
+$list-group-color:                  $white; //unset !default;
+$list-group-bg:                     transparent; //$white !default;
 // $list-group-border-color:           rgba($black, .125) !default;
-// $list-group-border-width:           $border-width !default;
+$list-group-border-width:           0; //$border-width !default;
 // $list-group-border-radius:          $border-radius !default;
 
-// $list-group-item-padding-y:         $spacer / 2 !default;
-// $list-group-item-padding-x:         $spacer !default;
+$list-group-item-padding-y:         $spacer / 6; // $spacer / 2 !default;
+$list-group-item-padding-x:         0; //$spacer !default;
 // $list-group-item-bg-scale:          -80% !default;
 // $list-group-item-color-scale:       40% !default;
 

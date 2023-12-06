@@ -44,11 +44,7 @@ class App extends Component {
       <BrowserRouter>
         <Suspense fallback={loading}>
           <Routes>
-            <Route
-              path="/requestPasswordReset"
-              name="Request password reset"
-              element={<RequestPasswordReset />}
-            />
+            <Route path="/requestPasswordReset" name="Request password reset" element={<RequestPasswordReset />} />
             <Route path="/resetPassword" name="Reset password" element={<ResetPassword />} />
             <Route path="*" name="Home" element={<Login />} />
           </Routes>

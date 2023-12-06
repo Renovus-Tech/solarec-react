@@ -54,6 +54,7 @@
     "@testing-library/user-event": "^14.4.3",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jest-canvas-mock": "^2.5.2",
     "prettier": "2.8.8",
     "react-scripts": "5.0.1",
     "sass": "^1.63.6",

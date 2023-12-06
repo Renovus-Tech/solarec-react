@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-
+import PropTypes from 'prop-types';
 import {CFormSelect,
   CButton,
   CModal,
@@ -8,11 +8,9 @@ import {CFormSelect,
   CModalBody,
   CModalTitle,
 } from '@coreui/react'
-
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import colorLib from '@kurkle/color';
-
 import i18n from './i18n'
 
 export const colors =  ['#003f5c', '#7a5195', '#bc5090', '#ef5675', '#ff764a', '#ffa600','#9ceb01']
@@ -114,131 +112,132 @@ export const getDateLabel = (dateValue,from,to,t) => {
 
 }
 
-export const DateFilter = (props) => {
+// const DateFilter = (props) => {
 
-  const [modal, setModal] = useState(false);
-  // const [disabled, setDisabled] = useState(props.disabled);
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
-  const [value, setValue] = useState(props.value);
+//   const [modal, setModal] = useState(false);
+//   // const [disabled, setDisabled] = useState(props.disabled);
+//   const [from, setFrom] = useState('');
+//   const [to, setTo] = useState('');
+//   const [value, setValue] = useState(props.value);
 
-  let options = [];
+//   let options = [];
 
-  if(props.options) {
+//   if(props.options) {
 
-    options = props.options;
+//     options = props.options;
 
-  } else {
+//   } else {
 
-    options = 'y,cm,cy,x,xx'.split(',');
+//     options = 'y,cm,cy,x,xx'.split(',');
 
-  }
+//   }
+
+//   // const setDate = (x) => {
+//   //   alert(x);
+//   // }
+
+//   const changeListener = (ev) => {
+
+//     if (ev.target.value === 'x') {
+//       setModal(true);
+//     } else {
+//       props.onChange(ev.target.value);
+//       setValue(ev.target.value)
+//     }
+
+//   }
+
+//   const applyCustomRange = (val) => {
+
+//     if (modal) {
+//       let sdate = "";
+//       let edate = "";
+//       if (startDate !== null) {
+//         sdate =  `${startDate.getFullYear()}-${("0" + (startDate.getMonth() + 1)).slice(-2)}-${("0" + startDate.getDate()).slice(-2)}`;
+//       }
+//       if (endDate !== null) {
+//         edate =  `${endDate.getFullYear()}-${("0" + (endDate.getMonth() + 1)).slice(-2)}-${("0" + endDate.getDate()).slice(-2)}`;
+//       }
+//       props.onChange(`${sdate}--${edate}`);
+//       setModal(false);
+//       setFrom(sdate);
+//       setTo(edate);
+//       setValue('xx');
+
+//     } else {
+//       props.onChange(val);
+//     }
+
+//   }
 
 
-  const setDate = (x) => {
-    alert(x);
-  }
-
-  const changeListener = (ev) => {
-
-    if (ev.target.value === 'x') {
-      setModal(true);
-    } else {
-      props.onChange(ev.target.value);
-      setValue(ev.target.value)
-    }
-
-  }
-
-  const applyCustomRange = (value) => {
-
-    if (modal) {
-      let sdate = "";
-      let edate = "";
-      if (startDate !== null) {
-        sdate =  `${startDate.getFullYear()}-${("0" + (startDate.getMonth() + 1)).slice(-2)}-${("0" + startDate.getDate()).slice(-2)}`;
-      }
-      if (endDate !== null) {
-        edate =  `${endDate.getFullYear()}-${("0" + (endDate.getMonth() + 1)).slice(-2)}-${("0" + endDate.getDate()).slice(-2)}`;
-      }
-      props.onChange(`${sdate}--${edate}`);
-      setModal(false);
-      setFrom(sdate);
-      setTo(edate);
-      setValue('xx');
-
-    } else {
-      props.onChange(value);
-    }
-
-  }
+//   // const [dateRange, setDateRange] = useState([null, null]);
+//   // const [startDate, endDate] = dateRange;
+//   const [startDate, setStartDate] = useState(null);
+//   const [endDate, setEndDate] = useState(null);
 
 
-  // const [dateRange, setDateRange] = useState([null, null]);
-  // const [startDate, endDate] = dateRange;
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  
-
-	return (<>
-            <CModal 
-              visible={modal} 
-              onClose={setModal}
-              size="sm"
-            >
-              <CModalHeader closeButton>
-                <CModalTitle>Select Period</CModalTitle>
-              </CModalHeader>
-              <CModalBody className={"text-center"}>
+// 	return (<>
+//             <CModal 
+//               visible={modal} 
+//               onClose={setModal}
+//               size="sm"
+//             >
+//               <CModalHeader closeButton>
+//                 <CModalTitle>Select Period</CModalTitle>
+//               </CModalHeader>
+//               <CModalBody className={"text-center"}>
                 
-                {/* <p>Seleccionar el intervalo temporal para filtrar los datos, utlizando el formato "YYYY-MM-DD".</p>
+//                 {/* <p>Seleccionar el intervalo temporal para filtrar los datos, utlizando el formato "YYYY-MM-DD".</p>
 
-                {props.warning && <p><strong>{props.warning}</strong></p>}
+//                 {props.warning && <p><strong>{props.warning}</strong></p>}
 
-                <CInputGroup className="mb-3">
-                  <CFormInput placeholder="Desde" onChange={(ev) => { setFrom(ev.target.value) }} aria-label="Username" />
-                  &nbsp;
-                  <CFormInput placeholder="Hasta" onChange={(ev) => { setTo(ev.target.value) }} aria-label="Server" />
-                </CInputGroup> */}
+//                 <CInputGroup className="mb-3">
+//                   <CFormInput placeholder="Desde" onChange={(ev) => { setFrom(ev.target.value) }} aria-label="Username" />
+//                   &nbsp;
+//                   <CFormInput placeholder="Hasta" onChange={(ev) => { setTo(ev.target.value) }} aria-label="Server" />
+//                 </CInputGroup> */}
 
-                <DatePicker
-                  dateFormat="yyyy-MM-dd"
-                  selectsRange={true}
-                  startDate={startDate}
-                  endDate={endDate}
-                  maxDate={new Date()}
-                  onChange={(dates) => {
-                    // setDateRange(update);
-                    const [start, end] = dates;
-                    setStartDate(start)
-                    setEndDate(end)
-                  }}
-                  inline
-                />
-
-
-              </CModalBody>
-              <CModalFooter>
-                <CButton color="primary"  onClick={applyCustomRange} >{i18n.t('Submit')}</CButton>{' '}
-                <CButton 
-                  color="secondary" 
-                  onClick={() => setModal(false)}
-                >Cancel</CButton>
-              </CModalFooter>
-            </CModal>
-
-      <CFormSelect value={value} disabled={props.disabled} onChange={changeListener} custom name="period" id="period" className='input-sm'>{options.map((option) => {
-
-                return <option key={option} selected={props.selected==option} value={option} onClick={changeListener}>
-                  {getDateLabel(option,from,to)}
-                </option>
-              })}</CFormSelect>
+//                 <DatePicker
+//                   dateFormat="yyyy-MM-dd"
+//                   selectsRange={true}
+//                   startDate={startDate}
+//                   endDate={endDate}
+//                   maxDate={new Date()}
+//                   onChange={(dates) => {
+//                     // setDateRange(update);
+//                     const [start, end] = dates;
+//                     setStartDate(start)
+//                     setEndDate(end)
+//                   }}
+//                   inline
+//                 />
 
 
+//               </CModalBody>
+//               <CModalFooter>
+//                 <CButton color="primary"  onClick={applyCustomRange} >{i18n.t('Submit')}</CButton>{' '}
+//                 <CButton 
+//                   color="secondary" 
+//                   onClick={() => setModal(false)}
+//                 >Cancel</CButton>
+//               </CModalFooter>
+//             </CModal>
 
-             
-              
+//       <CFormSelect value={value} disabled={props.disabled} onChange={changeListener} custom name="period" id="period" className='input-sm'>{options.map((option) => {
 
-              </>)
+//                 return <option key={option} value={option} onClick={changeListener}>
+//                   {getDateLabel(option,from,to)}
+//                 </option>
+//               })}</CFormSelect>
+//             </>)
+// }
 
-}
+// DateFilter.propTypes = {
+//   value: PropTypes.string,
+//   disabled: PropTypes.bool,
+//   options: PropTypes.string,
+//   onChange: PropTypes.func
+// }
+
+// export {DateFilter}

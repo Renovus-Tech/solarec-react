@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import DataAPI from '../../../helpers/DataAPI.js'
-import { DateFilter, getDateLabel, round, colors } from '../../../helpers/utils.js'
+import { getDateLabel, round, colors } from '../../../helpers/utils.js'
+import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 import { CCard, CCardBody, CCardHeader, CRow, CCol, CButton, CSpinner } from '@coreui/react'
-
 import {
   Chart as ChartJS,
   CategoryScale,

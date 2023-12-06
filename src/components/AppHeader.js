@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -8,34 +8,16 @@ import {
   CHeaderDivider,
   CHeaderNav,
   CHeaderToggler,
-  CNavLink,
-  CNavItem,
   CImage,
-  CButton,
   CFormSelect,
-  CRow,
-  CCol,
-  CDropdown,
-  CDropdownToggle,
-  CDropdownItem,
-  CDropdownMenu,
-  CBreadcrumbRouter,
-  CModal,
-  CModalBody,
-  CModalFooter,
-
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { freeSet } from '@coreui/icons';
-import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
-import {setCookie, getCookie} from '../helpers/sessionCookie.js'
+import { cilMenu } from '@coreui/icons'
+import { setCookie, getCookie } from '../helpers/sessionCookie.js'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import logo from '../assets/logo-solarec.png'
-import i18n from '../helpers/i18n'
 import DataAPI from '../helpers/DataAPI.js'
-// routes config
-import routes from '../routes'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -49,7 +31,6 @@ const AppHeader = () => {
   const [userSettingPermission, setUserSettingPermission] = useState(false)
   const [dashboard, setDashboard] = useState('/overview')
 
-  const navigate = useNavigate()
   const location = useLocation()
   const noParkPages = [];
 
@@ -58,7 +39,7 @@ const AppHeader = () => {
     fetchClients()
     if(!noParkPages.includes(location.pathname))
       fetchParks()
-  },[]);
+  }, []);
  
   const userPermissions = () => {
     const functionalities = JSON.parse(getCookie('functionalities'));
@@ -96,30 +77,30 @@ const AppHeader = () => {
     );
   }
 
-  const updateLocation = (locationId) => {
-    console.log(`Updating location to: security/authenticate/location/${locationId}`)
-    DataAPI({
-      'endpoint': `security/authenticate/location/${locationId}`,
-      'method': 'GET'
-    }).then(
-      response => {
-        console.log(response)
-        setCookie('location', locationId)
-        setCookie('parkType', response.location.type)
-        setCookie('parkName', response.location.name)
-        // let functionalities = [...response.functionalities, {'url':'/modules/power-curve/benchmark'}, {'url':'/modules/power-curve/analysis'}];
-        // setCookie('functionalities', JSON.stringify(functionalities.map((f) => f.url)))
-        setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
-        setCookie('dashboard', response.functionalities[0].url)
-        setDashboard(response.functionalities[0].url)
-        window.location.reload()
-      }
-    ).catch(
-      response => {
-        console.error(response)
-      }
-    );
-  }
+  // const updateLocation = (locationId) => {
+  //   console.log(`Updating location to: security/authenticate/location/${locationId}`)
+  //   DataAPI({
+  //     'endpoint': `security/authenticate/location/${locationId}`,
+  //     'method': 'GET'
+  //   }).then(
+  //     response => {
+  //       console.log(response)
+  //       setCookie('location', locationId)
+  //       setCookie('parkType', response.location.type)
+  //       setCookie('parkName', response.location.name)
+  //       // let functionalities = [...response.functionalities, {'url':'/modules/power-curve/benchmark'}, {'url':'/modules/power-curve/analysis'}];
+  //       // setCookie('functionalities', JSON.stringify(functionalities.map((f) => f.url)))
+  //       setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
+  //       setCookie('dashboard', response.functionalities[0].url)
+  //       setDashboard(response.functionalities[0].url)
+  //       window.location.reload()
+  //     }
+  //   ).catch(
+  //     response => {
+  //       console.error(response)
+  //     }
+  //   );
+  // }
 
   const fetchClients = () => {
     DataAPI({
@@ -153,20 +134,15 @@ const AppHeader = () => {
     );
   }
 
-  
+  // const toggleSidebar = () => {
+  //   const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
+  //   dispatch({type: 'set', sidebarShow: val})
+  // }
 
-  const toggleSidebar = () => {
-    const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
-    dispatch({type: 'set', sidebarShow: val})
-  }
-
-  const toggleSidebarMobile = () => {
-    const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
-    dispatch({type: 'set', sidebarShow: val})
-  }
-
-
-
+  // const toggleSidebarMobile = () => {
+  //   const val = [false, 'responsive'].includes(sidebarShow) ? true : 'responsive'
+  //   dispatch({type: 'set', sidebarShow: val})
+  // }
 
   return (
     <CHeader position="sticky" className="mb-4">
@@ -208,7 +184,7 @@ const AppHeader = () => {
 
         <CHeaderNav className="px-md-3">
 
-          <CFormSelect value={getCookie('client')} onChange={(ev) => { updateClient(ev.target.value); }} custom name="client" id="client" className="w-auto mx-2 mr-1 mr-sm-3">
+          <CFormSelect value={getCookie('client')} onChange={(ev) => { updateClient(ev.target.value); }} name="client" id="client" className="w-auto mx-2 mr-1 mr-sm-3">
             {clients && clients.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name}

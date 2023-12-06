@@ -7,8 +7,12 @@ import {
   CCol,
   CRow,
   CSpinner,
+  CContainer,
   CCardTitle,
+  CCardSubtitle,
   CCardText,
+  CListGroup,
+  CListGroupItem,
   CModal,
   CModalFooter,
   CModalBody,
@@ -18,7 +22,8 @@ import {
 import 'react-datepicker/dist/react-datepicker.css'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { GOOGLE_MAPS_API_KEY } from '../../../constants.js'
-import { DateFilter, round, formatNumber, getDateLabel } from '../../../helpers/utils.js'
+import { round, formatNumber, getDateLabel } from '../../../helpers/utils.js'
+import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend } from 'chart.js'
@@ -61,11 +66,11 @@ const Overview = () => {
   })
 
   useEffect(() => {
-    loadGenerators()
+    loadData()
     refreshChart(period)
   }, [])
 
-  const loadGenerators = () => {
+  const loadData = () => {
     DataAPI({
       endpoint: 'admin/locations/current',
       method: 'GET',
@@ -168,6 +173,25 @@ const Overview = () => {
         setDataLoaded(true)
       }
     })
+
+    // DataAPI({
+    //   endpoint: 'solar/overview/alerts',
+    //   method: 'POST',
+    //   body: body,
+    // }).then((response) => {
+    //   if (response.error) {
+    //     if (response.error.message) {
+    //       return alert(response.error.message)
+    //     } else {
+    //       return alert(response.error)
+    //     }
+    //   }
+    //   let responseData = response.data && response.data[0]
+    //   if (responseData) {
+    //     const alerts = responseData.alerts
+    //     setAlerts(alerts)
+    //   }
+    // })
   }
 
   const refreshChart = (period) => {
@@ -258,22 +282,12 @@ const Overview = () => {
                 >
                   <CCardBody>
                     <CCardTitle component="h4">{t('PLANT CHARACTERISTICS')}</CCardTitle>
-                    <CCardText>
-                      <p className="h6">
-                        {t('User') + ':'} {user !== undefined ? user : ''}
-                      </p>
-                      <p className="h6">
-                        {t('Region') + ':'} {region !== undefined ? region : ''}
-                      </p>
-                      <p className="h6">
-                        {t('Country') + ':'} {country !== undefined ? country : ''}
-                      </p>
-                      <p className="h6">
-                        {t('Capacity') + ':'}{' '}
-                        {capacity !== undefined ? round(capacity) + ' KW' : ''}
-                      </p>
-                      <p className="h6">
-                        {t('Location') + ': '}
+                    <CListGroup flush className='bg-transparent'>
+                      <CListGroupItem>{t('User') + ':'} {user !== undefined ? user : ''}</CListGroupItem>
+                      <CListGroupItem>{t('Region') + ':'} {region !== undefined ? region : ''}</CListGroupItem>
+                      <CListGroupItem>{t('Country') + ':'} {country !== undefined ? country : ''}</CListGroupItem>
+                      <CListGroupItem>{t('Capacity') + ':'}{' '}{capacity !== undefined ? round(capacity) + ' KW' : ''}</CListGroupItem>
+                      <CListGroupItem>{t('Location') + ': '}
                         {userDataLoaded && (
                           <span
                             className={'link cursor-pointer btn-link'}
@@ -281,8 +295,7 @@ const Overview = () => {
                           >
                             {t('View map')}
                           </span>
-                        )}
-                      </p>
+                        )}</CListGroupItem>
                       <CModal
                         visible={viewMap}
                         onClose={() => setViewMap(false)}
@@ -311,7 +324,7 @@ const Overview = () => {
                           </CButton>
                         </CModalFooter>
                       </CModal>
-                    </CCardText>
+                    </CListGroup>
                   </CCardBody>
                 </CCard>
               </CCol>
@@ -325,29 +338,26 @@ const Overview = () => {
                 >
                   <CCardBody>
                     <CCardTitle component="h4">{t('PRODUCTION AND CLIMATE')}</CCardTitle>
-                    <CCardText>
-                      <p className="h6">
-                        {t('Production') + ':'}{' '}
+                    <CListGroup flush>
+                      <CListGroupItem>{t('Production') + ':'}{' '}
                         {totalACProductionMwh !== undefined
                           ? round(totalACProductionMwh) + ' MWh'
                           : ''}
-                      </p>
-                      <p className="h6">
-                        {t('Irradiation') + ':'}{' '}
-                        {irradiationKwhM2 !== undefined ? round(irradiationKwhM2) + ' Kwh/m2' : ''}
-                      </p>
-                      <p className="h6">
-                        {t('Average Ambient Temperature') + ':'}{' '}
-                        {avgAmbientTemp !== undefined ? round(avgAmbientTemp) + ' °C' : ''}
-                      </p>
-                    </CCardText>
+                        </CListGroupItem>
+                        <CListGroupItem>{t('Irradiation') + ':'}{' '}
+                          {irradiationKwhM2 !== undefined ? round(irradiationKwhM2) + ' Kwh/m2' : ''}
+                        </CListGroupItem>
+                        <CListGroupItem>{t('Average Ambient Temperature') + ':'}{' '}
+                          {avgAmbientTemp !== undefined ? round(avgAmbientTemp) + ' °C' : ''}
+                        </CListGroupItem>
+                    </CListGroup>
                   </CCardBody>
                 </CCard>
 
                 <CCard color={'danger'} textColor={'white'} className={'mb-0'}>
                   <CCardBody>
                     <CCardTitle component="h4">{t('ALERTS')}</CCardTitle>
-                    <CCardText>
+                    <CListGroup>
                       {/* { alerts.map((alert, index) => (  
                       <p class="">{alert.title}: 
                         { alert.generators.map((gen, index) => (  
@@ -364,7 +374,7 @@ const Overview = () => {
                         //   <h5>{alert3.length > 0 ? alert3.join(' - ') : " - "}</h5>
                         // </p>
                       }
-                    </CCardText>
+                    </CListGroup>
                   </CCardBody>
                 </CCard>
               </CCol>
@@ -377,17 +387,21 @@ const Overview = () => {
                   style={{ opacity: loading ? 0.7 : 1 }}
                 >
                   <CCardBody className={'d-flex flex-column justify-content-between'}>
-                    <CCardTitle className="mb-0">
-                      <h4 className="mb-1">{t('TIME-BASED AVAILABILITY') + '(%)'}</h4>
-                      <h5 className="mb-0" style={{ fontWeight: '400' }}>
-                        {timeAvailability}
-                      </h5>
-                    </CCardTitle>
-                    <CCardText>
-                      <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
-                        <Doughnut data={timeAvailabilityChartData} options={optionsDoughnut} />
-                      </div>
-                    </CCardText>
+                    <CContainer className='p-0'>
+                      <CCardTitle component='h4' >
+                        {t('TIME-BASED AVAILABILITY') + '(%)'}
+                      </CCardTitle>
+                      <CCardSubtitle component='h5' className='mb-0' style={{ fontWeight: '400' }}>
+                          {timeAvailability}
+                      </CCardSubtitle>
+                    </CContainer>
+                    <CContainer className='p-0'>
+                      { dataLoaded &&
+                        <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
+                          <Doughnut data={timeAvailabilityChartData} options={optionsDoughnut} />
+                        </div>
+                      }
+                    </CContainer>
                   </CCardBody>
                 </CCard>
               </CCol>
@@ -400,17 +414,21 @@ const Overview = () => {
                   style={{ opacity: loading ? 0.7 : 1 }}
                 >
                   <CCardBody className={'d-flex flex-column justify-content-between'}>
-                    <CCardTitle className="mb-0">
-                      <h4 className="mb-1">{t('PERFORMANCE RATIO') + '(%)'}</h4>
-                      <h5 className="mb-0" style={{ fontWeight: '400' }}>
-                        {performanceRatio}
-                      </h5>
-                    </CCardTitle>
-                    <CCardText>
-                      <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
-                        <Doughnut data={performanceChartData} options={optionsDoughnut} />
-                      </div>
-                    </CCardText>
+                    <CContainer className='p-0'>
+                      <CCardTitle component='h4'>
+                        {t('PERFORMANCE RATIO') + '(%)'}
+                      </CCardTitle>
+                      <CCardSubtitle component='h5' className='mb-0' style={{ fontWeight: '400' }}>
+                          {performanceRatio}
+                      </CCardSubtitle>
+                    </CContainer>
+                    <CContainer className='p-0'>
+                      { dataLoaded &&
+                        <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
+                          <Doughnut data={performanceChartData} options={optionsDoughnut} />
+                        </div>
+                      }
+                    </CContainer>
                   </CCardBody>
                 </CCard>
               </CCol>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { CCard, CCardBody, CCardHeader, CRow, CCol, CSpinner, CButton } from '@coreui/react'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
-import { formatNumber, round, DateFilter } from '../../../helpers/utils.js'
+import { formatNumber, round } from '../../../helpers/utils.js'
+import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { getCookie } from 'src/helpers/sessionCookie.js'
 import {
   Chart as ChartJS,

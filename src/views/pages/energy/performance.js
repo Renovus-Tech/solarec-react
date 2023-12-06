@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CCard,
   CCardBody,
@@ -9,10 +9,9 @@ import {
   CFormSelect,
   CSpinner,
 } from '@coreui/react'
-
 import DataAPI from '../../../helpers/DataAPI.js'
-
-import { round, getDateLabel, DateFilter, formatNumber } from '../../../helpers/utils.js'
+import { round, getDateLabel, formatNumber } from '../../../helpers/utils.js'
+import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 import {
@@ -45,8 +44,11 @@ const Performance = () => {
   const [dataLoadError, setDataLoadError] = useState(false)
   const colors = ['#003f5c', '#7a5195', '#bc5090', '#ef5675', '#ff764a', '#ffa600', '#9ceb01']
 
-  const fetchData = (options = {}) => {
-    const { period, groupBy } = options
+  useEffect(() => {
+    loadGenerators()
+  }, [])
+
+  const fetchData = (period, groupBy) => {
 
     setLoading(true)
 
@@ -177,10 +179,6 @@ const Performance = () => {
       })
   }
 
-  useEffect(() => {
-    loadGenerators()
-  }, [])
-
   const loadGenerators = () => {
     DataAPI({
       endpoint: 'admin/locations/current',
@@ -280,7 +278,7 @@ const Performance = () => {
 
   const filterGenerators = () => {
     setGeneratorsSelected(true)
-    fetchData({ period: dateRange, groupBy: groupBy })
+    fetchData(dateRange, groupBy)
   }
 
   return (
@@ -304,12 +302,11 @@ const Performance = () => {
                 onChange={(ev) => {
                   setGroupBy(ev.target.value)
                 }}
-                custom
                 name="groupby"
                 id="groupby"
               >
                 <option value="day">{t('Day')}</option>
-                <option value="week" selected>
+                <option value="week">
                   {t('Week')}
                 </option>
                 <option value="month">{t('Month')}</option>
