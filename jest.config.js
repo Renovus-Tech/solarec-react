@@ -14,4 +14,11 @@ module.exports = {
     '!src/serviceWorker.js',
     '!src/polyfill.js',
   ],
+  coverageReporters: [
+    "json",
+    "html"
+  ],
+  transform: {
+    "^.+\\.(js|jsx)$": "babel-jest"
+ }
 }
