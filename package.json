@@ -18,7 +18,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.js\"",
     "start": "react-scripts start",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage",
     "test:cov": "npm test -- --coverage --watchAll=false",
     "test:debug": "react-scripts --inspect-brk test --runInBand"
   },
@@ -45,20 +45,23 @@
     "react-i18next": "^13.5.0",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.0",
+    "react-scripts": "5.0.1",
     "redux": "4.2.1",
-    "simplebar-react": "^2.4.3"
+    "simplebar-react": "^2.4.3",
+    "sass": "^1.63.6",
+    "web-vitals": "^3.3.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.23.5",
+    "@babel/preset-react": "^7.23.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "jest-canvas-mock": "^2.5.2",
-    "prettier": "2.8.8",
-    "react-scripts": "5.0.1",
-    "sass": "^1.63.6",
-    "web-vitals": "^3.3.2"
+    "jest-cli": "^29.7.0",
+    "prettier": "2.8.8"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -66,6 +69,16 @@
       "!**/*index.js",
       "!src/serviceWorker.js",
       "!src/polyfill.js"
+    ],
+    "coverageReporters": [
+      "json",
+      "html"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
     ]
   },
   "engines": {
