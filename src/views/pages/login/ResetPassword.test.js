@@ -1,5 +1,6 @@
 // ResetPassword.test.js
 import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { render, act } from '@testing-library/react';
 import ResetPassword from './ResetPassword';
 import 'jest-canvas-mock';
@@ -11,6 +12,10 @@ import 'jest-canvas-mock';
 // });
 
 test('renders ResetPassword', () => {
-  render(<ResetPassword />);
-  
+  render(
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<ResetPassword />}></Route>
+      </Routes>
+    </BrowserRouter>);
 });

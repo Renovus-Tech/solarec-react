@@ -224,7 +224,7 @@ export const getDateLabel = (dateValue,from,to,t) => {
 //               </CModalFooter>
 //             </CModal>
 
-//       <CFormSelect value={value} disabled={props.disabled} onChange={changeListener} custom name="period" id="period" className='input-sm'>{options.map((option) => {
+//       <CFormSelect value={value} disabled={props.disabled} onChange={changeListener} name="period" id="period" className='input-sm'>{options.map((option) => {
 
 //                 return <option key={option} value={option} onClick={changeListener}>
 //                   {getDateLabel(option,from,to)}

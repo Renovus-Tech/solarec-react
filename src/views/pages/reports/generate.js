@@ -120,7 +120,6 @@ const Reports = () => {
                     setEndDate('')
                     setGenerated(false)
                   }}
-                  custom
                   name="type"
                   id="type"
                   className="input-md"

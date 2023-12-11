@@ -126,7 +126,6 @@ const Settings = () => {
                         type="number"
                         min="0"
                         max="100"
-                        custom
                         value={dRecsSoldPorcentage}
                         onChange={(ev) => {
                           handleDRecsSoldPorcentageChange(ev.target.value)
@@ -146,7 +145,6 @@ const Settings = () => {
                       <CFormInput
                         type="number"
                         min="0"
-                        custom
                         value={dRecsPrice}
                         onChange={(ev) => {
                           handleDRecsPriceChange(ev.target.value)

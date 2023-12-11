@@ -228,7 +228,7 @@ const AppHeader = () => {
         { !noParkPages.includes(location.pathname) &&
           <CRow className="flex-center">
             <CCol style={{whiteSpace: 'nowrap'}}>{i18n.t('Park')}&nbsp;
-            <CSelect value={getCookie('location')} onChange={(ev) => { updateLocation(ev.target.value); }} custom name="park" id="park" className="w-auto mx-sm-2 mr-md-3">
+            <CSelect value={getCookie('location')} onChange={(ev) => { updateLocation(ev.target.value); }} name="park" id="park" className="w-auto mx-sm-2 mr-md-3">
               {parks && parks.map((park) => (
                 <option key={park.id} value={park.id}>
                   {park.name}
