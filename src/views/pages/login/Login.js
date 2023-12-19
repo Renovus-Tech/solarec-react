@@ -19,7 +19,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
 import logo from '../../../assets/logo-solarec.png'
-import LanguageSwitcher from 'src/views/others/LanguageSwitcher.js'
+// import LanguageSwitcher from 'src/views/others/LanguageSwitcher.js'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -138,7 +138,7 @@ const Login = () => {
             </CCardGroup>
           </CCol>
         </CRow>
-        <LanguageSwitcher />
+        {/* <LanguageSwitcher /> */}
       </CContainer>
     </div>
   )
