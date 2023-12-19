@@ -12,7 +12,6 @@ const SessionTimeout =()=> {
     
     // const [second, setSecond] = useState(0);
 
-    const events = ['click', 'load', 'scroll'];
     const authenticated = getCookie('name')!==false && getCookie('name')!=='';
 
     let timeStamp;
@@ -21,12 +20,12 @@ const SessionTimeout =()=> {
     
 
     // start inactive check
-    let timeChecker = () => {
+    let timeChecker = useCallback(() => {
         startTimerInterval.current = setTimeout(() => {
             let storedTimeStamp = getCookie('lastTimeStamp'); //sessionStorage.getItem('lastTimeStamp');
             userInactive(storedTimeStamp);
         }, 60000);
-    };
+    },[]);
 
     // inactive timer
     let userInactive = (timeString) => {
@@ -59,6 +58,7 @@ const SessionTimeout =()=> {
         clearInterval(userInactiveInterval.current);
     
         if (authenticated) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             timeStamp = moment();
             setCookie('lastTimeStamp', timeStamp);
         } else {
@@ -70,6 +70,7 @@ const SessionTimeout =()=> {
     
     
     useEffect(() => {
+        const events = ['click', 'load', 'scroll'];
         events.forEach((event) => {
             window.addEventListener(event, resetTimer);
         });
@@ -79,7 +80,7 @@ const SessionTimeout =()=> {
         return () => {
             clearTimeout(startTimerInterval.current);
         };
-    }, [resetTimer, timeChecker, events]);
+    }, [resetTimer, timeChecker]);
 
 
     return <Fragment />;

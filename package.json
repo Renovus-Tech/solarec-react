@@ -4,9 +4,6 @@
   "version": "1.0.0",
   "description": "Solarec software",
   "homepage": ".",
-  "bugs": {
-    "url": ""
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:renovus/solarec-react.git"

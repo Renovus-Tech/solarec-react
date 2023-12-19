@@ -10,7 +10,6 @@ import {
   CContainer,
   CCardTitle,
   CCardSubtitle,
-  CCardText,
   CListGroup,
   CListGroupItem,
   CModal,
@@ -68,6 +67,7 @@ const Overview = () => {
   useEffect(() => {
     loadData()
     refreshChart(period)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadData = () => {

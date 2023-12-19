@@ -1,4 +1,4 @@
-import {getCookie,setCookie} from '../helpers/sessionCookie.js'
+import {setCookie} from '../helpers/sessionCookie.js'
 
 export async function DataAPI(options = {}) {
 
@@ -12,7 +12,7 @@ export async function DataAPI(options = {}) {
 
   //  body.location = getCookie('location');
 
-   const staging = (process.env.REACT_APP_API_URL == '/data');
+   const staging = (process.env.REACT_APP_API_URL === '/data');
 
   fetchOptions.method = staging ? 'GET' : method;
   fetchOptions.headers = {
@@ -28,7 +28,7 @@ export async function DataAPI(options = {}) {
 
 // JSESSIONID
 
-  if (body && !staging && method != 'GET') fetchOptions.body = JSON.stringify(body);
+  if (body && !staging && method !== 'GET') fetchOptions.body = JSON.stringify(body);
 
   console.log(`Calling DataAPI to ${process.env.REACT_APP_API_URL}/${endpoint} with options:`, options)
 
@@ -39,7 +39,7 @@ export async function DataAPI(options = {}) {
       }).catch(
         er => {
 
-          if (endpoint == 'admin/locations/current') {
+          if (endpoint === 'admin/locations/current') {
             setCookie('lastTimeStamp', '');
             setCookie('name', '');
             window.location.reload();
@@ -53,7 +53,7 @@ export async function DataAPI(options = {}) {
     console.log('fetchOptions for', endpoint, fetchOptions);
     console.log('APIResponse for', endpoint, APIResponse);
 
-    if (APIResponse && APIResponse.chart && APIResponse.chart.resultCode==404) alert(APIResponse.chart.resultText)
+    if (APIResponse && APIResponse.chart && APIResponse.chart.resultCode===404) alert(APIResponse.chart.resultText)
 
     return APIResponse;
 

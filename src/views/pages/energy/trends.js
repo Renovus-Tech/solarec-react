@@ -39,7 +39,33 @@ const Trends = () => {
   })
 
   useEffect(() => {
+    const loadGenerators = () => {
+      DataAPI({
+        endpoint: 'admin/locations/current',
+        method: 'GET',
+      }).then((response) => {
+        if (response && response.error) {
+          setCookie('lastTimeStamp', '')
+          setCookie('name', '')
+          window.location.reload()
+        } else if (!dataLoaded && response && !response.error) {
+          if (response.generators != null) {
+            setGenerators(response.generators)
+            // setSelectedGenerators(response.generators.map((gen) => (gen.id)));
+            let colorIndex = 0
+            response.generators.forEach((gen) => {
+              generatorColors[gen.code] = colors[colorIndex % colors.length]
+              setGeneratorColors(generatorColors)
+              colorIndex++
+            })
+          }
+  
+          setGeneratorsLoaded(true)
+        }
+      })
+    }
     loadGenerators()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchData = (period) => {
@@ -126,32 +152,6 @@ const Trends = () => {
       graphData1.datasets.push(datasetIrradiance)
 
       setLineChartOneData(graphData1)
-    })
-  }
-
-  const loadGenerators = () => {
-    DataAPI({
-      endpoint: 'admin/locations/current',
-      method: 'GET',
-    }).then((response) => {
-      if (response && response.error) {
-        setCookie('lastTimeStamp', '')
-        setCookie('name', '')
-        window.location.reload()
-      } else if (!dataLoaded && response && !response.error) {
-        if (response.generators != null) {
-          setGenerators(response.generators)
-          // setSelectedGenerators(response.generators.map((gen) => (gen.id)));
-          let colorIndex = 0
-          response.generators.forEach((gen) => {
-            generatorColors[gen.code] = colors[colorIndex % colors.length]
-            setGeneratorColors(generatorColors)
-            colorIndex++
-          })
-        }
-
-        setGeneratorsLoaded(true)
-      }
     })
   }
 

@@ -39,29 +39,28 @@ const Settings = () => {
   const [generatorsLoaded, setGeneratorsLoaded] = useState(false)
 
   useEffect(() => {
-    loadUser()
-  }, [])
-
-  const loadUser = () => {
-    DataAPI({
-      endpoint: 'security/authenticate/current',
-      method: 'GET',
-    }).then((response) => {
-      if (response.error) {
-        if (response.error.message) {
-          return alert(response.error.message)
-        } else {
-          return alert(response.error)
+    const loadUser = () => {
+      DataAPI({
+        endpoint: 'security/authenticate/current',
+        method: 'GET',
+      }).then((response) => {
+        if (response.error) {
+          if (response.error.message) {
+            return alert(response.error.message)
+          } else {
+            return alert(response.error)
+          }
+        } else if (!generatorsLoaded && response) {
+          setGeneratorsLoaded(true)
         }
-      } else if (!generatorsLoaded && response) {
-        setGeneratorsLoaded(true)
-      }
-
-      setName(response.name)
-      setEmail(response.email)
-      setLanguage(response.language)
-    })
-  }
+  
+        setName(response.name)
+        setEmail(response.email)
+        setLanguage(response.language)
+      })
+    }
+    loadUser()
+  }, [generatorsLoaded])
 
   const enableSave = () => {}
 

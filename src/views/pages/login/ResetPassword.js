@@ -24,7 +24,7 @@ const ResetPassword = () => {
   const [newPasswordConfirm, setNewPasswordConfirm] = useState(false)
   const [changed, setChanged] = useState(false)
   const [message, setMessage] = useState('')
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const authenticated = getCookie('name') !== false && getCookie('name') !== ''
 

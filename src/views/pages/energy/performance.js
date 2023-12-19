@@ -45,7 +45,33 @@ const Performance = () => {
   const colors = ['#003f5c', '#7a5195', '#bc5090', '#ef5675', '#ff764a', '#ffa600', '#9ceb01']
 
   useEffect(() => {
+    const loadGenerators = () => {
+      DataAPI({
+        endpoint: 'admin/locations/current',
+        method: 'GET',
+      }).then((response) => {
+        if (response && response.error) {
+          setCookie('lastTimeStamp', '')
+          setCookie('name', '')
+          window.location.reload()
+        } else if (!dataLoaded && response && !response.error) {
+          if (response.generators != null) {
+            setGenerators(response.generators)
+            let colorIndex = 0
+            response.generators.forEach((gen) => {
+              generatorColors[gen.code] = colors[colorIndex % colors.length]
+              generatorColors['Total'] = '#0400ff'
+              setGeneratorColors(generatorColors)
+              colorIndex++
+            })
+          }
+  
+          setGeneratorsLoaded(true)
+        }
+      })
+    }
     loadGenerators()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchData = (period, groupBy) => {
@@ -177,32 +203,6 @@ const Performance = () => {
         console.warn(`ERROR! ${err}`)
         setLoading(false)
       })
-  }
-
-  const loadGenerators = () => {
-    DataAPI({
-      endpoint: 'admin/locations/current',
-      method: 'GET',
-    }).then((response) => {
-      if (response && response.error) {
-        setCookie('lastTimeStamp', '')
-        setCookie('name', '')
-        window.location.reload()
-      } else if (!dataLoaded && response && !response.error) {
-        if (response.generators != null) {
-          setGenerators(response.generators)
-          let colorIndex = 0
-          response.generators.forEach((gen) => {
-            generatorColors[gen.code] = colors[colorIndex % colors.length]
-            generatorColors['Total'] = '#0400ff'
-            setGeneratorColors(generatorColors)
-            colorIndex++
-          })
-        }
-
-        setGeneratorsLoaded(true)
-      }
-    })
   }
 
   const options = {

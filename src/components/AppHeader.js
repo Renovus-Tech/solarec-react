@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
+  CRow,
+  CCol,
   CHeader,
   CHeaderBrand,
   CHeaderDivider,
@@ -10,6 +12,7 @@ import {
   CHeaderToggler,
   CImage,
   CFormSelect,
+  CButton,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilMenu } from '@coreui/icons'
@@ -18,38 +21,43 @@ import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import logo from '../assets/logo-solarec.png'
 import DataAPI from '../helpers/DataAPI.js'
+import { useTranslation } from 'react-i18next'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
+  const { t } = useTranslation()
   const [clients, setClients] = useState([])
   const [clientsLoaded, setClientsLoaded] = useState(false)
   const [parks, setParks] = useState([])
+  const [noParkPages, setNoParkPages] = useState([])
   const [parksLoaded, setParksLoaded] = useState(false)
-  const [clientSettingPermission, setClientSettingPermission] = useState(false)
-  const [userSettingPermission, setUserSettingPermission] = useState(false)
+  // const [clientSettingPermission, setClientSettingPermission] = useState(false)
+  // const [userSettingPermission, setUserSettingPermission] = useState(false)
   const [dashboard, setDashboard] = useState('/overview')
 
   const location = useLocation()
-  const noParkPages = [];
+  // const noParkPages = [];
 
   useEffect(() => {
-    userPermissions()
+    // userPermissions()
     fetchClients()
+    setNoParkPages([])
     if(!noParkPages.includes(location.pathname))
       fetchParks()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
  
-  const userPermissions = () => {
-    const functionalities = JSON.parse(getCookie('functionalities'));
-    if(functionalities.indexOf('/client/settings') > -1){
-      setClientSettingPermission(true)
-    }
-    if(functionalities.indexOf('/user/settings') > -1){
-      setUserSettingPermission(true)
-    }
-  }
+  // const userPermissions = () => {
+  //   const functionalities = JSON.parse(getCookie('functionalities'));
+  //   if(functionalities.indexOf('/client/settings') > -1){
+  //     setClientSettingPermission(true)
+  //   }
+  //   if(functionalities.indexOf('/user/settings') > -1){
+  //     setUserSettingPermission(true)
+  //   }
+  // }
 
   const updateClient = (clientId) => {
     DataAPI({
@@ -77,30 +85,30 @@ const AppHeader = () => {
     );
   }
 
-  // const updateLocation = (locationId) => {
-  //   console.log(`Updating location to: security/authenticate/location/${locationId}`)
-  //   DataAPI({
-  //     'endpoint': `security/authenticate/location/${locationId}`,
-  //     'method': 'GET'
-  //   }).then(
-  //     response => {
-  //       console.log(response)
-  //       setCookie('location', locationId)
-  //       setCookie('parkType', response.location.type)
-  //       setCookie('parkName', response.location.name)
-  //       // let functionalities = [...response.functionalities, {'url':'/modules/power-curve/benchmark'}, {'url':'/modules/power-curve/analysis'}];
-  //       // setCookie('functionalities', JSON.stringify(functionalities.map((f) => f.url)))
-  //       setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
-  //       setCookie('dashboard', response.functionalities[0].url)
-  //       setDashboard(response.functionalities[0].url)
-  //       window.location.reload()
-  //     }
-  //   ).catch(
-  //     response => {
-  //       console.error(response)
-  //     }
-  //   );
-  // }
+  const updateLocation = (locationId) => {
+    console.log(`Updating location to: security/authenticate/location/${locationId}`)
+    DataAPI({
+      'endpoint': `security/authenticate/location/${locationId}`,
+      'method': 'GET'
+    }).then(
+      response => {
+        console.log(response)
+        setCookie('location', locationId)
+        setCookie('parkType', response.location.type)
+        setCookie('parkName', response.location.name)
+        // let functionalities = [...response.functionalities, {'url':'/modules/power-curve/benchmark'}, {'url':'/modules/power-curve/analysis'}];
+        // setCookie('functionalities', JSON.stringify(functionalities.map((f) => f.url)))
+        setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
+        setCookie('dashboard', response.functionalities[0].url)
+        setDashboard(response.functionalities[0].url)
+        window.location.reload()
+      }
+    ).catch(
+      response => {
+        console.error(response)
+      }
+    );
+  }
 
   const fetchClients = () => {
     DataAPI({
@@ -126,7 +134,7 @@ const AppHeader = () => {
         if (!parksLoaded) {
           setParks(response);
           setParksLoaded(true);
-          if( getCookie('parkType') == '')
+          if( getCookie('parkType') === '')
             setCookie('parkType',response[0].type)
           setCookie('parkName', response[0].name);
         }
@@ -196,18 +204,19 @@ const AppHeader = () => {
         </CHeaderNav>
       </CContainer>
       <CHeaderDivider />
-      <CContainer fluid>
+      {/* <CContainer fluid>
         <AppBreadcrumb />
-      </CContainer>
+      </CContainer> */}
 
-      {/* <CSubheader className="px-3 justify-content-between">
-        <CBreadcrumbRouter
+      <CContainer fluid className="px-3 justify-content-between">
+        {/* <CBreadcrumbRouter
           className="border-0 c-subheader-nav m-0 px-0 px-md-3"
           routes={routes}
-        />
+        /> */}
+        <AppBreadcrumb />
           {false && <div className="d-md-down-none mfe-2 c-subheader-nav">
                     <CButton color="link" className="c-subheader-nav-link" href="#">
-                      <CIcon name="cil-speech" alt={i18n.t('Settings')} />
+                      <CIcon name="cil-speech" alt={t('Settings')} />
                     </CButton>
                     <CButton
                       color="link"
@@ -215,10 +224,10 @@ const AppHeader = () => {
                       aria-current="page"
                       to={dashboard}
                     >
-                      <CIcon name="cil-graph" alt={i18n.t('Dashboard')} />&nbsp;{i18n.t('Dashboard')}
+                      <CIcon name="cil-graph" alt={t('Dashboard')} />&nbsp;{t('Dashboard')}
                     </CButton>
                     <CButton className="c-subheader-nav-link" href="#">
-                      <CIcon name="cil-settings" alt={i18n.t('Settings')} />&nbsp;{i18n.t('Settings')}
+                      <CIcon name="cil-settings" alt={t('Settings')} />&nbsp;{t('Settings')}
                     </CButton>
                     </div>
                   }
@@ -227,19 +236,20 @@ const AppHeader = () => {
 
         { !noParkPages.includes(location.pathname) &&
           <CRow className="flex-center">
-            <CCol style={{whiteSpace: 'nowrap'}}>{i18n.t('Park')}&nbsp;
-            <CSelect value={getCookie('location')} onChange={(ev) => { updateLocation(ev.target.value); }} name="park" id="park" className="w-auto mx-sm-2 mr-md-3">
-              {parks && parks.map((park) => (
-                <option key={park.id} value={park.id}>
-                  {park.name}
-                </option>
-              ))}
-            </CSelect>
+            <CCol style={{whiteSpace: 'nowrap'}} className='d-flex'>
+              <div className='align-self-center'>{t('Park')}</div>
+              <CFormSelect value={getCookie('location')} onChange={(ev) => { updateLocation(ev.target.value); }} name="park" id="park" className="w-auto mx-sm-2 mr-md-3">
+                {parks && parks.map((park) => (
+                  <option key={park.id} value={park.id}>
+                    {park.name}
+                  </option>
+                ))}
+              </CFormSelect>
             </CCol>
           </CRow>
         }
 
-       </CSubheader> */}
+       </CContainer>
 
     </CHeader>
   )

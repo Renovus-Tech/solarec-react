@@ -180,34 +180,34 @@ const CertificatesAndOffsets = () => {
   }
 
   useEffect(() => {
-    loadGenerators()
-  }, [])
-
-  const loadGenerators = () => {
-    DataAPI({
-      endpoint: 'admin/locations/current',
-      method: 'GET',
-    }).then((response) => {
-      if (response && response.error) {
-        setCookie('lastTimeStamp', '')
-        setCookie('name', '')
-        window.location.reload()
-      } else if (!dataLoaded && response && !response.error) {
-        if (response.generators != null) {
-          setGenerators(response.generators)
-          let colorIndex = 0
-          response.generators.forEach((gen) => {
-            generatorColors[gen.code] = colors[colorIndex % colors.length]
-            generatorColors['Total'] = '#0400ff'
-            setGeneratorColors(generatorColors)
-            colorIndex++
-          })
+    const loadGenerators = () => {
+      DataAPI({
+        endpoint: 'admin/locations/current',
+        method: 'GET',
+      }).then((response) => {
+        if (response && response.error) {
+          setCookie('lastTimeStamp', '')
+          setCookie('name', '')
+          window.location.reload()
+        } else if (!dataLoaded && response && !response.error) {
+          if (response.generators != null) {
+            setGenerators(response.generators)
+            let colorIndex = 0
+            response.generators.forEach((gen) => {
+              generatorColors[gen.code] = colors[colorIndex % colors.length]
+              generatorColors['Total'] = '#0400ff'
+              setGeneratorColors(generatorColors)
+              colorIndex++
+            })
+          }
+  
+          setGeneratorsLoaded(true)
         }
-
-        setGeneratorsLoaded(true)
-      }
-    })
-  }
+      })
+    }
+    loadGenerators()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const options = {
     responsive: true,

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  CAvatar,
-  CBadge,
   CDropdown,
   CDropdownDivider,
   CDropdownHeader,
@@ -16,13 +14,8 @@ import {
 } from '@coreui/react'
 import {
   cilAccountLogout,
-  cilCreditCard,
   cilContact,
-  cilEnvelopeOpen,
-  cilFile,
-  cilLockLocked,
   cilSettings,
-  cilTask,
   cilUser,
 } from '@coreui/icons'
 import { getCookie, setCookie } from '../../helpers/sessionCookie'
@@ -32,10 +25,22 @@ import i18n from '../../helpers/i18n'
 const AppHeaderDropdown = () => {
 
   const [modalContact, setModalContact] = useState(false)
+  const [clientSettingPermission, setClientSettingPermission] = useState(false)
+  const [userSettingPermission, setUserSettingPermission] = useState(false)
   const navigate = useNavigate()
 
-  const toggleContact = ()=>{
-    setModalContact(!modalContact);
+  useEffect(() => {
+    userPermissions()
+  }, []);
+ 
+  const userPermissions = () => {
+    const functionalities = JSON.parse(getCookie('functionalities'));
+    if(functionalities.indexOf('/client/settings') > -1){
+      setClientSettingPermission(true)
+    }
+    if(functionalities.indexOf('/user/settings') > -1){
+      setUserSettingPermission(true)
+    }
   }
 
   return (
@@ -47,14 +52,18 @@ const AppHeaderDropdown = () => {
       </CDropdownToggle>
       <CDropdownMenu className="pt-0 mt-2" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">{i18n.t('Settings')}</CDropdownHeader>
-        <CDropdownItem  onClick={() => navigate("/user/settings")}>
-          <CIcon icon={cilUser} className="me-2" />
-          {i18n.t('Profile')}
-        </CDropdownItem>
-        <CDropdownItem onClick={() => navigate("/client/settings")}>
-          <CIcon icon={cilSettings} className="me-2" />
-          {i18n.t('Settings')}
-        </CDropdownItem>
+        { userSettingPermission &&
+          <CDropdownItem  onClick={() => navigate("/user/settings")}>
+            <CIcon icon={cilUser} className="me-2" />
+            {i18n.t('Profile')}
+          </CDropdownItem>
+        }
+        { clientSettingPermission &&
+          <CDropdownItem onClick={() => navigate("/client/settings")}>
+            <CIcon icon={cilSettings} className="me-2" />
+            {i18n.t('Settings')}
+          </CDropdownItem>
+        }
         <CDropdownDivider />
         <CDropdownItem onClick={() => setModalContact(true)}>
           <CIcon icon={cilContact} className="me-2" />

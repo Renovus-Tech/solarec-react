@@ -3,7 +3,7 @@ import React from 'react'
 import { getCookie } from './helpers/sessionCookie'
 import i18n from './helpers/i18n'
 
-const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+// const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
