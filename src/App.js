@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, HashRouter } from 'react-router-dom'
 import { getCookie } from './helpers/sessionCookie.js'
 import './scss/style.scss'
 
@@ -29,7 +29,7 @@ class App extends Component {
   }
   render() {
     return this.state.authenticated ? (
-      <BrowserRouter>
+      <HashRouter>
         <Suspense fallback={loading}>
           <Routes>
             <Route exact path="/login" name="Login Page" element={<Login />} />
@@ -39,9 +39,9 @@ class App extends Component {
             <Route path="*" name="Home" element={<DefaultLayout />} />
           </Routes>
         </Suspense>
-      </BrowserRouter>
+      </HashRouter>
     ) : (
-      <BrowserRouter>
+      <HashRouter>
         <Suspense fallback={loading}>
           <Routes>
             <Route path="/requestPasswordReset" name="Request password reset" element={<RequestPasswordReset />} />
@@ -49,7 +49,7 @@ class App extends Component {
             <Route path="*" name="Home" element={<Login />} />
           </Routes>
         </Suspense>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }
