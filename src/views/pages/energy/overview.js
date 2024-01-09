@@ -20,7 +20,6 @@ import {
 } from '@coreui/react'
 import 'react-datepicker/dist/react-datepicker.css'
 import DataAPI from '../../../helpers/DataAPI.js'
-import { GOOGLE_MAPS_API_KEY } from '../../../constants.js'
 import { round, formatNumber, getDateLabel } from '../../../helpers/utils.js'
 import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
@@ -314,7 +313,7 @@ const Overview = () => {
                               ',' +
                               longitude +
                               '&key=' +
-                              GOOGLE_MAPS_API_KEY
+                              process.env.GOOGLE_MAPS_API_KEY
                             }
                           />
                         </CModalBody>
