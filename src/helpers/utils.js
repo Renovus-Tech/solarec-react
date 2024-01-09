@@ -86,17 +86,21 @@ export const transparentize = (value, opacity) => {
 
 export const getDateLabel = (dateValue,from,to,t) => {
 
-  switch(dateValue) {
-    case 'y' : return i18n.t('Yesterday');
-    case '30d' : return '30 '+i18n.t('days');
-    case '12w' : return '12 '+i18n.t('weeks'); 
-    case '12m' : return '12 '+i18n.t('month');
-    case 'cy' : return i18n.t('Current year');
-    case 'cm' : return i18n.t('Current month');
-    case 'cw' : return i18n.t('Current week');
-    case 'x' : return i18n.t('Custom range');
-    case 'xx' : return from+' - '+to;
-    default : return `{${dateValue}}`;
+  if (dateValue.includes('cy-')) {
+    return (new Date()).getFullYear() - dateValue.split('-')[1]
+  } else {
+    switch(dateValue) {
+      case 'y' : return i18n.t('Yesterday');
+      case '30d' : return '30 '+i18n.t('days');
+      case '12w' : return '12 '+i18n.t('weeks'); 
+      case '12m' : return '12 '+i18n.t('month');
+      case 'cy' : return i18n.t('Current year');
+      case 'cm' : return i18n.t('Current month');
+      case 'cw' : return i18n.t('Current week');
+      case 'x' : return i18n.t('Custom range');
+      case 'xx' : return from+' - '+to;
+      default : return `{${dateValue}}`;
+    }
   }
 
 }

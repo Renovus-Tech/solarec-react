@@ -116,7 +116,7 @@ const AppHeader = () => {
       'method': 'GET'
     }).then(
       response => {
-        if (!clientsLoaded) {
+        if (!response.error && !clientsLoaded) {
           setClients(response);
           setClientsLoaded(true);
         }
@@ -131,7 +131,7 @@ const AppHeader = () => {
       'method': 'GET'
     }).then(
       response => {
-        if (!parksLoaded) {
+        if (!response.error && !parksLoaded) {
           setParks(response);
           setParksLoaded(true);
           if( getCookie('parkType') === '')
@@ -155,15 +155,17 @@ const AppHeader = () => {
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
-        <CHeaderToggler
-          className="ps-1"
-          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
-        >
-          <CIcon icon={cilMenu} size="lg" />
-        </CHeaderToggler>
-        <CHeaderBrand className="mx-auto d-md-none" to="/">
-          <CImage src={logo} height={48} alt="Logo" />
-        </CHeaderBrand>
+        <div className="d-flex">
+          <CHeaderToggler
+            className="ps-1"
+            onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+          >
+            <CIcon icon={cilMenu} size="lg" />
+          </CHeaderToggler>
+          <CHeaderBrand className="mx-auto d-md-none" to="/">
+            <CImage src={logo} height={38} alt="Logo" />
+          </CHeaderBrand>
+        </div>
         {/* <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
             <CNavLink to="/dashboard" component={NavLink}>
@@ -193,7 +195,7 @@ const AppHeader = () => {
         <CHeaderNav className="px-md-3">
 
           <CFormSelect value={getCookie('client')} onChange={(ev) => { updateClient(ev.target.value); }} name="client" id="client" className="w-auto mx-2 mr-1 mr-sm-3">
-            {clients && clients.map((client) => (
+            {clientsLoaded && clients.map((client) => (
               <option key={client.id} value={client.id}>
                 {client.name}
               </option>
@@ -237,9 +239,9 @@ const AppHeader = () => {
         { !noParkPages.includes(location.pathname) &&
           <CRow className="flex-center">
             <CCol style={{whiteSpace: 'nowrap'}} className='d-flex'>
-              <div className='align-self-center'>{t('Park')}</div>
+              <div className='align-self-center mx-2'>{t('Park')}</div>
               <CFormSelect value={getCookie('location')} onChange={(ev) => { updateLocation(ev.target.value); }} name="park" id="park" className="w-auto mx-sm-2 mr-md-3">
-                {parks && parks.map((park) => (
+                {parksLoaded && parks.map((park) => (
                   <option key={park.id} value={park.id}>
                     {park.name}
                   </option>

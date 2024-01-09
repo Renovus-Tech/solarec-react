@@ -233,14 +233,14 @@ const Overview = () => {
     <>
       <CCard>
         <CCardHeader>
-          <CRow className={'justify-content-between'}>
+          <CRow className={'justify-content-between row-gap-3'}>
             <CCol sm="auto">
               <h3 id="traffic" className="card-title mb-0">
                 {i18n.t('Overview')}
               </h3>
               <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
             </CCol>
-            <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap">
+            <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
               <div className="d-flex py-1">
                 <DateFilter
                   warning={'Seleccionar un rango máximo de 31 días'}
