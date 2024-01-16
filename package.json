@@ -1,5 +1,5 @@
 {
-  "proxy": "http://3.13.246.240/",
+  "proxy": "http://3.13.246.240:8888/",
   "name": "solarec",
   "version": "1.0.0",
   "description": "Solarec software",
@@ -17,7 +17,7 @@
     "start": "react-scripts start",
     "test": "react-scripts test --coverage",
     "test:cov": "npm test -- --coverage --watchAll=false",
-    "test:debug": "react-scripts --inspect-brk test --runInBand"
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache"
   },
   "dependencies": {
     "@coreui/chartjs": "^3.1.2",
@@ -31,6 +31,7 @@
     "chart.js": "^4.4.0",
     "classnames": "^2.3.2",
     "core-js": "^3.31.0",
+    "google-map-react": "^2.2.1",
     "js-cookie": "^3.0.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -53,20 +54,24 @@
     "@babel/preset-react": "^7.23.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "jest-canvas-mock": "^2.5.2",
     "jest-cli": "^29.7.0",
+    "jest-fetch-mock": "^3.0.3",
     "license-compatibility-checker": "^0.3.5",
     "prettier": "2.8.8"
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!**/*index.js",
-      "!src/serviceWorker.js",
-      "!src/polyfill.js"
+      "src/components/*.{js,jsx}",
+      "src/helpers/*.{js,jsx}",
+      "src/views/pages/client/*.{js,jsx}",
+      "src/views/pages/energy/*.{js,jsx}",
+      "src/views/pages/login/*.{js,jsx}",
+      "src/views/pages/revenue/*.{js,jsx}",
+      "src/views/pages/user/*.{js,jsx}",
+      "!**/*index.js"
     ],
     "coverageReporters": [
       "json",

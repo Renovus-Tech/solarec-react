@@ -26,6 +26,7 @@ import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 import { Chart as ChartJS, ArcElement, Title, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
+import Map from '../../../components/maps/Map'
 
 ChartJS.register(ArcElement, Legend, Tooltip, Title)
 
@@ -173,24 +174,24 @@ const Overview = () => {
       }
     })
 
-    // DataAPI({
-    //   endpoint: 'solar/overview/alerts',
-    //   method: 'POST',
-    //   body: body,
-    // }).then((response) => {
-    //   if (response.error) {
-    //     if (response.error.message) {
-    //       return alert(response.error.message)
-    //     } else {
-    //       return alert(response.error)
-    //     }
-    //   }
-    //   let responseData = response.data && response.data[0]
-    //   if (responseData) {
-    //     const alerts = responseData.alerts
-    //     setAlerts(alerts)
-    //   }
-    // })
+    DataAPI({
+      endpoint: 'solar/overview/alerts',
+      method: 'GET',
+      body: body,
+    }).then((response) => {
+      if (response.error) {
+        if (response.error.message) {
+          return alert(response.error.message)
+        } else {
+          return alert(response.error)
+        }
+      }
+      let responseData = response.data && response.data[0]
+      if (responseData) {
+        const alerts = responseData.alerts
+        setAlerts(alerts)
+      }
+    })
   }
 
   const refreshChart = (period) => {
@@ -200,6 +201,12 @@ const Overview = () => {
   const filterData = (date) => {
     setPeriod(date)
     fetchData(date)
+  }
+
+  const location = {
+    address: '',
+    lat: latitude,
+    lng: longitude,
   }
 
   const options = {
@@ -301,7 +308,7 @@ const Overview = () => {
                         className={'modal-google-map'}
                       >
                         <CModalBody>
-                          <CImage
+                          {/* <CImage
                             className="mw-100"
                             src={
                               'https://maps.googleapis.com/maps/api/staticmap?center=' +
@@ -315,7 +322,9 @@ const Overview = () => {
                               '&key=' +
                               process.env.GOOGLE_MAPS_API_KEY
                             }
-                          />
+                          /> */}
+                        <Map location={location} zoomLevel={17} />
+
                         </CModalBody>
                         <CModalFooter>
                           <CButton color="secondary" onClick={() => setViewMap(false)}>
@@ -358,21 +367,15 @@ const Overview = () => {
                     <CCardTitle component="h4">{t('ALERTS')}</CCardTitle>
                     <CListGroup>
                       {/* { alerts.map((alert, index) => (  
-                      <p class="">{alert.title}: 
-                        { alert.generators.map((gen, index) => (  
-                          <h5>{index > 1 ? gen : " - " + gen}</h5>
-                        )) }
-                      </p>
+                        <p className="" key={alert.title}>{alert.title}</p>
                       )) } */}
 
-                      {
-                        // <p class="">Wind turbines with negative change exceeding -6% in performance (yesterday):
-                        //   <h5>{alert2.length > 0 ? alert2.join(' - ') : " - "}</h5>
-                        // </p>
-                        // <p class="">Wind turbines with long stops (yesterday):
-                        //   <h5>{alert3.length > 0 ? alert3.join(' - ') : " - "}</h5>
-                        // </p>
-                      }
+                        {/* <p className="">Wind turbines with negative change exceeding -6% in performance (yesterday):
+                          <h5>{alert2.length > 0 ? alert2.join(' - ') : " - "}</h5>
+                        </p>
+                        <p className="">Wind turbines with long stops (yesterday):
+                          <h5>{alert3.length > 0 ? alert3.join(' - ') : " - "}</h5>
+                        </p> */}
                     </CListGroup>
                   </CCardBody>
                 </CCard>
