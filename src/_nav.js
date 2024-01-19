@@ -36,7 +36,7 @@ let _nav = [
     items: [
       {
         component: CNavItem,
-        name: i18n.t('Certificates and Offsets'),
+        name: i18n.t('Certificates'),
         to: '/modules/revenue/certificates-and-offsets',
       },
       {

@@ -229,7 +229,7 @@ const Performance = () => {
           label: function (tooltipItem, data) {
             if (tooltipItem.dataset.yAxisID === 'y')
               return (
-                tooltipItem.dataset.label + ': ' + formatNumber(round(tooltipItem.raw, 1)) + ' MWh'
+                tooltipItem.dataset.label + ': ' + formatNumber(round(tooltipItem.raw, 3)) + ' MWh'
               )
             else
               return (

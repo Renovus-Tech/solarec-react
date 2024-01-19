@@ -63,7 +63,7 @@ const ClientSettings = React.lazy(() => import('./views/pages/client/settings'))
 const Overview = React.lazy(() => import('./views/pages/energy/overview'))
 const Performance = React.lazy(() => import('./views/pages/energy/performance'))
 const Trends = React.lazy(() => import('./views/pages/energy/trends'))
-const CertificatesOffsets = React.lazy(() => import('./views/pages/revenue/certificates-and-offsets'))
+const Certificates = React.lazy(() => import('./views/pages/revenue/certificates-and-offsets'))
 const Sales = React.lazy(() => import('./views/pages/revenue/sales'))
 
 const routes = [
@@ -118,7 +118,7 @@ const routes = [
   { path: '/modules/energy/overview', exact: true, name: i18n.t('Overview'), element: Overview },
   { path: '/modules/energy/trends', exact: true, name: i18n.t('Trends'), element: Trends },
   { path: '/modules/energy/performance', exact: true, name: i18n.t('Performance'), element: Performance },
-  { path: '/modules/revenue/certificates-and-offsets', exact: true, name:  i18n.t('Certificates and Offsets'), element: CertificatesOffsets },
+  { path: '/modules/revenue/certificates-and-offsets', exact: true, name:  i18n.t('Certificates'), element: Certificates },
   { path: '/modules/revenue/sales', exact: true, name: i18n.t('Sales'), element: Sales },
 
 ]

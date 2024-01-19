@@ -168,7 +168,7 @@ const Overview = () => {
         setTimeAvailabilityChartData(timeAvailabilityDataset)
         setPerformanceChartData(performanceDataset)
 
-        setAlerts(alerts)
+        // setAlerts(alerts)
 
         setDataLoaded(true)
       }
@@ -188,8 +188,7 @@ const Overview = () => {
       }
       let responseData = response.data && response.data[0]
       if (responseData) {
-        const alerts = responseData.alerts
-        setAlerts(alerts)
+        setAlerts(responseData.alerts)
       }
     })
   }
