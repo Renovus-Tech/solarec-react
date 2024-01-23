@@ -66,21 +66,27 @@ const Settings = () => {
 
   const saveSettings = () => {
     setChanging(true)
+    const body = {}
+    body.settings = [
+      {
+        name: 'language',
+        value: language,
+      }
+    ]
     DataAPI({
       endpoint: 'security/authenticate/current',
       method: 'POST',
-      body: {
-        language: language,
-      },
+      body: body,
     }).then((response) => {
       setChanging(false)
-      if (response.changed) {
+      if (response.error) {
+        setSettingsErrorMessage(response.error.message || t('Error saving settings'))
+      } else {
         setSettingsSaved(true)
         setSettingsChanged(false)
         setSettingsMessage(t('Your settings were updated.'))
+        setSettingsErrorMessage('')
         setCookie('language',language)
-      } else {
-        setSettingsErrorMessage(response.error || t('Error saving settings'))
       }
     })
   }
@@ -256,10 +262,10 @@ const Settings = () => {
                         name="language"
                         id="language"
                       >
-                        <option value="en">{t('English')}</option>
-                        <option value="es">{t('Spanish')}</option>
-                        <option value="fr">{t('French')}</option>
-                        <option value="pt">{t('Portuguese')}</option>
+                        <option value="EN">{t('English')}</option>
+                        <option value="ES">{t('Spanish')}</option>
+                        <option value="FR">{t('French')}</option>
+                        <option value="PT">{t('Portuguese')}</option>
                       </CFormSelect>
                     </CInputGroup>
                     <CRow xs={{ gutterX: 2 }} className={'mt-4'}>
@@ -272,7 +278,7 @@ const Settings = () => {
                           className="px-4 mr-3"
                           disabled={!settingsChanged || changing}
                         >
-                          {t('Save')}
+                          {t('Save Preferences')}
                         </CButton>
                       </CCol>
                     </CRow>
