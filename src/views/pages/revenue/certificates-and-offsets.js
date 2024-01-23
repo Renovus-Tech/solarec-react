@@ -16,10 +16,28 @@ import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { getCookie } from 'src/helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 
-import { Bar } from 'react-chartjs-2';
-
-
-const ctx = document.getElementById('x');
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  BarElement,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+} from 'chart.js'
+import { Bar } from 'react-chartjs-2'
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+)
 
 const Certificates = () => {
 
