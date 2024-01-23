@@ -185,11 +185,13 @@ const Overview = () => {
         } else {
           return alert(response.error)
         }
+      } else {
+        setAlerts(response)
       }
-      let responseData = response.data && response.data[0]
-      if (responseData) {
-        setAlerts(responseData.alerts)
-      }
+      // let responseData = response.data && response.data[0]
+      // if (response) {
+      //   setAlerts(response)
+      // }
     })
   }
 
@@ -278,160 +280,165 @@ const Overview = () => {
             )}
 
             <CRow>
-              <CCol sm="6" lg="3" className="px-2 pb-3">
-                <CCard
-                  color={'gradient-warning'}
-                  textColor={'white'}
-                  className={'mb-0 mb-sm-3'}
-                  style={{ opacity: loading ? 0.7 : 1 }}
-                >
-                  <CCardBody>
-                    <CCardTitle component="h4">{t('PLANT CHARACTERISTICS')}</CCardTitle>
-                    <CListGroup flush className='bg-transparent'>
-                      <CListGroupItem>{t('User') + ':'} {user !== undefined ? user : ''}</CListGroupItem>
-                      <CListGroupItem>{t('Region') + ':'} {region !== undefined ? region : ''}</CListGroupItem>
-                      <CListGroupItem>{t('Country') + ':'} {country !== undefined ? country : ''}</CListGroupItem>
-                      <CListGroupItem>{t('Capacity') + ':'}{' '}{capacity !== undefined ? round(capacity) + ' KW' : ''}</CListGroupItem>
-                      <CListGroupItem>{t('Location') + ': '}
-                        {userDataLoaded && (
-                          <span
-                            className={'link cursor-pointer btn-link'}
-                            onClick={() => setViewMap(true)}
+              <CCol sm="6" lg="6" className="px-0 pb-3">
+                <CRow className="m-0" >
+                  <CCol sm="6" lg="6" className="px-2 pb-3">
+                    <CCard
+                      color={'gradient-warning'}
+                      textColor={'white'}
+                      className={'mb-0 h-100'}
+                      style={{ opacity: loading ? 0.7 : 1 }}
+                    >
+                      <CCardBody>
+                        <CCardTitle component="h4">{t('PLANT CHARACTERISTICS')}</CCardTitle>
+                        <CListGroup flush className='bg-transparent'>
+                          <CListGroupItem>{t('User') + ':'} {user !== undefined ? user : ''}</CListGroupItem>
+                          <CListGroupItem>{t('Region') + ':'} {region !== undefined ? region : ''}</CListGroupItem>
+                          <CListGroupItem>{t('Country') + ':'} {country !== undefined ? country : ''}</CListGroupItem>
+                          <CListGroupItem>{t('Capacity') + ':'}{' '}{capacity !== undefined ? round(capacity) + ' KW' : ''}</CListGroupItem>
+                          <CListGroupItem>{t('Location') + ': '}
+                            {userDataLoaded && (
+                              <span
+                                className={'link cursor-pointer btn-link'}
+                                onClick={() => setViewMap(true)}
+                              >
+                                {t('View map')}
+                              </span>
+                            )}</CListGroupItem>
+                          <CModal
+                            visible={viewMap}
+                            onClose={() => setViewMap(false)}
+                            className={'modal-google-map'}
                           >
-                            {t('View map')}
-                          </span>
-                        )}</CListGroupItem>
-                      <CModal
-                        visible={viewMap}
-                        onClose={() => setViewMap(false)}
-                        className={'modal-google-map'}
-                      >
-                        <CModalBody>
-                          {/* <CImage
-                            className="mw-100"
-                            src={
-                              'https://maps.googleapis.com/maps/api/staticmap?center=' +
-                              latitude +
-                              ',' +
-                              longitude +
-                              '&zoom=11&size=640x450&maptype=terrain&markers=size:medium%7Ccolor:0xf7cf27|' +
-                              latitude +
-                              ',' +
-                              longitude +
-                              '&key=' +
-                              process.env.GOOGLE_MAPS_API_KEY
-                            }
-                          /> */}
-                        <Map location={location} zoomLevel={17} />
+                            <CModalBody>
+                              {/* <CImage
+                                className="mw-100"
+                                src={
+                                  'https://maps.googleapis.com/maps/api/staticmap?center=' +
+                                  latitude +
+                                  ',' +
+                                  longitude +
+                                  '&zoom=11&size=640x450&maptype=terrain&markers=size:medium%7Ccolor:0xf7cf27|' +
+                                  latitude +
+                                  ',' +
+                                  longitude +
+                                  '&key=' +
+                                  process.env.GOOGLE_MAPS_API_KEY
+                                }
+                              /> */}
+                            <Map location={location} zoomLevel={17} />
 
-                        </CModalBody>
-                        <CModalFooter>
-                          <CButton color="secondary" onClick={() => setViewMap(false)}>
-                            {i18n.t('Close')}
-                          </CButton>
-                        </CModalFooter>
-                      </CModal>
-                    </CListGroup>
-                  </CCardBody>
-                </CCard>
+                            </CModalBody>
+                            <CModalFooter>
+                              <CButton color="secondary" onClick={() => setViewMap(false)}>
+                                {i18n.t('Close')}
+                              </CButton>
+                            </CModalFooter>
+                          </CModal>
+                        </CListGroup>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+
+                  <CCol sm="6" lg="6" className="px-2 pb-3">
+                    <CCard
+                      color={'success'}
+                      textColor={'white'}
+                      className={'mb-3 h-100'}
+                      style={{ opacity: loading ? 0.7 : 1 }}
+                    >
+                      <CCardBody>
+                        <CCardTitle component="h4">{t('PRODUCTION AND CLIMATE')}</CCardTitle>
+                        <CListGroup flush>
+                          <CListGroupItem>{t('Production') + ':'}{' '}
+                            {totalACProductionMwh !== undefined
+                              ? round(totalACProductionMwh) + ' MWh'
+                              : ''}
+                            </CListGroupItem>
+                            <CListGroupItem>{t('Irradiation') + ':'}{' '}
+                              {irradiationKwhM2 !== undefined ? round(irradiationKwhM2) + ' Kwh/m2' : ''}
+                            </CListGroupItem>
+                            <CListGroupItem>{t('Average Ambient Temperature') + ':'}{' '}
+                              {avgAmbientTemp !== undefined ? round(avgAmbientTemp) + ' °C' : ''}
+                            </CListGroupItem>
+                        </CListGroup>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+                </CRow>
+
+                <CRow className="m-0">
+                  <CCol sm="12" lg="12" className="px-2 pb-3">
+                    <CCard color={'danger'} textColor={'white'} className={'mb-0'}>
+                      <CCardBody>
+                        <CCardTitle component="h4">{t('ALERTS')}</CCardTitle>
+                        <CListGroup>
+                          { alerts.map((alert, index) => (  
+                            <p className="" key={alert.type + ' ' + index}>{alert.message}</p>
+                          )) }
+                        </CListGroup>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+                </CRow>
               </CCol>
+                  
+              <CCol sm="6" lg="6" className="px-0 pb-3">
+                <CRow className="m-0">
+                  <CCol sm="6" lg="6" className="px-2 pb-3">
+                    <CCard
+                      color={'gradient-info'}
+                      textColor={'white'}
+                      className={'mb-3 h-100'}
+                      style={{ opacity: loading ? 0.7 : 1 }}
+                    >
+                      <CCardBody className={'d-flex flex-column justify-content-between'}>
+                        <CContainer className='p-0'>
+                          <CCardTitle component='h4' >
+                            {t('TIME-BASED AVAILABILITY') + '(%)'}
+                          </CCardTitle>
+                          <CCardSubtitle component='h5' className='mb-0' style={{ fontWeight: '400' }}>
+                              {timeAvailability}
+                          </CCardSubtitle>
+                        </CContainer>
+                        <CContainer className='p-0'>
+                          { dataLoaded &&
+                            <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
+                              <Doughnut data={timeAvailabilityChartData} options={optionsDoughnut} />
+                            </div>
+                          }
+                        </CContainer>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
 
-              <CCol sm="6" lg="3" className="px-2 pb-3">
-                <CCard
-                  color={'success'}
-                  textColor={'white'}
-                  className={'mb-3'}
-                  style={{ opacity: loading ? 0.7 : 1 }}
-                >
-                  <CCardBody>
-                    <CCardTitle component="h4">{t('PRODUCTION AND CLIMATE')}</CCardTitle>
-                    <CListGroup flush>
-                      <CListGroupItem>{t('Production') + ':'}{' '}
-                        {totalACProductionMwh !== undefined
-                          ? round(totalACProductionMwh) + ' MWh'
-                          : ''}
-                        </CListGroupItem>
-                        <CListGroupItem>{t('Irradiation') + ':'}{' '}
-                          {irradiationKwhM2 !== undefined ? round(irradiationKwhM2) + ' Kwh/m2' : ''}
-                        </CListGroupItem>
-                        <CListGroupItem>{t('Average Ambient Temperature') + ':'}{' '}
-                          {avgAmbientTemp !== undefined ? round(avgAmbientTemp) + ' °C' : ''}
-                        </CListGroupItem>
-                    </CListGroup>
-                  </CCardBody>
-                </CCard>
-
-                <CCard color={'danger'} textColor={'white'} className={'mb-0'}>
-                  <CCardBody>
-                    <CCardTitle component="h4">{t('ALERTS')}</CCardTitle>
-                    <CListGroup>
-                      {/* { alerts.map((alert, index) => (  
-                        <p className="" key={alert.title}>{alert.title}</p>
-                      )) } */}
-
-                        {/* <p className="">Wind turbines with negative change exceeding -6% in performance (yesterday):
-                          <h5>{alert2.length > 0 ? alert2.join(' - ') : " - "}</h5>
-                        </p>
-                        <p className="">Wind turbines with long stops (yesterday):
-                          <h5>{alert3.length > 0 ? alert3.join(' - ') : " - "}</h5>
-                        </p> */}
-                    </CListGroup>
-                  </CCardBody>
-                </CCard>
-              </CCol>
-
-              <CCol sm="6" lg="3" className="px-2 pb-3">
-                <CCard
-                  color={'gradient-info'}
-                  textColor={'white'}
-                  className={'mb-3 h-100'}
-                  style={{ opacity: loading ? 0.7 : 1 }}
-                >
-                  <CCardBody className={'d-flex flex-column justify-content-between'}>
-                    <CContainer className='p-0'>
-                      <CCardTitle component='h4' >
-                        {t('TIME-BASED AVAILABILITY') + '(%)'}
-                      </CCardTitle>
-                      <CCardSubtitle component='h5' className='mb-0' style={{ fontWeight: '400' }}>
-                          {timeAvailability}
-                      </CCardSubtitle>
-                    </CContainer>
-                    <CContainer className='p-0'>
-                      { dataLoaded &&
-                        <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
-                          <Doughnut data={timeAvailabilityChartData} options={optionsDoughnut} />
-                        </div>
-                      }
-                    </CContainer>
-                  </CCardBody>
-                </CCard>
-              </CCol>
-
-              <CCol sm="6" lg="3" className="px-2 pb-3">
-                <CCard
-                  color={'gradient-purple'}
-                  textColor={'white'}
-                  className={'mb-3 h-100'}
-                  style={{ opacity: loading ? 0.7 : 1 }}
-                >
-                  <CCardBody className={'d-flex flex-column justify-content-between'}>
-                    <CContainer className='p-0'>
-                      <CCardTitle component='h4'>
-                        {t('PERFORMANCE RATIO') + '(%)'}
-                      </CCardTitle>
-                      <CCardSubtitle component='h5' className='mb-0' style={{ fontWeight: '400' }}>
-                          {performanceRatio}
-                      </CCardSubtitle>
-                    </CContainer>
-                    <CContainer className='p-0'>
-                      { dataLoaded &&
-                        <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
-                          <Doughnut data={performanceChartData} options={optionsDoughnut} />
-                        </div>
-                      }
-                    </CContainer>
-                  </CCardBody>
-                </CCard>
+                  <CCol sm="6" lg="6" className="px-2 pb-3">
+                    <CCard
+                      color={'gradient-purple'}
+                      textColor={'white'}
+                      className={'mb-3 h-100'}
+                      style={{ opacity: loading ? 0.7 : 1 }}
+                    >
+                      <CCardBody className={'d-flex flex-column justify-content-between'}>
+                        <CContainer className='p-0'>
+                          <CCardTitle component='h4'>
+                            {t('PERFORMANCE RATIO') + '(%)'}
+                          </CCardTitle>
+                          <CCardSubtitle component='h5' className='mb-0' style={{ fontWeight: '400' }}>
+                              {performanceRatio}
+                          </CCardSubtitle>
+                        </CContainer>
+                        <CContainer className='p-0'>
+                          { dataLoaded &&
+                            <div className="d-inline-block w-100" style={{ maxWidth: '300px' }}>
+                              <Doughnut data={performanceChartData} options={optionsDoughnut} />
+                            </div>
+                          }
+                        </CContainer>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+                </CRow>
               </CCol>
             </CRow>
           </div>

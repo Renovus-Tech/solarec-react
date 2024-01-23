@@ -13,14 +13,16 @@ import {
 } from '@coreui/react'
 import { useTranslation } from 'react-i18next'
 import DataAPI from '../../../helpers/DataAPI.js'
-import { setCookie } from 'src/helpers/sessionCookie.js'
 
 const Settings = () => {
   const { t } = useTranslation()
-  const [dRecsSoldPorcentage, setDRecsSoldPorcentage] = useState([])
-  const [dRecsPrice, setDRecsPrice] = useState(false)
   const [clientPreferencesChanged, setClientPreferencesChanged] = useState(false)
   const [clientPreferencesSaved, setClientPreferencesSaved] = useState(false)
+
+  const [settingsLoaded, setSettingsLoaded] = useState(false)
+  const [categories, setCategories] = useState([])
+  const [settings, setSettings] = useState([])
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     loadUser()
@@ -39,15 +41,23 @@ const Settings = () => {
         }
       }
 
+      const settings = []
+
+      const categories = response.settings.map((setting, index) => {
+        var cat = { category: setting.category, categoryLabel: setting.categoryLabel }
+        settings[setting.category] = []
+        return cat
+      }).filter((elem, index, self) => 
+        self.findIndex(obj => obj.category === elem.category) === index
+      )
+
       response.settings.forEach((setting) => {
-        if (setting.name === 'dRecsSoldPorcentage') {
-          setDRecsSoldPorcentage(setting.value)
-          setCookie('dRecsSoldPorcentage', setting.value)
-        } else if (setting.name === 'dRecsPrice') {
-          setDRecsPrice(setting.value)
-          setCookie('dRecsPrice', setting.value)
-        }
+        settings[setting.category].push(setting)
       })
+
+      setCategories(categories)
+      setSettings(settings)
+      setSettingsLoaded(true)
     })
   }
 
@@ -57,19 +67,12 @@ const Settings = () => {
 
   const savePreferences = () => {
     setClientPreferencesChanged(false)
-
     const body = {}
-    body.settings = [
-      {
-        name: 'dRecsSoldPorcentage',
-        value: dRecsSoldPorcentage,
-      },
-      {
-        name: 'dRecsPrice',
-        value: dRecsPrice,
-      },
-    ]
-
+    let sett = []
+    categories.forEach((cat) => {
+      sett = [...sett, ...settings[cat.category]]
+    })
+    body.settings = sett
     DataAPI({
       endpoint: 'admin/clients/current',
       method: 'POST',
@@ -84,20 +87,22 @@ const Settings = () => {
       }
 
       setClientPreferencesSaved(true)
-      setCookie('dRecsSoldPorcentage', dRecsSoldPorcentage)
-      setCookie('dRecsPrice', dRecsPrice)
     })
   }
 
-  const handleDRecsSoldPorcentageChange = (value) => {
+  const handleSettingChange = (category, setting_name, new_value) => {
+    let new_settings = settings
+    new_settings[category] = new_settings[category].map((setting) => {
+      if (setting.name === setting_name) {
+        setting.value = new_value;
+      }
+      return setting
+    })
+    setSettings(new_settings)
     setClientPreferencesChanged(true)
-    if (value >= 0 && value <= 100) setDRecsSoldPorcentage(value)
+    setCount(count + 1);
   }
 
-  const handleDRecsPriceChange = (value) => {
-    setClientPreferencesChanged(true)
-    if (value >= 0) setDRecsPrice(value)
-  }
 
   return (
     <div>
@@ -115,53 +120,53 @@ const Settings = () => {
             </CCardHeader>
 
             <CCardBody className={'px-md-5 pb-md-5 pt-md-4'}>
-              <CRow className="mb-0">
-                <CCol style={{ maxWidth: '280px' }}>
-                  <CForm>
-                    <CInputGroup className={'mb-3'}>
-                      <CInputGroupText style={{ maxWidth: '156px' }}>
-                        {t('dRecs Sold Porcentage')}
-                      </CInputGroupText>
-                      <CFormInput
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={dRecsSoldPorcentage}
-                        onChange={(ev) => {
-                          handleDRecsSoldPorcentageChange(ev.target.value)
-                        }}
-                        name="dRecsSoldPorcentage"
-                        id="dRecsSoldPorcentage"
-                        className={'input-sm'}
-                      ></CFormInput>
-                      <CInputGroupText className={'bg-white text-dark'} style={{ width: '50px' }}>
-                        %
-                      </CInputGroupText>
-                    </CInputGroup>
-                    <CInputGroup>
-                      <CInputGroupText style={{ maxWidth: '156px' }}>
-                        {t('dRecs Price')}
-                      </CInputGroupText>
-                      <CFormInput
-                        type="number"
-                        min="0"
-                        value={dRecsPrice}
-                        onChange={(ev) => {
-                          handleDRecsPriceChange(ev.target.value)
-                        }}
-                        name="dRecsPrice"
-                        id="dRecsPrice"
-                        className={'input-sm'}
-                      ></CFormInput>
-                      <CInputGroupText className={'bg-white text-dark'} style={{ width: '50px' }}>
-                        USD
-                      </CInputGroupText>
-                    </CInputGroup>
-                  </CForm>
+              <CRow className="mb-3">
+                <CCol >
+                  { settingsLoaded && (
+                    <CForm>
+                      
+                      {categories.map((category, index) => (
+
+                        <div key={category.category} className="mb-3">
+                          <h4 className="pb-2 mb-4 border-bottom w-100">{category.categoryLabel}</h4>
+
+                          <CRow>
+
+                          {settings[category.category].map((setting, index) => (
+                              <CCol md="6" key={setting.name}>
+                            <CInputGroup className={'mb-3'} key={setting.name}>
+                              <CInputGroupText>
+                                {setting.label}
+                              </CInputGroupText>
+                              <CFormInput
+                                type={setting.type}
+                                min={setting.min}
+                                max={setting.max}
+                                value={setting.value?setting.value:setting.valueDefault}
+                                onChange={(ev) => {
+                                  handleSettingChange(category.category, setting.name, ev.target.value)
+                                }}
+                                name={setting.name}
+                                id={setting.name}
+                                className={'input-sm'}
+                              ></CFormInput>
+                              <CInputGroupText className={'bg-white text-dark'} >
+                                {setting.units}
+                              </CInputGroupText>
+                            </CInputGroup>
+                            </CCol>
+                          ))}
+                          </CRow>
+                        </div>
+
+                      ))}
+
+                    </CForm>
+                  )}
                 </CCol>
               </CRow>
 
-              <CRow className="mt-3">
+              <CRow className="mt-4">
                 <CCol>
                   <CForm>
                     <CButton
@@ -175,7 +180,7 @@ const Settings = () => {
                       {t('Save Preferences')}
                     </CButton>
                     {clientPreferencesSaved && !clientPreferencesChanged && (
-                      <div className="text-success d-inline-block" style={{ fontWeight: '500' }}>
+                      <div className="text-success d-inline-block mx-3" style={{ fontWeight: '500' }}>
                         Saved!
                       </div>
                     )}
