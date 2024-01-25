@@ -1,4 +1,3 @@
-
 # Solarec
 
 React Web Application for Solarec.
@@ -6,17 +5,12 @@ React Web Application for Solarec.
 ## Table of Contents
 
 * [Versions](#versions)
-* [Requierements](#requirements)
+* [Requirements](#requirements)
 * [Template](#template)
 * [Package dependencies](#package-dependencies)
 * [Quick Start](#quick-start)
 * [Installation](#installation)
 * [Basic usage](#basic-usage)
-* [What's included](#whats-included)
-* [Documentation](#documentation)
-* [Versioning](#versioning)
-* [Creators](#creators)
-* [Copyright and License](#copyright-and-license)
 
 ## Versions
 
@@ -134,51 +128,3 @@ or
 # build for production with minification
 $ yarn build
 ```
-
-## What's included
-
-Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:
-
-```
-solarec-react
-├── public/          # static files
-│   └── index.html   # html template
-│
-├── src/             # project root
-│   ├── assets/      # images, icons, etc.
-│   ├── components/  # common components - header, footer, sidebar, etc.
-│   ├── layouts/     # layout containers
-│   ├── scss/        # scss styles
-│   ├── views/       # application views
-│   ├── _nav.js      # sidebar navigation config
-│   ├── App.js
-│   ├── ...
-│   ├── index.js
-│   ├── routes.js    # routes config
-│   └── store.js     # template state example 
-│
-└── package.json
-```
-
-## Documentation
-
-The documentation for Solarec is hosted at our website https://solarec.tech/documentation
-
-## Versioning
-
-For transparency into our release cycle and in striving to maintain backward compatibility, CoreUI Free Admin Template is maintained under [the Semantic Versioning guidelines](http://semver.org/).
-
-See [the Releases section of our project](https://github.com/coreui/coreui-free-react-admin-template/releases) for changelogs for each release version.
-
-## Creators
-
-**Solarec team**
-* https://...
-
-## Copyright and License
-
-Copyright 2023 SolaREC  
-
-Code released under [Copyleft GNU (GPL) 3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
-
-
