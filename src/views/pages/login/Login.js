@@ -52,6 +52,13 @@ const Login = () => {
           setCookie('parkType', response.location.type)
           setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
           setCookie('dashboard', response.functionalities[0].url)
+          
+          response.settings.forEach((setting) => {
+            if (setting.name === 'language') {
+              const language = setting.value ? setting.value : setting.valueDefault
+              setCookie('language', language)
+            }
+          })
 
           window.location.reload()
 

@@ -17,7 +17,7 @@ import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
-import { setCookie } from '../../../helpers/sessionCookie.js'
+import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 
 const Settings = () => {
   const initialized = useRef(false)
@@ -59,7 +59,7 @@ const Settings = () => {
     
           setName(response.name)
           setEmail(response.email)
-          setLanguage(response.language)
+          setLanguage(getCookie('language'))
         })
       }
       loadUser()
@@ -91,6 +91,7 @@ const Settings = () => {
         setSettingsMessage(t('Your settings were updated.'))
         setSettingsErrorMessage('')
         setCookie('language',language)
+        window.location.reload()
       }
     })
   }
