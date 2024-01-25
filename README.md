@@ -1,7 +1,7 @@
 
 # Solarec
 
-Frontend React application for Solarec.
+React Web Application for Solarec.
 
 ## Table of Contents
 
@@ -33,6 +33,10 @@ CoreUI Free React Admin Template
 
 CoreUI is meant to be the UX game changer. Pure & transparent code is devoid of redundant components, so the app is light enough to offer ultimate user experience. This means mobile devices also, where the navigation is just as easy and intuitive as on a desktop or laptop. The CoreUI Layout API lets you customize your project for almost any device – be it Mobile, Web or WebApp – CoreUI covers them all!
 
+For transparency into our release cycle and in striving to maintain backward compatibility, CoreUI Free Admin Template is maintained under [the Semantic Versioning guidelines](http://semver.org/).
+
+See [the Releases section of our project](https://github.com/coreui/coreui-free-react-admin-template/releases) for changelogs for each release version.
+
 
 ## Package dependencies
 
@@ -49,6 +53,7 @@ CoreUI is meant to be the UX game changer. Pure & transparent code is devoid of 
 chart.js: ^4.4.0
 classnames: ^2.3.2
 core-js: ^3.31.0
+google-map-react: ^2.2.1,
 js-cookie: ^3.0.5
 prop-types: ^15.8.1
 react: ^18.2.0
@@ -83,8 +88,8 @@ prettier": 2.8.8
 
 ## Quick Start
 
-- [Download the latest release](https://github.com/renovus/solarec-react/archive/refs/heads/main.zip)
-- Clone the repo: `git clone https://github.com/renovus/solarec-react.git`
+- [Download the latest release](https://github.com/Renovus-Tech/solarec-react/archive/refs/heads/main.zip)
+- Clone the repo: `git clone https://github.com/Renovus-Tech/solarec-react.git`
 
 ### Installation
 
@@ -172,7 +177,7 @@ See [the Releases section of our project](https://github.com/coreui/coreui-free-
 
 ## Copyright and License
 
-Copyright 2023 Renovus  
+Copyright 2023 SolaREC  
 
 Code released under [Copyleft GNU (GPL) 3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
