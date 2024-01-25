@@ -64,14 +64,12 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/components/*.{js,jsx}",
-      "src/helpers/*.{js,jsx}",
+      "src/helpers/utils.{js,jsx}",
       "src/views/pages/client/*.{js,jsx}",
       "src/views/pages/energy/*.{js,jsx}",
       "src/views/pages/login/*.{js,jsx}",
       "src/views/pages/revenue/*.{js,jsx}",
-      "src/views/pages/user/*.{js,jsx}",
-      "!**/*index.js"
+      "src/views/pages/user/*.{js,jsx}"
     ],
     "coverageReporters": [
       "json",

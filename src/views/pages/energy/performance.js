@@ -304,6 +304,7 @@ const Performance = () => {
                 }}
                 name="groupby"
                 id="groupby"
+                data-testid="groupby"
               >
                 <option value="day">{t('Day')}</option>
                 <option value="week">
@@ -339,10 +340,11 @@ const Performance = () => {
                 {generators.map((gen, index) => (
                   <CButton
                     key={gen.id}
+                    data-testid={"btn-gen-"+gen.id}
                     style={{ backgroundColor: generatorColors[gen.code], color: 'white' }}
                     className={
                       (selectedGenerators.includes(gen.id) ? 'selected' : '') +
-                      'btn-generator mx-1 my-1'
+                      ' btn-generator mx-1 my-1'
                     }
                     onClick={() => selectGenerator(gen.id)}
                     id={gen.id}
@@ -359,6 +361,7 @@ const Performance = () => {
               color="primary"
               className="mx-2 mb-1"
               onClick={() => filterGenerators()}
+              data-testid={"submit-button"}
             >
               {t('Submit')}
             </CButton>

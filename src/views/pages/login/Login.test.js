@@ -1,16 +1,145 @@
 // Login.test.js
-import React from 'react';
-import { render, act } from '@testing-library/react';
-import Login from './Login';
-import 'jest-canvas-mock';
+import React from 'react'
+import { Route, Routes, HashRouter } from 'react-router-dom'
+import { render, screen, waitFor, fireEvent, act, mount } from '@testing-library/react'
+import { getCookie } from '../../../helpers/sessionCookie.js'
+import i18n from '../../../helpers/i18n'
+import Login from './Login'
+import RequestPasswordReset from './RequestPasswordReset'
+import 'jest-canvas-mock'
+import DataAPI from '../../../helpers/DataAPI.js'
 
-// test('renders a greeting', () => {
-//   const { getByText } = render(<Overview name="John" />);
-//   const greetingElement = getByText(/Overview/i);
-//   expect(greetingElement).toBeInTheDocument();
-// });
+jest.mock('../../../helpers/DataAPI')
 
-test('renders Login', () => {
-  render(<Login />);
+describe("Login", () => {
+
+  beforeEach(() => {
+    global.fetch = jest.fn()
+    // jest.clearAllMocks()
+  })
+
+  test('Renders Login', () => {
+    render(<HashRouter><Login /></HashRouter>)
+  })
+
+//   it("mock login request testing", (done) => {
+//     act(() => {
+//         const wrapper = mount(<Login />)
+
+//         wrapper.setState({username: "username"})
+//         wrapper.setState({password: "password"})
+//         // wrapper.find('button#authenticate').simulate('click');
+
+//         setTimeout(() => {
+//             wrapper.update();
+//             wrapper.setState({alert: "Bad credentials"})
+//             expect(wrapper.instance().state.alert).toEqual("Bad credentials")
+//             done()
+//         })
+//     })
+// })
+
+  test("correct texts should be in the document", () => {
+    render(<HashRouter><Login /></HashRouter>)
+    const subtitle = screen.getByText(i18n.t("Sign In to your account"))
+    const rightText = screen.getByText(i18n.t("Please login with your e-mail and password."))
+    const resetPass = screen.getByText(i18n.t("Reset password?"))
+    expect(subtitle).toBeInTheDocument()
+    expect(rightText).toBeInTheDocument()
+    expect(resetPass).toBeInTheDocument()
+  })
+
+  test('should have username and password fields and submit button', () => {
+    render(<HashRouter><Login /></HashRouter>);
+    const usernameField = screen.getByTestId('username')
+    const passwordField = screen.getByTestId('password')
+    const loginButton = screen.getByTestId('login-button')
+    expect(usernameField).toBeInTheDocument()
+    expect(passwordField).toBeInTheDocument()
+    expect(loginButton).toBeInTheDocument()
+  })
+
+  test('should display logo correctly', async () => {
+    render(<HashRouter><Login /></HashRouter>)
+    const image = screen.getByAltText('Solarec')
+    expect(image.src).toContain('/logo-solarec.png')
+})
   
-});
+
+  test("username and password inputs should accept text", () => {
+    render(<HashRouter><Login /></HashRouter>)
+    const usernameField = screen.getByTestId('username')
+    expect(usernameField.value).toMatch("")
+    fireEvent.change(usernameField, { target: {value: 'testing' }})
+    expect(usernameField.value).toMatch('testing')
+
+    const passwordField = screen.getByTestId('password')
+    expect(passwordField.value).toMatch("")
+    fireEvent.change(passwordField, { target: {value: 'testing' }})
+    expect(passwordField.value).toMatch('testing')
+  })
+
+  test("should redirect to /requestPasswordReset when reset password is clicked", async () => {
+    render(<HashRouter>
+            <Routes>
+              <Route path="/requestPasswordReset" name="Request password reset" element={<RequestPasswordReset />} />
+              <Route path="*" name="Home" element={<Login />} />
+            </Routes>
+          </HashRouter>)
+    const resetButton = screen.getByTestId('password-reset')
+    fireEvent.click(resetButton)
+    expect(screen.getByTestId('username-reset')).toBeInTheDocument()
+  }, 70000)
+
+  test('should show wrong user/password on login attempt', async () => {
+    // jest.spyOn(window, 'alert').mockImplementation(() => {})
+    DataAPI.mockResolvedValueOnce({authenticated: false,error: "Not authenticated, bad combination of email, password and client."})
+    render(<HashRouter><Login /></HashRouter>)
+    const loginButton = screen.getByTestId('login-button')
+    fireEvent.click(loginButton)
+    expect(DataAPI).toHaveBeenCalled()
+    await (screen.findByTestId('error', {timeout:10000}))
+
+    const errorText = screen.getByTestId('error')
+    expect(errorText).toBeInTheDocument()
+    expect(errorText.innerHTML).toBe('Not authenticated, bad combination of email, password and client.')
+    // expect(window.alert).toBeCalledWith('Not authenticated, bad combination of email, password and client.')
+  }, 20000)
+
+  test('should show error when endpoint fails', async () => {
+    const mError = new Error('network')
+    DataAPI.mockRejectedValueOnce(mError)
+    render(<HashRouter><Login /></HashRouter>)
+    const loginButton = screen.getByTestId('login-button')
+    fireEvent.click(loginButton)
+    expect(DataAPI).toHaveBeenCalled()
+    await (screen.findByTestId('error', {timeout:10000}))
+    const errorText = screen.getByTestId('error')
+    expect(errorText).toBeInTheDocument()
+    expect(errorText.innerHTML).toBe('Error establishing connection.')
+  }, 20000)
+
+  test('should reload on user login with correct user/password', async () => {
+    DataAPI.mockResolvedValueOnce({authenticated: true, id: 1, client: {id: 1}, name:'Test Name', location: {id:1, type:'solar'}, functionalities: [{url: '/overview'}]})
+    render(<HashRouter><Login /></HashRouter>)
+    const loginButton = screen.getByTestId('login-button')
+    fireEvent.click(loginButton)
+    expect(DataAPI).toHaveBeenCalled() 
+
+    const { location } = window
+    delete window.location
+    window.location = { reload: jest.fn() }
+    await waitFor(() => { expect(window.location.reload).toHaveBeenCalled() }, {timeout:10000})
+
+    expect(getCookie('name')).toEqual('Test Name')
+    expect(getCookie('user')).toEqual("1")
+    expect(getCookie('client')).toEqual("1")
+    expect(getCookie('location')).toEqual("1")
+    expect(getCookie('parkType')).toEqual('solar')
+    expect(getCookie('functionalities')).toEqual('[\"/overview\"]') 
+    expect(getCookie('dashboard')).toEqual('/overview') 
+
+  }, 20000)
+
+
+})

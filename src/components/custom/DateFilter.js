@@ -119,7 +119,7 @@ export const DateFilter = ({ value, disabled, options, onChange }) => {
               </CModalFooter>
             </CModal>
 
-            <CFormSelect value={val} disabled={disabled} onChange={changeListener} name="period" id="period" className='input-sm'>{options.map((option) => {
+            <CFormSelect value={val} disabled={disabled} onChange={changeListener} name="period" id="period" className='input-sm' data-testid="period">{options.map((option) => {
 
               return <option key={option} value={option} onClick={changeListener}>
                 {getDateLabel(option,from,to)}

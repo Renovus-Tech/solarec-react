@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { setCookie } from '../../../helpers/sessionCookie.js'
 import React, { useState } from 'react'
@@ -7,7 +7,6 @@ import {
   CButton,
   CCard,
   CCardBody,
-  CCardGroup,
   CCol,
   CContainer,
   CForm,
@@ -15,19 +14,21 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
+  CAlert,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
 import logo from '../../../assets/logo-solarec.png'
-// import LanguageSwitcher from 'src/views/others/LanguageSwitcher.js'
 
 // eslint-disable-next-line react/prop-types
-const Login = ({clickLogin}) => {
+const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [authenticated, setAuthenticated] = useState(false)
+  const [error, setError] = useState('')
+  // const [authenticated, setAuthenticated] = useState(false)
   const { t } = useTranslation()
+  const navigate = useNavigate(); 
 
   const authenticateUser = () => {
     setLoading(true)
@@ -49,25 +50,28 @@ const Login = ({clickLogin}) => {
           setCookie('client', response.client.id && response.client.id)
           setCookie('location', response.location.id)
           setCookie('parkType', response.location.type)
-          // let functionalities = [...response.functionalities, {'url':'/modules/power-curve/benchmark'}, {'url':'/modules/power-curve/analysis'}];
-          // setCookie('functionalities', JSON.stringify(functionalities.map((f) => f.url)))
           setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
           setCookie('dashboard', response.functionalities[0].url)
 
-          setAuthenticated(true)
           window.location.reload()
+
+          // setAuthenticated(true)
         } else {
-          alert('wrong user!')
+          // alert(response.error)
+          setError(response.error)
         }
       })
       .catch((e) => {
-        alert('error!')
+        // alert('error!')
+        setError('Error establishing connection.')
       })
   }
 
-  return authenticated ? (
-    <Navigate to={'/'} />
-  ) : (
+  // return authenticated ? (
+  //   <Navigate to={'/'} />
+  // ) : (
+
+  return (
     <div className="bg-gradient-custom c-app solar c-default-layout flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
@@ -81,6 +85,9 @@ const Login = ({clickLogin}) => {
                     <h1 className="text-dark-blue">{t('Login')}</h1>
                     <p className="text-muted">{t('Sign In to your account')}</p>
                     <CInputGroup className="mb-3">
+                      { error !== '' && 
+                        <CAlert color="danger" data-testid="error">{error}</CAlert>
+                      }
                       <CInputGroupText>
                         <CIcon icon={freeSet.cilUser} />
                       </CInputGroupText>
@@ -124,35 +131,31 @@ const Login = ({clickLogin}) => {
                         xs="6"
                         className="text-end d-flex justify-content-end align-items-center px-0"
                       >
-                        {/* <a href="/requestPasswordReset" className="text-dark-blue">{t('Reset password?')}</a> */}
                         <CButton
                           color="link"
                           data-testid="password-reset"
                           className="text-dark-blue"
-                          href="/requestPasswordReset"
+                          // href="/requestPasswordReset"
+                          onClick={ () => navigate('/requestPasswordReset')}
                         >
                           {t('Reset password?')}
                         </CButton>
                       </CCol>
                     </CRow>
                   </CForm>
-                {/* </CCardBody> */}
                 </CCol>
                 <CCol
                   className="text-dark bg-login-right border-light py-5 d-md-down-none text-center d-flex justify-content-center align-items-center flex-column"
                   sm="5"
                 >
-                  {/* <CCardBody className="text-center"> */}
-                      <img src={logo} width="250" alt="Solarec" className="mb-3 mw-100" />
-                      <p>{t('Please login with your e-mail and password.')}</p>
-                  {/* </CCardBody> */}
+                    <img src={logo} width="250" alt="Solarec" className="mb-3 mw-100" />
+                    <p>{t('Please login with your e-mail and password.')}</p>
                 </CCol>
                 </CRow>
               </CCardBody>
             </CCard>
           </CCol>
         </CRow>
-        {/* <LanguageSwitcher /> */}
       </CContainer>
     </div>
   )

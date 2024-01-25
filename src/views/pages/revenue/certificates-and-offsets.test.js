@@ -1,7 +1,7 @@
-// certificates-and-offsets.test.js
+// certificates-and.offsets.test.js
 import React from 'react';
 import { render, act } from '@testing-library/react';
-import CertificatesAndOffsets from './certificates-and-offsets';
+import Certificates from './certificates-and-offsets';
 import 'jest-canvas-mock';
 
 // test('renders a greeting', () => {
@@ -10,7 +10,7 @@ import 'jest-canvas-mock';
 //   expect(greetingElement).toBeInTheDocument();
 // });
 
-test('renders CertificatesAndOffsets', () => {
-  render(<CertificatesAndOffsets />);
+test('renders Certificates', () => {
+  render(<Certificates />);
   
 });

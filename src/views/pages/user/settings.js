@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   CButton,
   CCard,
@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { setCookie } from '../../../helpers/sessionCookie.js'
 
 const Settings = () => {
+  const initialized = useRef(false)
   const { t } = useTranslation()
   const [language, setLanguage] = useState('')
   const [settingsMessage, setSettingsMessage] = useState('')
@@ -39,30 +40,33 @@ const Settings = () => {
   const [generatorsLoaded, setGeneratorsLoaded] = useState(false)
 
   useEffect(() => {
-    const loadUser = () => {
-      DataAPI({
-        endpoint: 'security/authenticate/current',
-        method: 'GET',
-      }).then((response) => {
-        if (response.error) {
-          if (response.error.message) {
-            return alert(response.error.message)
-          } else {
-            return alert(response.error)
+    if (!initialized.current) {
+      initialized.current = true
+      const loadUser = () => {
+        DataAPI({
+          endpoint: 'security/authenticate/current',
+          method: 'GET',
+        }).then((response) => {
+          if (response.error) {
+            if (response.error.message) {
+              return alert(response.error.message)
+            } else {
+              return alert(response.error)
+            }
+          } else if (!generatorsLoaded && response) {
+            setGeneratorsLoaded(true)
           }
-        } else if (!generatorsLoaded && response) {
-          setGeneratorsLoaded(true)
-        }
-  
-        setName(response.name)
-        setEmail(response.email)
-        setLanguage(response.language)
-      })
+    
+          setName(response.name)
+          setEmail(response.email)
+          setLanguage(response.language)
+        })
+      }
+      loadUser()
     }
-    loadUser()
   }, [generatorsLoaded])
 
-  const enableSave = () => {}
+  // const enableSave = () => {}
 
   const saveSettings = () => {
     setChanging(true)
@@ -139,11 +143,12 @@ const Settings = () => {
                         <CIcon icon={freeSet.cilUser} />
                       </CInputGroupText>
                       <CFormInput
-                        onChange={enableSave}
+                        // onChange={enableSave}
                         value={name}
                         type="text"
                         placeholder={t('Name')}
                         disabled
+                        data-testid="name-input"
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-3">
@@ -151,11 +156,12 @@ const Settings = () => {
                         <CIcon icon={freeSet.cilEnvelopeClosed} />
                       </CInputGroupText>
                       <CFormInput
-                        onChange={enableSave}
+                        // onChange={enableSave}
                         value={email}
                         type="text"
                         placeholder={t('E-mail')}
                         disabled
+                        data-testid="email-input"
                       />
                     </CInputGroup>
 
@@ -174,8 +180,11 @@ const Settings = () => {
                               setNewPassword(ev.target.value)
                             }}
                             type="password"
+                            role="input"
+                            aria-label="password"
                             placeholder={t('New Password')}
                             maxLength={100}
+                            data-testid="password"
                           />
                         </CInputGroup>
                         <CInputGroup className="mb-3">
@@ -188,8 +197,11 @@ const Settings = () => {
                               setNewPasswordConfirm(ev.target.value)
                             }}
                             type="password"
+                            role="input"
+                            aria-label="confirm-password"
                             placeholder={t('Confirm New Password')}
                             maxLength={100}
+                            data-testid="confirm-password"
                           />
                           {differentPassword && (
                             <div className={'text-danger mt-1 w-100'}>
@@ -204,6 +216,7 @@ const Settings = () => {
                               color="primary"
                               className="px-4 mr-3"
                               disabled={newPassword === '' || changing}
+                              data-testid="save-password-button"
                             >
                               {t('Save new password')}
                             </CButton>
@@ -214,6 +227,7 @@ const Settings = () => {
                               color="secondary"
                               className="px-4 text-white"
                               disabled={changing}
+                              data-testid="cancel-change-password-button"
                             >
                               {t('Cancel')}
                             </CButton>
@@ -230,6 +244,7 @@ const Settings = () => {
                             }}
                             color="primary"
                             className="px-4 mr-3"
+                            data-testid="change-password-button"
                           >
                             {t('Change Password')}
                           </CButton>
@@ -261,6 +276,7 @@ const Settings = () => {
                         }}
                         name="language"
                         id="language"
+                        data-testid="language-input"
                       >
                         <option value="EN">{t('English')}</option>
                         <option value="ES">{t('Spanish')}</option>
@@ -277,6 +293,7 @@ const Settings = () => {
                           color="primary"
                           className="px-4 mr-3"
                           disabled={!settingsChanged || changing}
+                          data-testid="save-preferences-button"
                         >
                           {t('Save Preferences')}
                         </CButton>

@@ -135,10 +135,12 @@ const Settings = () => {
                           {settings[category.category].map((setting, index) => (
                               <CCol md="6" key={setting.name}>
                             <CInputGroup className={'mb-3'} key={setting.name}>
-                              <CInputGroupText>
+                              <CInputGroupText data-testid={"label-"+setting.name}>
                                 {setting.label}
                               </CInputGroupText>
                               <CFormInput
+                                role="input"
+                                aria-label={setting.name}
                                 type={setting.type}
                                 min={setting.min}
                                 max={setting.max}
@@ -150,7 +152,7 @@ const Settings = () => {
                                 id={setting.name}
                                 className={'input-sm'}
                               ></CFormInput>
-                              <CInputGroupText className={'bg-white text-dark'} >
+                              <CInputGroupText className={'bg-white text-dark'} data-testid={"units-"+setting.name} >
                                 {setting.units}
                               </CInputGroupText>
                             </CInputGroup>
@@ -176,6 +178,7 @@ const Settings = () => {
                       color="primary"
                       className="px-4 mr-3"
                       disabled={!clientPreferencesChanged}
+                      data-testid="save-button"
                     >
                       {t('Save Preferences')}
                     </CButton>

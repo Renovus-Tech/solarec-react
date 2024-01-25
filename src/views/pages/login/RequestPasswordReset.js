@@ -77,6 +77,7 @@ const RequestPasswordReset = () => {
                         type="text"
                         placeholder={t('E-mail')}
                         autoComplete="username"
+                        data-testid="username-reset"
                       />
                     </CInputGroup>
                     <CRow>

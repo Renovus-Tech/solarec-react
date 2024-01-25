@@ -87,9 +87,13 @@ const Trends = () => {
       method: 'POST',
       body: body,
     }).then(function (responseData) {
-      if (responseData.error && responseData.error.message) {
+      if (responseData.error) {
         setDataLoadError(true)
-        alert(responseData.error.message)
+        if (responseData.error.message) {
+          return alert(responseData.error.message)
+        } else {
+          return alert(responseData.error)
+        }
       }
 
       setLoading(false)
@@ -265,6 +269,7 @@ const Trends = () => {
                 </CButton>
                 {generators.map((gen, index) => (
                   <CButton
+                    data-testid={"btn-gen-"+gen.id}
                     key={gen.id}
                     style={{ backgroundColor: generatorColors[gen.code], color: 'white' }}
                     className={
@@ -283,7 +288,12 @@ const Trends = () => {
             )}
           </CCol>
           <CCol sm="2" className="text-end d-flex flex-end flex-justify-end ">
-            <CButton color="primary" className="mx-2 mb-1" onClick={() => filterGenerators()}>
+            <CButton 
+              color="primary" 
+              className="mx-2 mb-1" 
+              onClick={() => filterGenerators()}
+              data-testid={"submit-button"}
+              >
               {t('Submit')}
             </CButton>
           </CCol>

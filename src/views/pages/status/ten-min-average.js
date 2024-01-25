@@ -13,7 +13,7 @@ import {
 
 import { freeSet } from '@coreui/icons'
 import DataAPI from '../../../helpers/DataAPI.js'
-import { formatDate2, round, formatNumber } from '../../../helpers/utils.js'
+import { formatDate, round, formatNumber } from '../../../helpers/utils.js'
 import CIcon from '@coreui/icons-react'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 
@@ -50,7 +50,7 @@ const StatusTenMinAverage = () => {
         }
       }
 
-      if (responseData.dateData !== undefined) setLastUpdated(formatDate2(responseData.dateData))
+      if (responseData.dateData !== undefined) setLastUpdated(formatDate(responseData.dateData))
 
       if (getCookie('parkType') === '' && responseData.locations[0].type !== undefined) {
         setCookie('parkType', responseData.locations[0].type)
