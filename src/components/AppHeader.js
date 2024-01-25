@@ -194,13 +194,15 @@ const AppHeader = () => {
 
         <CHeaderNav className="px-md-3">
 
-          <CFormSelect value={getCookie('client')} onChange={(ev) => { updateClient(ev.target.value); }} name="client" id="client" className="w-auto mx-2 mr-1 mr-sm-3">
-            {clientsLoaded && clients.map((client) => (
-              <option key={client.id} value={client.id}>
-                {client.name}
-              </option>
-            ))}
-          </CFormSelect>
+          { clients.length > 1 &&
+            <CFormSelect value={getCookie('client')} onChange={(ev) => { updateClient(ev.target.value); }} name="client" id="client" className="w-auto mx-2 mr-1 mr-sm-3">
+              {clientsLoaded && clients.map((client) => (
+                <option key={client.id} value={client.id}>
+                  {client.name}
+                </option>
+              ))}
+            </CFormSelect>
+          }
 
           <AppHeaderDropdown />
         </CHeaderNav>
@@ -236,7 +238,7 @@ const AppHeader = () => {
 
 
 
-        { !noParkPages.includes(location.pathname) &&
+        { !noParkPages.includes(location.pathname) && parks.length > 1 &&
           <CRow className="flex-center">
             <CCol style={{whiteSpace: 'nowrap'}} className='d-flex'>
               <div className='align-self-center mx-2'>{t('Park')}</div>
