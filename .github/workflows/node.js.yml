@@ -28,8 +28,8 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
       run: npm install
-    # - name: Tests
-    #   run: npm run test-ci
+    - name: Tests
+      run: npm run test-ci
     - name: Generating coverage badges
       uses: jpb06/jest-badges-action@latest
       with:
