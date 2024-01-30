@@ -199,6 +199,7 @@ const Certificates = () => {
                 color="primary"
                 disabled={loading}
                 className="mx-2"
+                data-testid={"submit-button"}
                 onClick={() => {
                   fetchData()
                 }}
@@ -218,19 +219,19 @@ const Certificates = () => {
           <div>
 
             <CRow>
-              <CCol>
+              <CCol data-testid={"graph-container"}>
 
                 {!loading || dataLoadError ?
                   <div style={{marginBottom:'50px'}}>
                     <div className='d-flex'>
-                      <div className="text-left" style={{width: '50%'}}>MWh</div>
-                      <div className="text-right" style={{width: '50%'}}>{t('Tons')}</div>
+                      <div className="text-left" style={{width: '50%'}} data-testid={"left-units"}>MWh</div>
+                      <div className="text-right" style={{width: '50%'}} data-testid={"right-units"}>{t('Tons')}</div>
                     </div>
                       <Bar 
                             data={graphData}
                             options={optionsGraph} 
                           />
-                    <div className="text-center" style={{width: '100%'}}>{t('Months')}</div>
+                    <div className="text-center" style={{width: '100%'}} data-testid={"months"}>{t('Months')}</div>
                   </div>
                 : 
                   <div className='text-center'>

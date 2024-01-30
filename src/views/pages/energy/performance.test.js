@@ -1,7 +1,7 @@
 // performance.test.js
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
-import { render, screen, waitFor, wait, fireEvent } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import i18n from '../../../helpers/i18n'
 import { getCookie } from '../../../helpers/sessionCookie.js'
 import Performance from './performance'

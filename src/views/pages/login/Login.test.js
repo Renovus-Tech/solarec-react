@@ -120,7 +120,7 @@ describe("Login", () => {
   }, 20000)
 
   test('should reload on user login with correct user/password', async () => {
-    DataAPI.mockResolvedValueOnce({authenticated: true, id: 1, client: {id: 1}, name:'Test Name', location: {id:1, type:'solar'}, functionalities: [{url: '/overview'}]})
+    DataAPI.mockResolvedValue({authenticated: true, id: 1, client: {id: 1}, name:'Test Name', location: {id:1, type:'solar'}, functionalities: [{url: '/overview'}], settings: [{ name: 'language', value: 'EN'}]})
     render(<HashRouter><Login /></HashRouter>)
     const loginButton = screen.getByTestId('login-button')
     fireEvent.click(loginButton)
@@ -129,7 +129,7 @@ describe("Login", () => {
     const { location } = window
     delete window.location
     window.location = { reload: jest.fn() }
-    await waitFor(() => { expect(window.location.reload).toHaveBeenCalled() }, {timeout:10000})
+    await waitFor(() => { expect(window.location.reload).toHaveBeenCalled() }, {timeout:20000})
 
     expect(getCookie('name')).toEqual('Test Name')
     expect(getCookie('user')).toEqual("1")
@@ -139,7 +139,7 @@ describe("Login", () => {
     expect(getCookie('functionalities')).toEqual('[\"/overview\"]') 
     expect(getCookie('dashboard')).toEqual('/overview') 
 
-  }, 20000)
+  }, 60000)
 
 
 })

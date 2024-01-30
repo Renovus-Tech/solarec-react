@@ -172,6 +172,7 @@ const Sales = () => {
                 color="primary"
                 disabled={loading}
                 className="mx-2"
+                data-testid={"submit-button"}
                 onClick={() => {
                   fetchData()
                 }}
@@ -187,20 +188,20 @@ const Sales = () => {
         {(loading || dataLoaded) && (
           <div>
             <CRow>
-              <CCol>
+              <CCol data-testid={"graph-container"}>
                 {!loading || dataLoadError ? (
                   <div style={{ marginBottom: '50px' }}>
                     <div className="d-flex">
-                      <div className="text-left" style={{ width: '50%' }}>
+                      <div className="text-left" style={{ width: '50%' }} data-testid={"left-units"}>
                         MWh
                       </div>
-                      <div className="text-end" style={{ width: '50%' }}>
-                        USD
+                      <div className="text-end" style={{ width: '50%' }} data-testid={"right-units"}>
+                        {t('USD')}
                       </div>
                     </div>
                     <Bar data={graphData} options={optionsGraph} />
-                    <div className="text-center" style={{ width: '100%' }}>
-                      Months
+                    <div className="text-center" style={{ width: '100%' }} data-testid={"months"}>
+                      {t('Months')}
                     </div>
                   </div>
                 ) : (

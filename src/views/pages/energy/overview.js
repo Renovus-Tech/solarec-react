@@ -199,10 +199,10 @@ const Overview = () => {
     fetchData(period)
   }
 
-  const filterData = (date) => {
-    setPeriod(date)
-    fetchData(date)
-  }
+  // const filterData = (date) => {
+  //   setPeriod(date)
+  //   fetchData(date)
+  // }
 
   const location = {
     address: '',
@@ -238,7 +238,6 @@ const Overview = () => {
   const bodyOpacity = loading ? 0.7 : 1
 
   return (
-    <>
       <CCard>
         <CCardHeader>
           <CRow className={'justify-content-between row-gap-3'}>
@@ -251,11 +250,13 @@ const Overview = () => {
             <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
               <div className="d-flex py-1">
                 <DateFilter
+                  value={period}
                   warning={'Seleccionar un rango máximo de 31 días'}
                   options={['y', 'cm', 'cy', 'x', 'xx']}
                   disabled={loading}
                   onChange={(value) => {
-                    filterData(value)
+                    setPeriod(value)
+                    fetchData(value)
                   }}
                 />
               </div>
@@ -292,11 +293,11 @@ const Overview = () => {
                       <CCardBody>
                         <CCardTitle component="h4">{t('PLANT CHARACTERISTICS')}</CCardTitle>
                         <CListGroup flush className='bg-transparent'>
-                          <CListGroupItem>{t('User') + ':'} {user !== undefined ? user : ''}</CListGroupItem>
-                          <CListGroupItem>{t('Region') + ':'} {region !== undefined ? region : ''}</CListGroupItem>
-                          <CListGroupItem>{t('Country') + ':'} {country !== undefined ? country : ''}</CListGroupItem>
-                          <CListGroupItem>{t('Capacity') + ':'}{' '}{capacity !== undefined ? round(capacity) + ' KW' : ''}</CListGroupItem>
-                          <CListGroupItem>{t('Location') + ': '}
+                          <CListGroupItem data-testid="user">{t('User') + ':'} {user !== undefined ? user : ''}</CListGroupItem>
+                          <CListGroupItem data-testid="region">{t('Region') + ':'} {region !== undefined ? region : ''}</CListGroupItem>
+                          <CListGroupItem data-testid="country">{t('Country') + ':'} {country !== undefined ? country : ''}</CListGroupItem>
+                          <CListGroupItem data-testid="capacity">{t('Capacity') + ':'}{' '}{capacity !== undefined ? round(capacity) + ' KW' : ''}</CListGroupItem>
+                          <CListGroupItem data-testid="location">{t('Location') + ': '}
                             {userDataLoaded && (
                               <span
                                 className={'link cursor-pointer btn-link'}
@@ -330,7 +331,7 @@ const Overview = () => {
 
                             </CModalBody>
                             <CModalFooter>
-                              <CButton color="secondary" onClick={() => setViewMap(false)}>
+                              <CButton color="secondary" onClick={() => setViewMap(false)} data-testid="close-map-button">
                                 {i18n.t('Close')}
                               </CButton>
                             </CModalFooter>
@@ -350,15 +351,13 @@ const Overview = () => {
                       <CCardBody>
                         <CCardTitle component="h4">{t('PRODUCTION AND CLIMATE')}</CCardTitle>
                         <CListGroup flush>
-                          <CListGroupItem>{t('Production') + ':'}{' '}
-                            {totalACProductionMwh !== undefined
-                              ? round(totalACProductionMwh) + ' MWh'
-                              : ''}
+                          <CListGroupItem data-testid="production">{t('Production') + ':'}{' '}
+                              {totalACProductionMwh !== undefined ? round(totalACProductionMwh) + ' MWh' : ''}
                             </CListGroupItem>
-                            <CListGroupItem>{t('Irradiation') + ':'}{' '}
+                            <CListGroupItem data-testid="irradiation">{t('Irradiation') + ':'}{' '}
                               {irradiationKwhM2 !== undefined ? round(irradiationKwhM2) + ' Kwh/m2' : ''}
                             </CListGroupItem>
-                            <CListGroupItem>{t('Average Ambient Temperature') + ':'}{' '}
+                            <CListGroupItem data-testid="temperature">{t('Average Ambient Temperature') + ':'}{' '}
                               {avgAmbientTemp !== undefined ? round(avgAmbientTemp) + ' °C' : ''}
                             </CListGroupItem>
                         </CListGroup>
@@ -372,9 +371,9 @@ const Overview = () => {
                     <CCard color={'danger'} textColor={'white'} className={'mb-0'}>
                       <CCardBody>
                         <CCardTitle component="h4">{t('ALERTS')}</CCardTitle>
-                        <CListGroup>
+                        <CListGroup data-testid="alerts" >
                           { alerts.map((alert, index) => (  
-                            <p className="" key={alert.type + ' ' + index}>{alert.message}</p>
+                            <p data-testid={"alert-"+index} className="" key={alert.type + ' ' + index}>{alert.message}</p>
                           )) }
                         </CListGroup>
                       </CCardBody>
@@ -444,7 +443,6 @@ const Overview = () => {
           </div>
         </CCardBody>
       </CCard>
-    </>
   )
 }
 

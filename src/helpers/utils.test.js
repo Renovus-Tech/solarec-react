@@ -4,10 +4,6 @@ import i18n from './i18n'
 
 describe("utils", () => {
 
-  beforeEach(() => {
-    
-  })
-
   test('formatDate function should retrive correct value', () => {
     const dateNull = formatDate(null)
     expect(dateNull).toBeNull()

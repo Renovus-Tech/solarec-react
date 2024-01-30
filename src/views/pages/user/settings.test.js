@@ -1,4 +1,4 @@
-// user/settings.test.js
+// settings.test.js
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
