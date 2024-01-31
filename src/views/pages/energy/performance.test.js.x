@@ -1,14 +1,16 @@
-// trends.test.js
+// performance.test.js
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import i18n from '../../../helpers/i18n'
 import { getCookie } from '../../../helpers/sessionCookie.js'
-import Trends from './trends'
+import Performance from './performance'
 import 'jest-canvas-mock'
 import DataAPI from '../../../helpers/DataAPI.js'
 
 jest.mock('../../../helpers/DataAPI')
+
+jest.mock('react-chartjs-2', () => ({ Line: () => null }))
 
 const LocationResponseOk = {
   "id": 1,
@@ -41,34 +43,36 @@ const LocationResponseOk = {
   ]
 }
 
-const trendsResponseOk = {
+const performanceRatioResponseOk = {
   "chart" : {
     "from" : "2024/01/23 00:00:00",
     "to" : "2024/01/23 23:59:59",
     "resultCode" : 200,
     "resultText" : "",
-    "groupBy" : "hour"
+    "groupBy" : "week"
   },
   "data" : [ {
     "from" : "2024/01/23 00:00:00",
-    "to" : "2024/01/23 00:59:59",
+    "to" : "2024/01/23 23:59:59",
     "genData" : [ {
       "id" : 1,
       "name" : "1",
       "code" : "1",
       "productionMwh" : 0.0,
       "acProductionMwh" : 0.0,
-      "irradiationKwhM2" : 0.0
+      "irradiationKwhM2" : 0.0,
+      "performanceRatio" : 0.0,
+      "timeBasedAvailability" : 1.0
     } ],
     "totalProductionMwh" : 0.0,
     "totalACProductionMwh" : 0.0,
     "totalIrradiationKwhM2" : 0.0,
-    "avgAmbientTemp" : 0.0,
-    "avgModuleTemp" : 0.0
-  }]
+    "performanceRatio" : 0.0,
+    "timeBasedAvailability" : 1.0
+  } ]
 }
 
-describe("Trends", () => {
+describe("Performance", () => {
 
   beforeEach(() => {
     global.fetch = jest.fn()
@@ -79,17 +83,25 @@ describe("Trends", () => {
 
   test('correct texts should be in the document', async () => {
     DataAPI.mockResolvedValueOnce(LocationResponseOk)
-    render(<HashRouter><Trends /></HashRouter>)
-    const title = screen.getByText(i18n.t('Climate - Trends'))
+    render(<HashRouter><Performance /></HashRouter>)
+    const title = screen.getByText(i18n.t('Performance'))
+    const groupByLabel= screen.getByText(i18n.t('Group by'))
     const periodLabel = screen.getByText(i18n.t('Period'))
-    const selectInverterLabel = screen.getByText(i18n.t('Select inverters')+':')
+    const selectInverterLabel = screen.getByText(i18n.t('Select inverter')+':')
     const filtersSubmit = screen.getByText(i18n.t('Submit'))
+    const groupBySelect = screen.getByTestId('groupby')
     const periodSelect = screen.getByTestId('period')
     expect(title).toBeInTheDocument()
+    expect(groupByLabel).toBeInTheDocument()
     expect(periodLabel).toBeInTheDocument()
     expect(selectInverterLabel).toBeInTheDocument()
     expect(filtersSubmit).toBeInTheDocument()
+    expect(filtersSubmit).toBeDisabled()
+    expect(groupBySelect).toBeInTheDocument()
     expect(periodSelect).toBeInTheDocument()
+
+    expect(groupBySelect).toHaveValue("week")
+    expect(screen.getByRole("option", { name: "Week" }).selected).toBe(true)
 
     expect(periodSelect).toHaveValue("y")
     expect(screen.getByRole("option", { name: "Yesterday" }).selected).toBe(true)
@@ -97,7 +109,7 @@ describe("Trends", () => {
 
   test('submit button should be enabled after select inverter', async () => {
     DataAPI.mockResolvedValueOnce(LocationResponseOk)
-    render(<HashRouter><Trends /></HashRouter>)
+    render(<HashRouter><Performance /></HashRouter>)
     await waitFor(() => { screen.getByTestId('btn-gen-1') }, {timeout:5000})
     const buttonGen1 = screen.getByTestId('btn-gen-1')
     fireEvent.click(buttonGen1)
@@ -107,7 +119,11 @@ describe("Trends", () => {
 
   test('should change selects options', async () => {
     DataAPI.mockResolvedValueOnce(LocationResponseOk)
-    render(<HashRouter><Trends /></HashRouter>)
+    render(<HashRouter><Performance /></HashRouter>)
+    const groupBySelect = screen.getByTestId('groupby')
+    fireEvent.change(groupBySelect, { target: {value: 'day' }})
+    expect(groupBySelect).toHaveValue("day")
+    expect(screen.getByRole("option", { name: "Day" }).selected).toBe(true)
 
     const periodSelect = screen.getByTestId('period')
     fireEvent.change(periodSelect, { target: {value: 'cm' }})
@@ -117,7 +133,7 @@ describe("Trends", () => {
 
   test('should unset cookies and reload when endpoint returns error', async () => {
     DataAPI.mockResolvedValueOnce({error: "Error"})
-    render(<HashRouter><Trends /></HashRouter>)
+    render(<HashRouter><Performance /></HashRouter>)
 
     const { location } = window
     delete window.location
@@ -130,24 +146,25 @@ describe("Trends", () => {
 
   test('should call DataAPI and display graphs on submit button click', async () => {
     DataAPI.mockResolvedValue(LocationResponseOk)
-    render(<Trends />)
+    render(<Performance />)
 
     await waitFor(() => { screen.getByTestId('btn-gen-1') }, {timeout:5000})
     const buttonGen1 = screen.getByTestId('btn-gen-1')
     fireEvent.click(buttonGen1)
 
-    DataAPI.mockResolvedValueOnce(trendsResponseOk)
+    DataAPI.mockResolvedValueOnce(performanceRatioResponseOk)
     const submitButton = screen.getByTestId('submit-button')
     expect(submitButton).toBeEnabled()
     fireEvent.click(submitButton)
     
-    await waitFor(() => { screen.getByText(i18n.t('Production and Irradiance')) }, {timeout:10000})
+    await waitFor(() => { screen.getByText(i18n.t('Performance Ratio')) }, {timeout:10000})
+    expect(screen.getByText(i18n.t('Performance Ratio'))).toBeInTheDocument()
     expect(screen.getByText(i18n.t('Production and Irradiance'))).toBeInTheDocument()
   }, 20000)
 
   test('should show error message when endpint answers with error', async () => {
     DataAPI.mockResolvedValueOnce(LocationResponseOk)
-    render(<Trends />)
+    render(<Performance />)
 
     jest.spyOn(window, 'alert').mockImplementation(() => {})
     DataAPI.mockResolvedValueOnce({error: "Error"})
@@ -156,7 +173,7 @@ describe("Trends", () => {
     const buttonGen1 = screen.getByTestId('btn-gen-1')
     fireEvent.click(buttonGen1)
 
-    DataAPI.mockResolvedValueOnce(trendsResponseOk)
+    DataAPI.mockResolvedValueOnce(performanceRatioResponseOk)
     const submitButton = screen.getByTestId('submit-button')
     expect(submitButton).toBeEnabled()
     fireEvent.click(submitButton)

@@ -9,6 +9,8 @@ import DataAPI from '../../../helpers/DataAPI.js'
 
 jest.mock('../../../helpers/DataAPI')
 
+jest.mock('react-chartjs-2', () => ({ Bar: () => null }))
+
 const revenueResponseOk = {
   "months" : [ {
     "label" : "January",

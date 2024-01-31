@@ -1,7 +1,7 @@
 // Login.test.js
 import React from 'react'
 import { Route, Routes, HashRouter } from 'react-router-dom'
-import { render, screen, waitFor, fireEvent, act, mount } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import { getCookie } from '../../../helpers/sessionCookie.js'
 import i18n from '../../../helpers/i18n'
 import Login from './Login'
@@ -15,7 +15,6 @@ describe("Login", () => {
 
   beforeEach(() => {
     global.fetch = jest.fn()
-    // jest.clearAllMocks()
   })
 
   test('Renders Login', () => {

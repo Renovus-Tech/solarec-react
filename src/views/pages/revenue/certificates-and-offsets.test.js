@@ -1,13 +1,18 @@
+/* eslint-disable testing-library/no-wait-for-side-effects */
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
+/* eslint-disable testing-library/no-unnecessary-act */
 // certificates-and.offsets.test.js
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
-import { render, screen, waitFor, fireEvent } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent, act, waitForElement } from '@testing-library/react'
 import i18n from '../../../helpers/i18n'
 import Certificates from './certificates-and-offsets'
 import 'jest-canvas-mock'
 import DataAPI from '../../../helpers/DataAPI.js'
 
 jest.mock('../../../helpers/DataAPI')
+
+jest.mock('react-chartjs-2', () => ({ Bar: () => null }))
 
 const revenueResponseOk = {
   "months" : [ {
@@ -42,20 +47,25 @@ describe("Certificates", () => {
 
   test('correct texts should be in the document', async () => {
     render(<HashRouter><Certificates /></HashRouter>)
-    const title = screen.getByText(i18n.t('Certificates'))
-    const periodLabel = screen.getByText(i18n.t('Period'))
-    const filtersSubmit = screen.getByText(i18n.t('Submit'))
-    expect(title).toBeInTheDocument()
-    expect(periodLabel).toBeInTheDocument()
-    expect(filtersSubmit).toBeInTheDocument()
+    await waitFor(() => { 
+      const title = screen.getByText(i18n.t('Certificates')) 
+      const periodLabel = screen.getByText(i18n.t('Period'))
+      const filtersSubmit = screen.getByText(i18n.t('Submit'))
+      expect(title).toBeInTheDocument()
+      expect(periodLabel).toBeInTheDocument()
+      expect(filtersSubmit).toBeInTheDocument()
+    })
+    
   })
 
   test('select should have correct option selected', async () => {
     render(<HashRouter><Certificates /></HashRouter>)
-    const periodSelect = screen.getByTestId('period')
-    expect(periodSelect).toBeInTheDocument()
-    expect(periodSelect).toHaveValue("cy")
-    expect(screen.getByRole("option", { name: "Current year" }).selected).toBe(true)
+    await waitFor(() => { 
+      const periodSelect = screen.getByTestId('period')
+      expect(periodSelect).toBeInTheDocument()
+      expect(periodSelect).toHaveValue("cy")
+      expect(screen.getByRole("option", { name: "Current year" }).selected).toBe(true)
+    })
   })
 
   test('submit button should be enabled after load', async () => {
@@ -66,28 +76,32 @@ describe("Certificates", () => {
 
   test('should change selects options', async () => {
     render(<HashRouter><Certificates /></HashRouter>)
-    const periodSelect = screen.getByTestId('period')
-    fireEvent.change(periodSelect, { target: {value: 'cy-1' }})
-    expect(periodSelect).toHaveValue("cy-1")
-    const d = new Date()
-    const lastYear = d.getFullYear() - 1
-    expect(screen.getByRole("option", { name: lastYear }).selected).toBe(true)
+    await waitFor(() => { 
+      const periodSelect = screen.getByTestId('period')
+      fireEvent.change(periodSelect, { target: {value: 'cy-1' }})
+      expect(periodSelect).toHaveValue("cy-1")
+      const d = new Date()
+      const lastYear = d.getFullYear() - 1
+      expect(screen.getByRole("option", { name: lastYear }).selected).toBe(true)
+    })
   }, 20000)
 
   test('should call DataAPI and display graphs on submit button click', async () => {
     render(<Certificates />)
-
     DataAPI.mockResolvedValueOnce(revenueResponseOk)
-    const submitButton = screen.getByTestId('submit-button')
-    await waitFor(() => { expect(submitButton).toBeEnabled() }, {timeout:5000})
-    fireEvent.click(submitButton)
+    await waitFor(() => { 
+      const submitButton = screen.getByTestId('submit-button')
+      expect(submitButton).toBeEnabled()
+      fireEvent.click(submitButton)
+    })
+    await waitFor(() => { 
+      expect(screen.getByTestId('graph-container')).toBeInTheDocument() 
+      expect(screen.getByTestId('graph-container').innerHTML).not.toBe('')
+      expect (screen.getByTestId('left-units').innerHTML).toBe(i18n.t('MWh'))
+      expect (screen.getByTestId('right-units').innerHTML).toBe(i18n.t('Tons'))
+      expect (screen.getByTestId('months').innerHTML).toBe(i18n.t('Months'))
+    }, {timeout:10000})
     
-    await waitFor(() => { expect(screen.getByTestId('graph-container')).toBeInTheDocument() }, {timeout:10000})
-    expect(screen.getByTestId('graph-container').innerHTML).not.toBe('')
-
-    expect (screen.getByTestId('left-units').innerHTML).toBe(i18n.t('MWh'))
-    expect (screen.getByTestId('right-units').innerHTML).toBe(i18n.t('Tons'))
-    expect (screen.getByTestId('months').innerHTML).toBe(i18n.t('Months'))
   }, 20000)
 
   test('should show error message when endpoint answers with error', async () => {
@@ -96,11 +110,14 @@ describe("Certificates", () => {
     jest.spyOn(window, 'alert').mockImplementation(() => {})
     DataAPI.mockResolvedValueOnce({error: "Error"})
 
-    const submitButton = screen.getByTestId('submit-button')
-    await waitFor(() => { expect(submitButton).toBeEnabled() }, {timeout:5000})
-    fireEvent.click(submitButton)
-
-    await waitFor(() => { expect(window.alert).toBeCalledWith('Error') }, {timeout:10000})
+    await waitFor(() => { 
+      const submitButton = screen.getByTestId('submit-button')
+      expect(submitButton).toBeEnabled()
+      fireEvent.click(submitButton)
+    })
+    await waitFor(() => { 
+      expect(window.alert).toBeCalledWith('Error') 
+    }, {timeout:10000})
   }, 20000)
 
 })

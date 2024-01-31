@@ -9,6 +9,8 @@ import DataAPI from '../../../helpers/DataAPI.js'
 
 jest.mock('../../../helpers/DataAPI')
 
+jest.mock('react-chartjs-2', () => ({ Doughnut: () => null }))
+
 const LocationResponseOk = {
   "id": 1,
   "code": "Domus",

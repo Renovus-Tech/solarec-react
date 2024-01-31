@@ -53,8 +53,6 @@ describe("User Settigs", () => {
 
   beforeEach(() => {
     global.fetch = jest.fn()
-    // jest.clearAllMocks()
-    // DataAPI.mockResolvedValue(DataApiResponseOk)
   })
 
   test('correct texts should be in the document', async () => {
