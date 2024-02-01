@@ -1,3 +1,6 @@
+/* eslint-disable testing-library/no-wait-for-side-effects */
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
+/* eslint-disable testing-library/no-unnecessary-act */
 // overview.test.js
 import React from 'react'
 import { HashRouter } from 'react-router-dom'
@@ -102,80 +105,85 @@ describe("Performance", () => {
 
   test('correct texts should be in the document', async () => {
     render(<HashRouter><Overview /></HashRouter>)
-    const title = screen.getByText(i18n.t('Overview'))
-    const title1= screen.getByText(i18n.t('PLANT CHARACTERISTICS'))
-    const title2 = screen.getByText(i18n.t('PRODUCTION AND CLIMATE'))
-    const title3 = screen.getByText(i18n.t('ALERTS'))
-    const title4 = screen.getByText(i18n.t('TIME-BASED AVAILABILITY(%)'))
-    const title5 = screen.getByText(i18n.t('PERFORMANCE RATIO(%)'))
+    await waitFor(() => {  
+      const title = screen.getByText(i18n.t('Overview'))
+      const title1= screen.getByText(i18n.t('PLANT CHARACTERISTICS'))
+      const title2 = screen.getByText(i18n.t('PRODUCTION AND CLIMATE'))
+      const title3 = screen.getByText(i18n.t('ALERTS'))
+      const title4 = screen.getByText(i18n.t('TIME-BASED AVAILABILITY(%)'))
+      const title5 = screen.getByText(i18n.t('PERFORMANCE RATIO(%)'))
 
-    expect(title).toBeInTheDocument()
-    expect(title1).toBeInTheDocument()
-    expect(title2).toBeInTheDocument()
-    expect(title3).toBeInTheDocument()
-    expect(title4).toBeInTheDocument()
-    expect(title5).toBeInTheDocument()
+      expect(title).toBeInTheDocument()
+      expect(title1).toBeInTheDocument()
+      expect(title2).toBeInTheDocument()
+      expect(title3).toBeInTheDocument()
+      expect(title4).toBeInTheDocument()
+      expect(title5).toBeInTheDocument()
 
-    const periodSelect = screen.getByTestId('period')
-    expect(periodSelect).toHaveValue("y")
-    expect(screen.getByRole("option", { name: "Yesterday" }).selected).toBe(true)
+      const periodSelect = screen.getByTestId('period')
+      expect(periodSelect).toHaveValue("y")
+      expect(screen.getByRole("option", { name: "Yesterday" }).selected).toBe(true)
+    })
   })
 
   test('correct values should load on Plant Characteristics', async () => {
     render(<HashRouter><Overview /></HashRouter>)
-    await waitFor(() => { expect(screen.getByTestId('user').innerHTML).toBe(i18n.t('User')+': Domus') }, {timeout:5000})
+    await waitFor(() => { 
+      expect(screen.getByTestId('user').innerHTML).toBe(i18n.t('User')+': Domus') 
 
-    const userLabel = screen.getByTestId('user')
-    const regionLabel = screen.getByTestId('region')
-    const countryLabel = screen.getByTestId('country')
-    const capacityLabel = screen.getByTestId('capacity')
-    const locationLabel = screen.getByTestId('location')
+      const userLabel = screen.getByTestId('user')
+      const regionLabel = screen.getByTestId('region')
+      const countryLabel = screen.getByTestId('country')
+      const capacityLabel = screen.getByTestId('capacity')
+      const locationLabel = screen.getByTestId('location')
 
-    expect(userLabel).toBeInTheDocument()
-    expect(regionLabel).toBeInTheDocument()
-    expect(countryLabel).toBeInTheDocument()
-    expect(capacityLabel).toBeInTheDocument()
-    expect(locationLabel).toBeInTheDocument()
+      expect(userLabel).toBeInTheDocument()
+      expect(regionLabel).toBeInTheDocument()
+      expect(countryLabel).toBeInTheDocument()
+      expect(capacityLabel).toBeInTheDocument()
+      expect(locationLabel).toBeInTheDocument()
 
-    expect(userLabel.innerHTML).toBe(i18n.t('User')+': Domus')
-    expect(regionLabel.innerHTML).toBe(i18n.t('Region')+': Canelones')
-    expect(countryLabel.innerHTML).toBe(i18n.t('Country')+': Uruguay')
-    expect(capacityLabel.innerHTML).toBe(i18n.t('Capacity')+': 50.0 KW')
+      expect(userLabel.innerHTML).toBe(i18n.t('User')+': Domus')
+      expect(regionLabel.innerHTML).toBe(i18n.t('Region')+': Canelones')
+      expect(countryLabel.innerHTML).toBe(i18n.t('Country')+': Uruguay')
+      expect(capacityLabel.innerHTML).toBe(i18n.t('Capacity')+': 50.0 KW')
+    }, {timeout:5000})
     
   }, 10000)
 
   test('correct values should load on Production and Climate', async () => {
     render(<HashRouter><Overview /></HashRouter>)
-    await waitFor(() => { expect(screen.getByTestId('production').innerHTML).toBe(i18n.t('Production')+': 10.0 MWh') }, {timeout:5000})
+    await waitFor(() => { 
+      expect(screen.getByTestId('production').innerHTML).toBe(i18n.t('Production')+': 10.0 MWh') 
 
-    const production = screen.getByTestId('production')
-    const irradiation = screen.getByTestId('irradiation')
-    const temperature = screen.getByTestId('temperature')
+      const production = screen.getByTestId('production')
+      const irradiation = screen.getByTestId('irradiation')
+      const temperature = screen.getByTestId('temperature')
 
-    expect(production).toBeInTheDocument()
-    expect(irradiation).toBeInTheDocument()
-    expect(temperature).toBeInTheDocument()
+      expect(production).toBeInTheDocument()
+      expect(irradiation).toBeInTheDocument()
+      expect(temperature).toBeInTheDocument()
 
-    expect(production.innerHTML).toBe(i18n.t('Production')+': 10.0 MWh')
-    expect(irradiation.innerHTML).toBe(i18n.t('Irradiation')+': 20.0 Kwh/m2')
-    expect(temperature.innerHTML).toBe(i18n.t('Average Ambient Temperature')+': 30.0 °C')
+      expect(production.innerHTML).toBe(i18n.t('Production')+': 10.0 MWh')
+      expect(irradiation.innerHTML).toBe(i18n.t('Irradiation')+': 20.0 Kwh/m2')
+      expect(temperature.innerHTML).toBe(i18n.t('Average Ambient Temperature')+': 30.0 °C')
+    }, {timeout:5000})
     
   }, 10000)
 
   test('values should change after change period', async () => {
-    // DataAPI.mockResolvedValueOnce(LocationResponseOk)
-    // DataAPI.mockResolvedValueOnce(overviewResponseOk)
-    // DataAPI.mockResolvedValueOnce(alertsResponseOk)
     render(<Overview />)
-    await waitFor(() => { expect(screen.getByTestId('production').innerHTML).toBe(i18n.t('Production')+': 10.0 MWh') }, {timeout:5000})
+    await waitFor(() => { 
+      expect(screen.getByTestId('production').innerHTML).toBe(i18n.t('Production')+': 10.0 MWh') 
+      DataAPI.mockResolvedValueOnce({"data": [{ "id" : [ 1 ], "name" : [ "1" ], "code" : [ "1" ], "productionMwh" : 100.0, "irradiationKwhM2" : 200.0, "avgAmbientTemp" : 300.0, "avgModuleTemp" : 400.0, "timeBasedAvailability" : 1000.0, "specificYield" : 500.0, "performanceRatio" : 600.0 } ] })
+      DataAPI.mockResolvedValueOnce(alertsResponseOk)
+    }, {timeout:5000})
 
-    DataAPI.mockResolvedValueOnce({"data": [{ "id" : [ 1 ], "name" : [ "1" ], "code" : [ "1" ], "productionMwh" : 100.0, "irradiationKwhM2" : 200.0, "avgAmbientTemp" : 300.0, "avgModuleTemp" : 400.0, "timeBasedAvailability" : 1000.0, "specificYield" : 500.0, "performanceRatio" : 600.0 } ] })
-    // DataAPI.mockResolvedValueOnce(overviewResponseOk)
-    DataAPI.mockResolvedValueOnce(alertsResponseOk)
-
-    await waitFor(() => { expect(screen.getByTestId('period')).toBeEnabled() }, {timeout:5000})
-    const periodSelect = screen.getByTestId('period')
-    expect(periodSelect).toBeEnabled()
+    await waitFor(() => { 
+      expect(screen.getByTestId('period')).toBeEnabled() 
+      const periodSelect = screen.getByTestId('period')
+      expect(periodSelect).toBeEnabled()
+    }, {timeout:5000})
     // fireEvent.change(periodSelect, { target: {value: 'cm' }})
     // expect(periodSelect).toHaveValue("cm")
     // expect(screen.getByRole("option", { name: "Current month" }).selected).toBe(true)
