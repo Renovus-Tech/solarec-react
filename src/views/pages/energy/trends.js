@@ -21,17 +21,18 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 const Trends = () => {
   const { t } = useTranslation()
-  const [dateRange, setDateRange] = useState('y')
+  const [period, setPeriod] = useState('cm')
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataLoadError, setDataLoadError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [generatorsLoaded, setGeneratorsLoaded] = useState(false)
   const [selectedGenerators, setSelectedGenerators] = useState([])
-  const [filterSubmitted, setFilterSubmitted] = useState(false)
+  const [multipleInverters, setMultipleInverters] = useState(false)
   const [generators, setGenerators] = useState([])
   const [generatorColors, setGeneratorColors] = useState([])
   const [generatorsSelected, setGeneratorsSelected] = useState(false)
   const [allSelected, setAllSelected] = useState(true)
+
 
   const [lineChartOneData, setLineChartOneData] = useState({
     labels: [],
@@ -58,6 +59,11 @@ const Trends = () => {
               setGeneratorColors(generatorColors)
               colorIndex++
             })
+            setMultipleInverters(generators.length > 1)
+            if (response.generators.length === 1) {
+              selectGenerator(response.generators[0].id)
+              filterGenerators()
+            }
           }
   
           setGeneratorsLoaded(true)
@@ -68,7 +74,7 @@ const Trends = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const fetchData = (period) => {
+  const fetchData = () => {
     setLoading(true)
 
     const body = {}
@@ -127,7 +133,7 @@ const Trends = () => {
 
       responseData.data[0].genData.forEach((gen) => {
         const datasetACProduction = {
-          label: gen.code,
+          label: gen.name,
           borderColor: generatorColors[gen.code],
           pointBackgroundColor: 'transparent',
           pointBorderColor: 'transparent',
@@ -169,13 +175,9 @@ const Trends = () => {
 
   const filterGenerators = () => {
     setDataLoaded(false)
-    setGeneratorsSelected(false)
-    setFilterSubmitted(true)
-    if (selectedGenerators.length > 0) {
-      setLoading(true)
-      setGeneratorsSelected(true)
-      fetchData(dateRange)
-    }
+    setLoading(true)
+    setGeneratorsSelected(true)
+    fetchData()
   }
 
   const options = {
@@ -234,72 +236,88 @@ const Trends = () => {
             <h3 id="traffic" className="card-title mb-0">
               {t('Climate - Trends')}
             </h3>
-            <div className="small text-medium-emphasis">{getDateLabel(dateRange)}</div>
+            <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
           </CCol>
 
           <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
             <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
+                value={period}
                 options={['y', 'cm', 'cy', 'x', 'xx']}
                 disabled={loading}
                 onChange={(value) => {
-                  setDateRange(value)
+                  setPeriod(value)
                 }}
               />
             </div>
+            { !multipleInverters &&
+              <div className="d-flex py-1">
+                <CButton
+                  color="primary"
+                  disabled={loading}
+                  className="mx-2"
+                  data-testid={"submit-button"}
+                  onClick={() => { filterGenerators() }}
+                >
+                  {t('Submit')}
+                </CButton>
+              </div>
+            }
           </CCol>
         </CRow>
       </CCardHeader>
 
       <CCardBody>
-        <CRow className={'py-3 mb-4 mx-0 bg-light'} style={{ borderRadius: '3px' }}>
-          <CCol sm="10" className={'d-flex '}>
-            <h6 className="mx-2 my-2 pt-1" style={{ lineHeight: 1.2, minWidth: '110px' }}>
-              {t('Select inverters')}:
-            </h6>
-            {generatorsLoaded ? (
-              <div>
-                <CButton
-                  style={{ backgroundColor: '#0400ff', color: 'white' }}
-                  className={(allSelected ? 'selected' : '') + ' btn-generator mx-1 my-1'}
-                  onClick={() => setAllSelected(!allSelected)}
-                >
-                  {t('ALL')}
-                </CButton>
-                {generators.map((gen, index) => (
+        { multipleInverters &&
+          <CRow className={'py-3 mb-4 mx-0 bg-light'} style={{ borderRadius: '3px' }}>
+            <CCol sm="10" className={'d-flex '}>
+              <h6 className="mx-2 my-2 pt-1" style={{ lineHeight: 1.2, minWidth: '110px' }}>
+                {t('Select inverters')}:
+              </h6>
+              {generatorsLoaded ? (
+                <div>
                   <CButton
-                    data-testid={"btn-gen-"+gen.id}
-                    key={gen.id}
-                    style={{ backgroundColor: generatorColors[gen.code], color: 'white' }}
-                    className={
-                      (selectedGenerators.includes(gen.id) ? 'selected' : '') +
-                      ' btn-generator mx-1 my-1'
-                    }
-                    onClick={() => selectGenerator(gen.id)}
-                    id={gen.id}
+                    style={{ backgroundColor: '#0400ff', color: 'white' }}
+                    className={(allSelected ? 'selected' : '') + ' btn-generator mx-1 my-1'}
+                    onClick={() => setAllSelected(!allSelected)}
                   >
-                    {gen.name}
+                    {t('ALL')}
                   </CButton>
-                ))}
-              </div>
-            ) : (
-              <CSpinner size="sm" className="loading-spinner" color="#321fdb" />
-            )}
-          </CCol>
-          <CCol sm="2" className="text-end d-flex flex-end flex-justify-end ">
-            <CButton 
-              color="primary" 
-              className="mx-2 mb-1" 
-              onClick={() => filterGenerators()}
-              data-testid={"submit-button"}
-              >
-              {t('Submit')}
-            </CButton>
-          </CCol>
-        </CRow>
+                  {generators.map((gen, index) => (
+                    <CButton
+                      data-testid={"btn-gen-"+gen.id}
+                      key={gen.id}
+                      style={{ backgroundColor: generatorColors[gen.code], color: 'white' }}
+                      className={
+                        (selectedGenerators.includes(gen.id) ? 'selected' : '') +
+                        ' btn-generator mx-1 my-1'
+                      }
+                      onClick={() => selectGenerator(gen.id)}
+                      id={gen.id}
+                    >
+                      {gen.name}
+                    </CButton>
+                  ))}
+                </div>
+              ) : (
+                <CSpinner size="sm" className="loading-spinner" color="#321fdb" />
+              )}
+            </CCol>
+            <CCol sm="2" className="text-end d-flex flex-end flex-justify-end ">
+              <CButton 
+                color="primary" 
+                className="mx-2 mb-1" 
+                onClick={() => filterGenerators()}
+                data-testid={"submit-button"}
+                >
+                {t('Submit')}
+              </CButton>
+            </CCol>
+          </CRow>
+        }
 
-        {generatorsSelected ? (
+        {generatorsSelected && (
           <div>
             {!loading || dataLoadError ? (
               <div>
@@ -322,14 +340,6 @@ const Trends = () => {
               <div className="text-center">
                 <CSpinner className="loading-spinner" color="#321fdb" />
               </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            {filterSubmitted && (
-              <CRow>
-                <CCol className="text-center">{t('Select one or more inverters')}</CCol>
-              </CRow>
             )}
           </div>
         )}

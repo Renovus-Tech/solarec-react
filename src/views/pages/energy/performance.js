@@ -37,6 +37,7 @@ const Performance = () => {
   const [generatorsLoaded, setGeneratorsLoaded] = useState(false)
   const [generatorsSelected, setGeneratorsSelected] = useState(false)
   const [selectedGenerators, setSelectedGenerators] = useState([])
+  const [multipleInverters, setMultipleInverters] = useState(false)
   const [period, setPeriod] = useState('cm')
   const [groupBy, setGroupBy] = useState('day')
   const [loading, setLoading] = useState(false)
@@ -64,9 +65,15 @@ const Performance = () => {
               setGeneratorColors(generatorColors)
               colorIndex++
             })
+            setMultipleInverters(response.generators.length > 1)
+            if (response.generators.length === 1) {
+              selectGenerator(response.generators[0].id)
+              filterGenerators()
+            }
           }
   
           setGeneratorsLoaded(true)
+          
         }
       })
     }
@@ -74,7 +81,7 @@ const Performance = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const fetchData = (period, groupBy) => {
+  const fetchData = () => {
 
     setLoading(true)
 
@@ -139,34 +146,9 @@ const Performance = () => {
         }
         data2.datasets.push(dataset2y1)
 
-        // const dataset1Total = {
-        //   label: t('Total'),
-        //   backgroundColor: '#0400ff',
-        //   data: responseData.data.map((rD, index) => {
-        //     return rD.performanceRatio
-        //   }),
-        // }
-        // data.datasets.push(dataset1Total)
-
-        // const dataset2Total = {
-        //   label: t('Total'),
-        //   backgroundColor: '#0400ff',
-        //   borderColor: '#0400ff',
-        //   borderWidth: 1,
-        //   pointBorderColor: '#0400ff',
-        //   pointBorderWidth: 2,
-        //   yAxisID: 'y',
-        //   pointRadius: 4,
-        //   pointHoverRadius: 5,
-        //   data: responseData.data.map((rD, index) => {
-        //     return rD.totalACProductionMwh
-        //   }),
-        // }
-        // data2.datasets.push(dataset2Total)
-
         responseData.data[0].genData.forEach((gen) => {
           const dataset = {
-            label: gen.code,
+            label: gen.name,
             backgroundColor: generatorColors[gen.code],
             data: responseData.data.map((rD, index) => {
               return rD.genData
@@ -175,7 +157,7 @@ const Performance = () => {
             }),
           }
           const dataset2y = {
-            label: t('Production') + ': ' + gen.code,
+            label: t('Production') + ': ' + gen.name,
             backgroundColor: generatorColors[gen.code],
             borderColor: generatorColors[gen.code],
             borderWidth: 1,
@@ -278,7 +260,7 @@ const Performance = () => {
 
   const filterGenerators = () => {
     setGeneratorsSelected(true)
-    fetchData(period, groupBy)
+    fetchData()
   }
 
   return (
@@ -324,11 +306,26 @@ const Performance = () => {
                 }}
               />
             </div>
+            { !multipleInverters &&
+              <div className="d-flex py-1">
+                <CButton
+                  color="primary"
+                  disabled={loading}
+                  className="mx-2"
+                  data-testid={"submit-button"}
+                  onClick={() => { filterGenerators() }}
+                >
+                  {t('Submit')}
+                </CButton>
+              </div>
+            }
           </CCol>
         </CRow>
       </CCardHeader>
 
       <CCardBody>
+
+      { multipleInverters &&
         <CRow className={'py-3 mb-4 mx-0 bg-light'} style={{ borderRadius: '3px' }}>
           <CCol sm="10" className={'d-flex '}>
             <h6 className="mx-2 my-2 pt-1" style={{ lineHeight: 1.2, minWidth: '110px' }}>
@@ -367,6 +364,7 @@ const Performance = () => {
             </CButton>
           </CCol>
         </CRow>
+        }
 
         {generatorsSelected && (
           <div>
