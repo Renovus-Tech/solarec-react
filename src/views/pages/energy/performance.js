@@ -37,8 +37,8 @@ const Performance = () => {
   const [generatorsLoaded, setGeneratorsLoaded] = useState(false)
   const [generatorsSelected, setGeneratorsSelected] = useState(false)
   const [selectedGenerators, setSelectedGenerators] = useState([])
-  const [dateRange, setDateRange] = useState('y')
-  const [groupBy, setGroupBy] = useState('week')
+  const [period, setPeriod] = useState('cm')
+  const [groupBy, setGroupBy] = useState('day')
   const [loading, setLoading] = useState(false)
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataLoadError, setDataLoadError] = useState(false)
@@ -60,7 +60,7 @@ const Performance = () => {
             let colorIndex = 0
             response.generators.forEach((gen) => {
               generatorColors[gen.code] = colors[colorIndex % colors.length]
-              generatorColors['Total'] = '#0400ff'
+              // generatorColors['Total'] = '#0400ff'
               setGeneratorColors(generatorColors)
               colorIndex++
             })
@@ -139,30 +139,30 @@ const Performance = () => {
         }
         data2.datasets.push(dataset2y1)
 
-        const dataset1Total = {
-          label: t('Total'),
-          backgroundColor: '#0400ff',
-          data: responseData.data.map((rD, index) => {
-            return rD.performanceRatio
-          }),
-        }
-        data.datasets.push(dataset1Total)
+        // const dataset1Total = {
+        //   label: t('Total'),
+        //   backgroundColor: '#0400ff',
+        //   data: responseData.data.map((rD, index) => {
+        //     return rD.performanceRatio
+        //   }),
+        // }
+        // data.datasets.push(dataset1Total)
 
-        const dataset2Total = {
-          label: t('Total'),
-          backgroundColor: '#0400ff',
-          borderColor: '#0400ff',
-          borderWidth: 1,
-          pointBorderColor: '#0400ff',
-          pointBorderWidth: 2,
-          yAxisID: 'y',
-          pointRadius: 4,
-          pointHoverRadius: 5,
-          data: responseData.data.map((rD, index) => {
-            return rD.totalACProductionMwh
-          }),
-        }
-        data2.datasets.push(dataset2Total)
+        // const dataset2Total = {
+        //   label: t('Total'),
+        //   backgroundColor: '#0400ff',
+        //   borderColor: '#0400ff',
+        //   borderWidth: 1,
+        //   pointBorderColor: '#0400ff',
+        //   pointBorderWidth: 2,
+        //   yAxisID: 'y',
+        //   pointRadius: 4,
+        //   pointHoverRadius: 5,
+        //   data: responseData.data.map((rD, index) => {
+        //     return rD.totalACProductionMwh
+        //   }),
+        // }
+        // data2.datasets.push(dataset2Total)
 
         responseData.data[0].genData.forEach((gen) => {
           const dataset = {
@@ -278,7 +278,7 @@ const Performance = () => {
 
   const filterGenerators = () => {
     setGeneratorsSelected(true)
-    fetchData(dateRange, groupBy)
+    fetchData(period, groupBy)
   }
 
   return (
@@ -289,7 +289,7 @@ const Performance = () => {
             <h3 id="traffic" className="card-title mb-0">
               {t('Performance')}
             </h3>
-            <div className="small text-medium-emphasis">{getDateLabel(dateRange)}</div>
+            <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
           </CCol>
 
           <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
@@ -316,11 +316,11 @@ const Performance = () => {
             <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
-                value={dateRange}
+                value={period}
                 options={['y', 'cm', 'cy', 'x', 'xx']}
                 disabled={loading}
                 onChange={(value) => {
-                  setDateRange(value)
+                  setPeriod(value)
                 }}
               />
             </div>
@@ -349,7 +349,7 @@ const Performance = () => {
                     onClick={() => selectGenerator(gen.id)}
                     id={gen.id}
                   >
-                    {gen.code}
+                    {gen.name}
                   </CButton>
                 ))}
               </div>

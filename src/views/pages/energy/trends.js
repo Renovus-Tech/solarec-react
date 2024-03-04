@@ -279,7 +279,7 @@ const Trends = () => {
                     onClick={() => selectGenerator(gen.id)}
                     id={gen.id}
                   >
-                    {gen.code}
+                    {gen.name}
                   </CButton>
                 ))}
               </div>
