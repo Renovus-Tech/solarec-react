@@ -312,7 +312,7 @@ const Performance = () => {
                   color="primary"
                   disabled={loading}
                   className="mx-2"
-                  data-testid={"submit-button"}
+                  data-testid={"submit-button-top"}
                   onClick={() => { filterGenerators() }}
                 >
                   {t('Submit')}

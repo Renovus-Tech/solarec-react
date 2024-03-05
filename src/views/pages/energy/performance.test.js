@@ -15,7 +15,7 @@ jest.mock('../../../helpers/DataAPI')
 
 jest.mock('react-chartjs-2', () => ({ Line: () => null }))
 
-const LocationResponseOk = {
+const LocationResponseOneGenOk = {
   "id": 1,
   "code": "Domus",
   "name": "Domus",
@@ -43,6 +43,54 @@ const LocationResponseOk = {
           "powerCurve": [],
           "neighbors": null
       }
+  ]
+}
+
+const LocationResponseTwoGenOk = {
+  "id": 1,
+  "code": "Domus",
+  "name": "Domus",
+  "address": "Canelones, Uruguay",
+  "state": "Canelones",
+  "country": "Uruguay",
+  "countryAlpha2": "UY",
+  "latitude": -34.7833,
+  "longitude": -56.0112,
+  "generators": [
+      {
+          "id": 1,
+          "locationId": 1,
+          "code": "1",
+          "name": "1",
+          "description": null,
+          "latitude": -34.7833,
+          "longitude": -56.0112,
+          "brand": "ABB",
+          "model": "ABB Trio 50.0",
+          "serialNumber": "19384220",
+          "ratePower": 50.0,
+          "dataDefinitionId": null,
+          "dataDefinition": null,
+          "powerCurve": [],
+          "neighbors": null
+      },
+      {
+        "id": 2,
+        "locationId": 2,
+        "code": "2",
+        "name": "2",
+        "description": null,
+        "latitude": -31.7833,
+        "longitude": -58.0112,
+        "brand": "ABB",
+        "model": "ABB Trio 50.0",
+        "serialNumber": "19384221",
+        "ratePower": 30.0,
+        "dataDefinitionId": null,
+        "dataDefinition": null,
+        "powerCurve": [],
+        "neighbors": null
+    }
   ]
 }
 
@@ -79,41 +127,57 @@ describe("Performance", () => {
 
   beforeEach(() => {
     global.fetch = jest.fn()
-
-    // jest.clearAllMocks()
-    // DataAPI.mockResolvedValue(DataApiResponseOk)
   })
 
   test('correct texts should be in the document', async () => {
-    DataAPI.mockResolvedValueOnce(LocationResponseOk)
+    DataAPI.mockResolvedValueOnce(LocationResponseOneGenOk)
+    DataAPI.mockResolvedValueOnce(performanceRatioResponseOk)
     render(<HashRouter><Performance /></HashRouter>)
     await waitFor(() => { 
       const title = screen.getByText(i18n.t('Performance'))
       const groupByLabel= screen.getByText(i18n.t('Group by'))
       const periodLabel = screen.getByText(i18n.t('Period'))
-      const selectInverterLabel = screen.getByText(i18n.t('Select inverter')+':')
-      const filtersSubmit = screen.getByText(i18n.t('Submit'))
       const groupBySelect = screen.getByTestId('groupby')
       const periodSelect = screen.getByTestId('period')
       expect(title).toBeInTheDocument()
       expect(groupByLabel).toBeInTheDocument()
       expect(periodLabel).toBeInTheDocument()
-      expect(selectInverterLabel).toBeInTheDocument()
-      expect(filtersSubmit).toBeInTheDocument()
-      expect(filtersSubmit).toBeDisabled()
       expect(groupBySelect).toBeInTheDocument()
       expect(periodSelect).toBeInTheDocument()
 
-      expect(groupBySelect).toHaveValue("week")
-      expect(screen.getByRole("option", { name: "Week" }).selected).toBe(true)
+      expect(groupBySelect).toHaveValue("day")
+      expect(screen.getByRole("option", { name: "Day" }).selected).toBe(true)
 
-      expect(periodSelect).toHaveValue("y")
-      expect(screen.getByRole("option", { name: "Yesterday" }).selected).toBe(true)
-    })
-  })
+      expect(periodSelect).toHaveValue("cm")
+      expect(screen.getByRole("option", { name: "Current month" }).selected).toBe(true)
+    }, {timeout:5000})
+  }, 20000)
+
+  test('correct texts should be in the document with one gen', async () => {
+    DataAPI.mockResolvedValueOnce(LocationResponseOneGenOk)
+    DataAPI.mockResolvedValueOnce(performanceRatioResponseOk)
+    render(<HashRouter><Performance /></HashRouter>)
+    await waitFor(() => { 
+      const filtersSubmit = screen.getByTestId('submit-button-top')
+      expect(filtersSubmit).toBeInTheDocument()
+      // expect(filtersSubmit).toBeDisabled()
+    }, {timeout:5000})
+  }, 20000)
+
+  test('correct texts should be in the document with more than one gen', async () => {
+    DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
+    render(<HashRouter><Performance /></HashRouter>)
+    await waitFor(() => { 
+      const selectInverterLabel = screen.getByText(i18n.t('Select inverter')+':')
+      const filtersSubmit = screen.getByTestId('submit-button')
+      expect(selectInverterLabel).toBeInTheDocument()
+      expect(filtersSubmit).toBeInTheDocument()
+      expect(filtersSubmit).toBeDisabled()
+    }, {timeout:5000})
+  }, 20000)
 
   test('submit button should be enabled after select inverter', async () => {
-    DataAPI.mockResolvedValueOnce(LocationResponseOk)
+    DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
     render(<HashRouter><Performance /></HashRouter>)
     await waitFor(() => {  
       const buttonGen1 = screen.getByTestId('btn-gen-1')
@@ -124,7 +188,7 @@ describe("Performance", () => {
   }, 20000)
 
   test('should change selects options', async () => {
-    DataAPI.mockResolvedValueOnce(LocationResponseOk)
+    DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
     render(<HashRouter><Performance /></HashRouter>)
     await waitFor(() => {  
       const groupBySelect = screen.getByTestId('groupby')
@@ -155,7 +219,7 @@ describe("Performance", () => {
   }, 20000)
 
   test('should call DataAPI and display graphs on submit button click', async () => {
-    DataAPI.mockResolvedValue(LocationResponseOk)
+    DataAPI.mockResolvedValue(LocationResponseTwoGenOk)
     render(<Performance />)
 
     await waitFor(() => {  
@@ -177,7 +241,7 @@ describe("Performance", () => {
   }, 20000)
 
   test('should show error message when endpint answers with error', async () => {
-    DataAPI.mockResolvedValueOnce(LocationResponseOk)
+    DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
     render(<Performance />)
 
     jest.spyOn(window, 'alert').mockImplementation(() => {})

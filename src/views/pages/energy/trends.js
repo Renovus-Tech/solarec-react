@@ -59,7 +59,7 @@ const Trends = () => {
               setGeneratorColors(generatorColors)
               colorIndex++
             })
-            setMultipleInverters(generators.length > 1)
+            setMultipleInverters(response.generators.length > 1)
             if (response.generators.length === 1) {
               selectGenerator(response.generators[0].id)
               filterGenerators()
@@ -257,7 +257,7 @@ const Trends = () => {
                   color="primary"
                   disabled={loading}
                   className="mx-2"
-                  data-testid={"submit-button"}
+                  data-testid={"submit-button-top"}
                   onClick={() => { filterGenerators() }}
                 >
                   {t('Submit')}
