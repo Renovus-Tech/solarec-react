@@ -75,8 +75,8 @@ $colors: (
 // scss-docs-end colors-map
 
 // fusv-disable
-// $primary-dark:  #1f1498 !default;
-// $primary-base:  #321fdb !default;
+$primary-dark:  #28848e !default;
+$primary-base:  #49a8b2 !default;
 // $primary-50:    #988fed !default;
 // $primary-25:    #ccc7f6 !default;
 
@@ -117,7 +117,7 @@ $colors: (
 // fusv-enable
 
 // scss-docs-start theme-color-variables
-// $primary:       $primary-base !default;
+$primary:       $primary-base !default;
 // $secondary:     $secondary-base !default;
 // $success:       $success-base !default;
 // $info:          $info-base !default;
