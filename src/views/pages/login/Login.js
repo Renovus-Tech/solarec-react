@@ -18,7 +18,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
-import logo from '../../../assets/logo-solarec.png'
+import logo from '../../../assets/logo.png'
 
 // eslint-disable-next-line react/prop-types
 const Login = () => {

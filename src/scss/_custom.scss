@@ -82,19 +82,9 @@ div#collapseWidth {
 }
 
 
-/* Variables */
-// Variable overrides
-$color-login-right: #e2fffd;
-$color-primary: #49a8b2;
-$color-primary-hover: #28848e;
-// $color: #468c7f;
-
-.c-app {
-    --color: #49a8b2!important;
-}
-
 
 /* Colors */
+
 .bg-login-right {
     background-color: $color-login-right;
 }
@@ -126,7 +116,7 @@ a {
 
 .c-sidebar-brand{
 	background-color: white!important;
-	background-image: url(../assets/logo-solarec.png)!important;
+	background-image: url(../assets/logo.png)!important;
     background-size: auto 90% !important;
     background-repeat: no-repeat !important;
     background-position: 16px 0!important;
@@ -136,7 +126,7 @@ a {
 	height: 50px;
 	display: block;
 	background-color: white!important;
-	background-image: url(../assets/logo-solarec.png)!important;
+	background-image: url(../assets/logo.png)!important;
 	background-size: contain!important;
     background-repeat: no-repeat!important;
     background-position: center!important;
@@ -171,6 +161,7 @@ a {
 
 
 /* Multiselect */
+
 .multiselect-container {
     min-width: 150px;
 }
@@ -269,8 +260,7 @@ option[value="xx"] {
 }
 
 
-
-/* others */
+/* Others */
 
 .search-wrapper.searchWrapper {
     background-color: white;
@@ -278,40 +268,8 @@ option[value="xx"] {
 }
 
 
+/* Menu */
 
-
-/* Solar */
-
-.c-app.solar .c-sidebar {
-    background: #f7cf27;
-}
-.c-app.solar .c-sidebar .c-sidebar-nav-link, .c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle {
-    color: #615127;
-}
-.c-app.solar .c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon, .c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon {
-    color: #615127;
-}
-.c-app.solar .c-sidebar .c-sidebar-nav-link:hover, .c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
-    background: #ffdd4e;
-}
-.c-app.solar .c-sidebar .c-sidebar-nav-dropdown.c-show {
-    background: #ffdd4e;
-}
-.c-app.solar .c-sidebar .c-sidebar-minimizer {
-    background-color: rgba(0, 0, 21, 0.1);
-}
-.c-app.solar .c-sidebar .c-sidebar-nav-dropdown-toggle::after {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='rgba(97, 81, 39, 0.9)' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E")!important;
-}
-.c-app.solar .c-sidebar .c-sidebar-minimizer::before {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='rgba(97, 81, 39, 0.6)' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E")!important;
-}
-.c-app.solar .c-sidebar .c-sidebar-minimizer:hover::before {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 14'%3E%3Cpath fill='rgba(97, 81, 39, 0.9)' d='M9.148 2.352l-4.148 4.148 4.148 4.148q0.148 0.148 0.148 0.352t-0.148 0.352l-1.297 1.297q-0.148 0.148-0.352 0.148t-0.352-0.148l-5.797-5.797q-0.148-0.148-0.148-0.352t0.148-0.352l5.797-5.797q0.148-0.148 0.352-0.148t0.352 0.148l1.297 1.297q0.148 0.148 0.148 0.352t-0.148 0.352z'/%3E%3C/svg%3E")!important;
-}
-
-
-/*Menu*/
 .c-sidebar-nav-dropdown .c-sidebar-nav-dropdown-items > .c-sidebar-nav-item > a, .c-sidebar-nav-dropdown .c-sidebar-nav-dropdown-items > .c-sidebar-nav-dropdown > a {
     padding-left: 68px!important;
 }
@@ -338,6 +296,7 @@ a.c-sidebar-nav-link[addlinkclasses="premium"]:after {
 
 
 /* Maintenance */
+
 select.open, .select-status option[value="open"] {
     background-color: #ffd8d8!important;
 }
@@ -347,6 +306,7 @@ select.closed, .select-status option[value="closed"] {
 
 
 /* Language selector */
+
 #flags-select ul {
     background: transparent;
     border: none;
@@ -373,6 +333,7 @@ select.closed, .select-status option[value="closed"] {
 
 
 /* Google Maps */
+
 .modal-google-map .modal-dialog {
     max-width: 670px!important;
 }

@@ -7,8 +7,8 @@ import { AppSidebarNav } from './AppSidebarNav'
 
 // import { logo } from 'src/assets/brand/logo-negative'
 // import { sygnet } from 'src/assets/brand/sygnet'
-import logo from '../assets/logo-solarec.png';
-import icon from '../assets/icon-solarec.png';
+import logo from '../assets/logo.png';
+import icon from '../assets/icons/icon-solarec.png';
 
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'

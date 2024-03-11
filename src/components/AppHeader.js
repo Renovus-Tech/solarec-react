@@ -19,7 +19,7 @@ import { cilMenu } from '@coreui/icons'
 import { setCookie, getCookie } from '../helpers/sessionCookie.js'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
-import logo from '../assets/logo-solarec.png'
+import logo from '../assets/logo.png'
 import DataAPI from '../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
 
