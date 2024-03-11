@@ -372,7 +372,7 @@ const Performance = () => {
               <div>
                 <div style={{ marginBottom: '50px' }}>
                   <h4 className="pb-2 mb-4 border-bottom">{t('Performance Ratio')}</h4>
-                  <div className="text-left float-left" style={{ width: '50%' }}>
+                  <div className="d-inline-block text-left float-left" style={{ width: '50%' }}>
                     %
                   </div>
                   <div className="text-left" style={{ width: '100%' }}></div>
@@ -387,10 +387,10 @@ const Performance = () => {
 
                 <div style={{ marginBottom: '50px' }}>
                   <h4 className="pb-2 mb-4 border-bottom">{t('Production and Irradiance')}</h4>
-                  <div className="text-left float-left" style={{ width: '50%' }}>
+                  <div className="d-inline-block text-left float-left" style={{ width: '50%' }}>
                     MWh
                   </div>
-                  <div className="text-end float-right" style={{ width: '50%' }}>
+                  <div className="d-inline-block text-end float-right" style={{ width: '50%' }}>
                     Kwh/m2
                   </div>
                   <Line data={graphData2} options={options2} />

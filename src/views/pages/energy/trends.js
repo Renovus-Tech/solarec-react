@@ -31,7 +31,7 @@ const Trends = () => {
   const [generators, setGenerators] = useState([])
   const [generatorColors, setGeneratorColors] = useState([])
   const [generatorsSelected, setGeneratorsSelected] = useState(false)
-  const [allSelected, setAllSelected] = useState(true)
+  const [allSelected, setAllSelected] = useState(false)
 
 
   const [lineChartOneData, setLineChartOneData] = useState({
@@ -62,7 +62,7 @@ const Trends = () => {
             setMultipleInverters(response.generators.length > 1)
             if (response.generators.length === 1) {
               selectGenerator(response.generators[0].id)
-              filterGenerators()
+              filterGenerators([response.generators[0].id])
             }
           }
   
@@ -74,7 +74,7 @@ const Trends = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const fetchData = () => {
+  const fetchData = (generators) => {
     setLoading(true)
 
     const body = {}
@@ -86,7 +86,7 @@ const Trends = () => {
       body.period = period
     }
     body.groupBy = 'hour' //groupBy
-    body.generators = selectedGenerators
+    body.generators = generators
 
     DataAPI({
       endpoint: 'solar/climate',
@@ -133,7 +133,7 @@ const Trends = () => {
 
       responseData.data[0].genData.forEach((gen) => {
         const datasetACProduction = {
-          label: gen.name,
+          label: t('Production') + ': ' + gen.name,
           borderColor: generatorColors[gen.code],
           pointBackgroundColor: 'transparent',
           pointBorderColor: 'transparent',
@@ -173,11 +173,11 @@ const Trends = () => {
     setSelectedGenerators(newSelected.sort())
   }
 
-  const filterGenerators = () => {
+  const filterGenerators = (generators) => {
     setDataLoaded(false)
     setLoading(true)
     setGeneratorsSelected(true)
-    fetchData()
+    fetchData(generators)
   }
 
   const options = {
@@ -234,7 +234,7 @@ const Trends = () => {
         <CRow className={'justify-content-between row-gap-3'}>
           <CCol sm="auto">
             <h3 id="traffic" className="card-title mb-0">
-              {t('Climate - Trends')}
+              {t('Trends')}
             </h3>
             <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
           </CCol>
