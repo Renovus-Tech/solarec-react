@@ -69,8 +69,9 @@ const Settings = () => {
     setClientPreferencesChanged(false)
     const body = {}
     let sett = []
-    categories.forEach((cat) => {
-      sett = [...sett, ...settings[cat.category]]
+      settings[cat.category].forEach((setting) => {
+        sett.push({name:setting['name'],value:setting['value']})
+      })
     })
     body.settings = sett
     DataAPI({
