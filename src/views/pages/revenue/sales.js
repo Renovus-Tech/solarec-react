@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CCardHeader, CRow, CCol, CSpinner, CButton } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CRow, CCol, CSpinner, CButton, CFormSelect } from '@coreui/react'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
 import { formatNumber, round } from '../../../helpers/utils.js'
@@ -31,6 +31,7 @@ ChartJS.register(
 const Sales = () => {
   const { t } = useTranslation()
   const [period, setPeriod] = useState('cy')
+  const [groupBy, setGroupBy] = useState('week')
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataLoadError, setDataLoadError] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -50,7 +51,13 @@ const Sales = () => {
 
     const body = {}
     body.location = getCookie('location')
-    body.period = period
+    if (period && period.split('--').length === 2) {
+      body.from = period.split('--')[0]
+      body.to = period.split('--')[1]
+    } else {
+      body.period = period
+    }
+    body.groupBy = groupBy
 
     DataAPI({
       endpoint: 'chart/revenue/sales',
@@ -80,7 +87,7 @@ const Sales = () => {
           {
             label: t('Income'),
             data: months.map((x, i) => {
-              return x.dRecIncome
+              return x.certIncome
             }),
             borderColor: '#7a5195',
             backgroundColor: '#7a5195',
@@ -89,9 +96,9 @@ const Sales = () => {
             order: 0,
           },
           {
-            label: t('D-RECs sold'),
+            label: t('Certificates sold'),
             data: months.map((x, i) => {
-              return x.dRecSold
+              return x.certSold
             }),
             borderColor: '#bc5090',
             backgroundColor: '#bc5090',
@@ -159,6 +166,26 @@ const Sales = () => {
 
           <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
             <div className="d-flex py-1">
+              <h6 className="mx-2 m-0 align-self-center">{t('Group by')}</h6>
+              <CFormSelect
+                className={'input-sm'}
+                value={groupBy}
+                disabled={loading}
+                onChange={(ev) => {
+                  setGroupBy(ev.target.value)
+                }}
+                name="groupby"
+                id="groupby"
+                data-testid="groupby"
+              >
+                <option value="day">{t('Day')}</option>
+                <option value="week">
+                  {t('Week')}
+                </option>
+                <option value="month">{t('Month')}</option>
+              </CFormSelect>
+            </div>
+            <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
                 value={period}
@@ -168,7 +195,8 @@ const Sales = () => {
                   setPeriod(value)
                 }}
               />
-              <CButton
+            </div>
+            <CButton
                 color="primary"
                 disabled={loading}
                 className="mx-2"
@@ -179,7 +207,6 @@ const Sales = () => {
               >
                 {t('Submit')}
               </CButton>
-            </div>
           </CCol>
         </CRow>
       </CCardHeader>
