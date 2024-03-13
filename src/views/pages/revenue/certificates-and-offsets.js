@@ -104,7 +104,7 @@ const Certificates = () => {
             },
             {
               label: t('D-RECs generated'),
-              data: months.map((x, i) => { return x.dRecGenerated }),
+              data: months.map((x, i) => { return x.certGenerated }),
               borderColor: '#7a5195',
               backgroundColor: '#7a5195',
               yAxisID: 'yProduction',
@@ -112,7 +112,7 @@ const Certificates = () => {
             },
             {
               label: t('D-RECs sold'),
-              data: months.map((x, i) => { return x.dRecSold }),
+              data: months.map((x, i) => { return x.certSold }),
               borderColor: '#bc5090',
               backgroundColor: '#bc5090',
               yAxisID: 'yProduction',
