@@ -135,7 +135,7 @@ describe("Trends", () => {
     DataAPI.mockResolvedValueOnce(trendsResponseOk)
     render(<HashRouter><Trends /></HashRouter>)
     await waitFor(() => { 
-      const title = screen.getByText(i18n.t('Climate - Trends'))
+      const title = screen.getByText(i18n.t('Trends'))
       const periodLabel = screen.getByText(i18n.t('Period'))
       const periodSelect = screen.getByTestId('period')
       expect(title).toBeInTheDocument()
