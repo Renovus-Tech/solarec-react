@@ -45,16 +45,6 @@
 .spinner-border-sm {
 	margin: 10px;
 }
-.bg-gradient-custom {
-    background: #f8ff8f !important;
-    background: linear-gradient(0deg, #eec90e 0%, #f8ff8f 100%) !important;
-    border-color: #f8ff8f !important;
-}
-.bg-gradient-purple {
-    background: #a24aca !important;
-    background: linear-gradient(0deg, #9873b7 0%, #a24aca 100%) !important;
-    border-color: #a24aca !important;
-}
 .dropdown-toggle::after {
     margin-bottom: -2px;
 }
@@ -87,15 +77,45 @@ div#collapseWidth {
 .btn,.btn:hover,.btn:focus,.btn:disabled{
     color: white;
 }
-.bg-gradient-info {
+
+.bg-gradient-custom {
+    background: #f8ff8f !important;
+    background: linear-gradient(0deg, #eec90e 0%, #f8ff8f 100%) !important;
+    border-color: #f8ff8f !important;
+}
+.bg-gradient-blue {
     background: #2982cc!important;
     background: linear-gradient(45deg,#39f,#2982cc)!important;
     border-color: #2982cc!important;
 }
-.bg-gradient-warning {
-    background: #f6960b!important;
-    background: linear-gradient(45deg,#f9b115,#f6960b)!important;
-    border-color: #f6960b!important;
+.bg-gradient-purple {
+    background: #9c1cd0 !important;
+    background: linear-gradient(0deg, #c250f0 0%, #9c1cd0 100%) !important;
+    border-color: #9c1cd0 !important;
+}
+.bg-gradient-yellow {
+    background: #f6960b !important;
+    background: linear-gradient(45deg, #f9b115, #f6960b) !important;
+    border-color: #f6960b !important;
+}
+.bg-gradient-red {
+    background: #e55353;
+    background: linear-gradient(45deg, #f25454, #e55353) !important;
+    border-color: #e55353 !important;
+}
+.bg-gradient-green {
+    background: #2eb85c !important;
+    background: linear-gradient(45deg, #41c86e, #2eb85c) !important;
+    border-color: #2eb85c !important;
+}
+.bg-gradient-pink {
+    background: #da54d1;
+    background: linear-gradient(45deg, #f071e8, #da54d1) !important;
+    border-color: #da54d1 !important;
+}
+
+.color-white-transparent {
+    color: #ffffffbd;
 }
 
 
@@ -368,4 +388,20 @@ select.closed, .select-status option[value="closed"] {
     .pin-icon {
         font-size: 10vw;
     }
+}
+
+
+/* Overview */
+.large-number {
+    font-size: 9em;
+    line-height: .9em;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -4px;
+}
+.large-number-units {
+    font-size: 2rem;
+    margin-left: 10px;
+    line-height: 2rem;
+    font-weight: 700;
 }

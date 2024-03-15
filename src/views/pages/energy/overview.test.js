@@ -77,6 +77,11 @@ const overviewResponseOk = {
   } ]
 }
 
+const overviewCO2ResponseOk = {
+  "co2Emissons" : 0.354,
+  "co2Avoided" : 0.0249
+}
+
 const alertsResponseOk = [
   {
       "date": "2024-01-11 18:31:45",
@@ -100,6 +105,7 @@ describe("Performance", () => {
     global.fetch = jest.fn()
     DataAPI.mockResolvedValueOnce(LocationResponseOk)
     DataAPI.mockResolvedValueOnce(overviewResponseOk)
+    DataAPI.mockResolvedValueOnce(overviewCO2ResponseOk)
     DataAPI.mockResolvedValueOnce(alertsResponseOk)
   })
 
@@ -112,6 +118,7 @@ describe("Performance", () => {
       const title3 = screen.getByText(i18n.t('ALERTS'))
       const title4 = screen.getByText(i18n.t('TIME-BASED AVAILABILITY(%)'))
       const title5 = screen.getByText(i18n.t('PERFORMANCE RATIO(%)'))
+      const title6 = screen.getByText(i18n.t('CO2 AVOIDED'))
 
       expect(title).toBeInTheDocument()
       expect(title1).toBeInTheDocument()
@@ -119,6 +126,7 @@ describe("Performance", () => {
       expect(title3).toBeInTheDocument()
       expect(title4).toBeInTheDocument()
       expect(title5).toBeInTheDocument()
+      expect(title6).toBeInTheDocument()
 
       const periodSelect = screen.getByTestId('period')
       expect(periodSelect).toHaveValue("y")
@@ -129,26 +137,19 @@ describe("Performance", () => {
   test('correct values should load on Plant Characteristics', async () => {
     render(<HashRouter><Overview /></HashRouter>)
     await waitFor(() => { 
-      expect(screen.getByTestId('user').innerHTML).toBe(i18n.t('User')+': Domus') 
-
-      const userLabel = screen.getByTestId('user')
-      const regionLabel = screen.getByTestId('region')
-      const countryLabel = screen.getByTestId('country')
-      const capacityLabel = screen.getByTestId('capacity')
-      const locationLabel = screen.getByTestId('location')
-
-      expect(userLabel).toBeInTheDocument()
-      expect(regionLabel).toBeInTheDocument()
-      expect(countryLabel).toBeInTheDocument()
-      expect(capacityLabel).toBeInTheDocument()
-      expect(locationLabel).toBeInTheDocument()
-
-      expect(userLabel.innerHTML).toBe(i18n.t('User')+': Domus')
-      expect(regionLabel.innerHTML).toBe(i18n.t('Region')+': Canelones')
-      expect(countryLabel.innerHTML).toBe(i18n.t('Country')+': Uruguay')
-      expect(capacityLabel.innerHTML).toBe(i18n.t('Capacity')+': 50.0 KW')
+      expect(screen.getByTestId('user').innerHTML).toBe('Domus') 
+      expect(screen.getByTestId('region').innerHTML).toBe('Canelones')
+      expect(screen.getByTestId('country').innerHTML).toBe('Uruguay')
+      expect(screen.getByTestId('capacity').innerHTML).toBe('50.0 KW')
+      expect(screen.getByTestId('co2-emissions').innerHTML).toBe('0.354 tons')
     }, {timeout:5000})
-    
+  }, 10000)
+
+  test('correct value should load on CO2 Avoided', async () => {
+    render(<HashRouter><Overview /></HashRouter>)
+    await waitFor(() => { 
+      expect(screen.getByTestId('co2-avoided').innerHTML).toBe('24.9')
+    }, {timeout:5000})
   }, 10000)
 
   test('correct values should load on Production and Climate', async () => {
@@ -184,64 +185,7 @@ describe("Performance", () => {
       const periodSelect = screen.getByTestId('period')
       expect(periodSelect).toBeEnabled()
     }, {timeout:5000})
-    // fireEvent.change(periodSelect, { target: {value: 'cm' }})
-    // expect(periodSelect).toHaveValue("cm")
-    // expect(screen.getByRole("option", { name: "Current month" }).selected).toBe(true)
-
-    // await waitFor(() => { expect(screen.getByTestId('production').innerHTML).toBe(i18n.t('Production')+': 100.0 MWh') }, {timeout:5000})
-    // expect(screen.getByTestId('irradiation').innerHTML).toBe(i18n.t('Irradiation')+': 200.0 Kwh/m2')
-    // expect(screen.getByTestId('temperature').innerHTML).toBe(i18n.t('Average Ambient Temperature')+': 300.0 °C')
   }, 20000)
 
-
-  // test('should unset cookies and reload when endpoint returns error', async () => {
-  //   DataAPI.mockResolvedValueOnce({error: "Error"})
-  //   render(<HashRouter><Overview /></HashRouter>)
-
-  //   const { location } = window
-  //   delete window.location
-  //   window.location = { reload: jest.fn() }
-  //   await waitFor(() => { expect(window.location.reload).toHaveBeenCalled() }, {timeout:10000})
-
-  //   expect(getCookie('name')).toEqual('')
-  //   expect(getCookie('lastTimeStamp')).toEqual('')
-  // }, 20000)
-
-  // test('should call DataAPI and display graphs on submit button click', async () => {
-  //   DataAPI.mockResolvedValue(LocationResponseOk)
-  //   render(<Performance />)
-
-  //   await waitFor(() => { screen.getByTestId('btn-gen-1') }, {timeout:5000})
-  //   const buttonGen1 = screen.getByTestId('btn-gen-1')
-  //   fireEvent.click(buttonGen1)
-
-  //   DataAPI.mockResolvedValueOnce(performanceRatioResponseOk)
-  //   const submitButton = screen.getByTestId('submit-button')
-  //   expect(submitButton).toBeEnabled()
-  //   fireEvent.click(submitButton)
-    
-  //   await waitFor(() => { screen.getByText(i18n.t('Performance Ratio')) }, {timeout:10000})
-  //   expect(screen.getByText(i18n.t('Performance Ratio'))).toBeInTheDocument()
-  //   expect(screen.getByText(i18n.t('Production and Irradiance'))).toBeInTheDocument()
-  // }, 20000)
-
-  // test('should show error message when endpint answers with error', async () => {
-  //   DataAPI.mockResolvedValueOnce(LocationResponseOk)
-  //   render(<Performance />)
-
-  //   jest.spyOn(window, 'alert').mockImplementation(() => {})
-  //   DataAPI.mockResolvedValueOnce({error: "Error"})
-
-  //   await waitFor(() => { screen.getByTestId('btn-gen-1') }, {timeout:5000})
-  //   const buttonGen1 = screen.getByTestId('btn-gen-1')
-  //   fireEvent.click(buttonGen1)
-
-  //   DataAPI.mockResolvedValueOnce(performanceRatioResponseOk)
-  //   const submitButton = screen.getByTestId('submit-button')
-  //   expect(submitButton).toBeEnabled()
-  //   fireEvent.click(submitButton)
-
-  //   await waitFor(() => { expect(window.alert).toBeCalledWith('Error') }, {timeout:10000})
-  // }, 20000)
 
 })
