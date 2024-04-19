@@ -12,6 +12,7 @@ import {
 import DataAPI from '../../../helpers/DataAPI.js'
 import { round, getDateLabel, formatNumber } from '../../../helpers/utils.js'
 import { DateFilter } from '../../../components/custom/DateFilter.js'
+import { GroupByFilter } from '../../../components/custom/GroupByFilter.js'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 import {
@@ -268,7 +269,7 @@ const Performance = () => {
       <CCardHeader>
         <CRow className={'justify-content-between row-gap-3'}>
           <CCol sm="auto">
-            <h3 id="traffic" className="card-title mb-0">
+            <h3 className="card-title mb-0">
               {t('Performance')}
             </h3>
             <div className="small text-medium-emphasis">{getDateLabel(period)}</div>
@@ -277,23 +278,14 @@ const Performance = () => {
           <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
             <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Group by')}</h6>
-              <CFormSelect
-                className={'input-sm'}
+              <GroupByFilter
                 value={groupBy}
+                options={['day', 'week', 'month']}
                 disabled={loading}
-                onChange={(ev) => {
-                  setGroupBy(ev.target.value)
+                onChange={(value) => {
+                  setGroupBy(value)
                 }}
-                name="groupby"
-                id="groupby"
-                data-testid="groupby"
-              >
-                <option value="day">{t('Day')}</option>
-                <option value="week">
-                  {t('Week')}
-                </option>
-                <option value="month">{t('Month')}</option>
-              </CFormSelect>
+              />
             </div>
             <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
