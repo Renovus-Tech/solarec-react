@@ -192,8 +192,8 @@ const Overview = () => {
       }
 
       if (response) {
-        const co2Emissons = round(response.co2Emissons,3)
-        const co2Avoided = round(response.co2Avoided*1000,1)
+        const co2Emissons = round(response.data[0].co2PerMwh,3)
+        const co2Avoided = round(response.data[0].co2Avoided*1000,1)
 
         setCo2Emissons(co2Emissons)
         setCo2Avoided(co2Avoided)
@@ -222,11 +222,6 @@ const Overview = () => {
   const refreshChart = (period) => {
     fetchData(period)
   }
-
-  // const filterData = (date) => {
-  //   setPeriod(date)
-  //   fetchData(date)
-  // }
 
   const location = {
     address: '',
