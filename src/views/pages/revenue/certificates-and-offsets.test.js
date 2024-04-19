@@ -15,26 +15,26 @@ jest.mock('../../../helpers/DataAPI')
 jest.mock('react-chartjs-2', () => ({ Bar: () => null }))
 
 const revenueResponseOk = {
-  "months" : [ {
-    "label" : "January",
-    "coAvoided" : 10.0,
-    "dRecGenerated" : 20.0,
-    "dRecSold" : 15.0
-  },{
-    "label" : "February",
-    "coAvoided" : 20.0,
-    "dRecGenerated" : 30.0,
-    "dRecSold" : 25.0
-  },{
-    "label" : "March",
-    "coAvoided" : 30.0,
-    "dRecGenerated" : 50.0,
-    "dRecSold" : 35.0
-  },{
-    "label" : "April",
-    "coAvoided" : 40.0,
-    "dRecGenerated" : 60.0,
-    "dRecSold" : 45.0
+  "chart" : {
+    "from" : "2024/03/01 00:00:00",
+    "to" : "2024/04/18 23:59:59",
+    "resultCode" : 200,
+    "resultText" : "",
+    "groupBy" : "month"
+  },
+  "data" : [ {
+    "from" : "2024/03/01 00:00:00",
+    "to" : "2024/03/31 23:59:59",
+    "co2Avoided" : 30,
+    "certGenerated" : 25,
+    "certSold" : 12,
+  },
+  {
+    "from" : "2024/04/01 00:00:00",
+    "to" : "2024/04/18 23:59:59",
+    "co2Avoided" : 23,
+    "certGenerated" : 21,
+    "certSold" : 9,
   } ]
 }
 
@@ -49,9 +49,11 @@ describe("Certificates", () => {
     render(<HashRouter><Certificates /></HashRouter>)
     await waitFor(() => { 
       const title = screen.getByText(i18n.t('Certificates')) 
+      const groupByLabel = screen.getByText(i18n.t('Group by'))
       const periodLabel = screen.getByText(i18n.t('Period'))
       const filtersSubmit = screen.getByText(i18n.t('Submit'))
       expect(title).toBeInTheDocument()
+      expect(groupByLabel).toBeInTheDocument()
       expect(periodLabel).toBeInTheDocument()
       expect(filtersSubmit).toBeInTheDocument()
     })
@@ -65,6 +67,10 @@ describe("Certificates", () => {
       expect(periodSelect).toBeInTheDocument()
       expect(periodSelect).toHaveValue("cy")
       expect(screen.getByRole("option", { name: "Current year" }).selected).toBe(true)
+      const groupBySelect = screen.getByTestId('groupby')
+      expect(groupBySelect).toBeInTheDocument()
+      expect(groupBySelect).toHaveValue("month")
+      expect(screen.getByRole("option", { name: "Month" }).selected).toBe(true)
     })
   })
 
@@ -78,11 +84,14 @@ describe("Certificates", () => {
     render(<HashRouter><Certificates /></HashRouter>)
     await waitFor(() => { 
       const periodSelect = screen.getByTestId('period')
-      fireEvent.change(periodSelect, { target: {value: 'cy-1' }})
-      expect(periodSelect).toHaveValue("cy-1")
-      const d = new Date()
-      const lastYear = d.getFullYear() - 1
-      expect(screen.getByRole("option", { name: lastYear }).selected).toBe(true)
+      fireEvent.change(periodSelect, { target: {value: 'cm' }})
+      expect(periodSelect).toHaveValue("cm")
+      const groupBySelect = screen.getByTestId('groupby')
+      fireEvent.change(groupBySelect, { target: {value: 'day' }})
+      expect(groupBySelect).toHaveValue("day")
+      // const d = new Date()
+      // const lastYear = d.getFullYear() - 1
+      // expect(screen.getByRole("option", { name: lastYear }).selected).toBe(true)
     })
   }, 20000)
 
@@ -99,7 +108,7 @@ describe("Certificates", () => {
       expect(screen.getByTestId('graph-container').innerHTML).not.toBe('')
       expect (screen.getByTestId('left-units').innerHTML).toBe(i18n.t('MWh'))
       expect (screen.getByTestId('right-units').innerHTML).toBe(i18n.t('Tons'))
-      expect (screen.getByTestId('months').innerHTML).toBe(i18n.t('Months'))
+      expect (screen.getByTestId('groupByLabel').innerHTML).toBe(i18n.t('month'))
     }, {timeout:10000})
     
   }, 20000)

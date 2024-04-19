@@ -11,8 +11,9 @@ import {
 } from '@coreui/react'
 
 import DataAPI from '../../../helpers/DataAPI.js'
-import { formatNumber, round } from '../../../helpers/utils.js'
+import { formatNumber, round, months } from '../../../helpers/utils.js'
 import { DateFilter } from '../../../components/custom/DateFilter.js'
+import { GroupByFilter } from '../../../components/custom/GroupByFilter.js'
 import { getCookie } from 'src/helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
 
@@ -43,13 +44,12 @@ const Certificates = () => {
 
   const { t } = useTranslation()
   const [period, setPeriod] = useState('cy');
+  const [groupBy, setGroupBy] = useState('month');
+  const [groupByLabel, setGroupByLabel] = useState('month');
   const [dataLoaded, setDataLoaded] = useState(false);
   const [dataLoadError, setDataLoadError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [graphData, setGraphData] = useState({
-    labels: [],
-    datasets: []
-  });
+  const [graphData, setGraphData] = useState({labels: [], datasets: []});
 
   
 
@@ -64,8 +64,14 @@ const Certificates = () => {
     setDataLoaded(false)
 
     const body = {}
-    body.location = getCookie('location');
-    body.period = period
+    body.location = getCookie('location')
+    if (period && period.split('--').length === 2) {
+      body.from = period.split('--')[0]
+      body.to = period.split('--')[1]
+    } else {
+      body.period = period
+    }
+    body.groupBy = groupBy
     
     DataAPI({
       'endpoint': 'chart/revenue',
@@ -73,7 +79,6 @@ const Certificates = () => {
       'body': body
     }).then(
       response => {
-
 
         setLoading(false);
 
@@ -85,17 +90,31 @@ const Certificates = () => {
             return(alert(response.error)) 
           }
         }
-
         setDataLoaded(true);
-        if (response.months.length==0) return;
-        const months = response.months;
+
+        const labels = response.data.map((rD, index) => {
+          let label;
+          switch (groupBy) {
+            case 'day':
+              label = `${rD.from.split(' ')[0]}`;
+              break;
+            case 'month':
+              label = months[parseInt(rD.from.split(' ')[0].split('/')[1])-1];
+              break;
+            default:
+              label = `${rD.from.split(' ')[0]} - ${rD.to.split(' ')[0]}`;
+              break;
+          }
+          return label
+        })
 
         const graphData = {
-          labels: months.map((x, i) => { return x.label }),
+          labels: labels, //months.map((x, i) => { return x.label }),
           datasets: [
             {
               label: t('CO2 avoided'),
-              data: months.map((x, i) => { return x.coAvoided }),
+              data: response.data.map((rD, index) => { return rD.co2Avoided }),
+              //months.map((x, i) => { return x.coAvoided }),
               borderColor: '#9ceb01',
               backgroundColor: '#9ceb01',
               type: 'line',
@@ -104,7 +123,7 @@ const Certificates = () => {
             },
             {
               label: t('D-RECs generated'),
-              data: months.map((x, i) => { return x.certGenerated }),
+              data: response.data.map((rD, index) => { return rD.certGenerated }), //months.map((x, i) => { return x.certGenerated }),
               borderColor: '#7a5195',
               backgroundColor: '#7a5195',
               yAxisID: 'yProduction',
@@ -112,7 +131,7 @@ const Certificates = () => {
             },
             {
               label: t('D-RECs sold'),
-              data: months.map((x, i) => { return x.certSold }),
+              data: response.data.map((rD, index) => { return rD.certSold }), //months.map((x, i) => { return x.certSold }),
               borderColor: '#bc5090',
               backgroundColor: '#bc5090',
               yAxisID: 'yProduction',
@@ -122,6 +141,7 @@ const Certificates = () => {
         }
 
         setGraphData(graphData);
+        setGroupByLabel(groupBy);
 
       }
     );
@@ -179,22 +199,35 @@ const Certificates = () => {
       <CCardHeader>
         <CRow className={'justify-content-between row-gap-3'}>
           <CCol sm="auto">
-            <h3 id="diagnostics" className="card-title mb-0">
+            <h3 className="card-title mb-0">
               {t('Certificates')}
             </h3>
           </CCol>
 
           <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
             <div className="d-flex py-1">
+              <h6 className="mx-2 m-0 align-self-center">{t('Group by')}</h6>
+              <GroupByFilter
+                value={groupBy}
+                options={['day', 'week', 'month', 'year']}
+                disabled={loading}
+                onChange={(value) => {
+                  setGroupBy(value)
+                }}
+              />
+            </div>
+            <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
                 value={period}
-                options={['cy','cy-1','cy-2','cy-3']}
+                options={['cy', 'cm', 'x', 'xx']}
                 disabled={loading}
                 onChange={(value) => {
                   setPeriod(value)
                 }}
               />
+            </div>
+            <div className="d-flex py-1">
               <CButton
                 color="primary"
                 disabled={loading}
@@ -231,7 +264,7 @@ const Certificates = () => {
                             data={graphData}
                             options={optionsGraph} 
                           />
-                    <div className="text-center" style={{width: '100%'}} data-testid={"months"}>{t('Months')}</div>
+                    {/* <div className="text-center text-capitalize" style={{width: '100%'}} data-testid={"groupByLabel"}>{t(groupByLabel)}</div> */}
                   </div>
                 : 
                   <div className='text-center'>

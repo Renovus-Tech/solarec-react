@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { CCard, CCardBody, CCardHeader, CRow, CCol, CSpinner, CButton, CFormSelect } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CRow, CCol, CSpinner, CButton } from '@coreui/react'
 import DataAPI from '../../../helpers/DataAPI.js'
 import { useTranslation } from 'react-i18next'
-import { formatNumber, round } from '../../../helpers/utils.js'
+import { formatNumber, round, months } from '../../../helpers/utils.js'
 import { DateFilter } from '../../../components/custom/DateFilter.js'
+import { GroupByFilter } from '../../../components/custom/GroupByFilter.js'
 import { getCookie } from 'src/helpers/sessionCookie.js'
 import {
   Chart as ChartJS,
@@ -31,7 +32,7 @@ ChartJS.register(
 const Sales = () => {
   const { t } = useTranslation()
   const [period, setPeriod] = useState('cy')
-  const [groupBy, setGroupBy] = useState('week')
+  const [groupBy, setGroupBy] = useState('month')
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataLoadError, setDataLoadError] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -64,31 +65,41 @@ const Sales = () => {
       method: 'POST',
       body: body,
     }).then((response) => {
-      setLoading(false)
-
+      
+      setLoading(false);
+        
       if (response.error) {
-        setDataLoadError(true)
+        setDataLoadError(true);
         if (response.error.message) {
-          return alert(response.error.message)
+          return(alert(response.error.message))
         } else {
-          return alert(response.error)
+          return(alert(response.error)) 
         }
       }
+      setDataLoaded(true);
 
-      setDataLoaded(true)
-      if (response.months.length === 0) return
-      const months = response.months
+      const labels = response.data.map((rD, index) => {
+        let label;
+        switch (groupBy) {
+          case 'day':
+            label = `${rD.from.split(' ')[0]}`;
+            break;
+          case 'month':
+            label = months[parseInt(rD.from.split(' ')[0].split('/')[1])-1];
+            break;
+          default:
+            label = `${rD.from.split(' ')[0]} - ${rD.to.split(' ')[0]}`;
+            break;
+        }
+        return label
+      })
 
       const graphData = {
-        labels: months.map((x, i) => {
-          return x.label
-        }),
+        labels: labels,
         datasets: [
           {
             label: t('Income'),
-            data: months.map((x, i) => {
-              return x.certIncome
-            }),
+            data: response.data.map((rD, index) => { return rD.certIncome }),
             borderColor: '#7a5195',
             backgroundColor: '#7a5195',
             type: 'line',
@@ -97,9 +108,7 @@ const Sales = () => {
           },
           {
             label: t('Certificates sold'),
-            data: months.map((x, i) => {
-              return x.certSold
-            }),
+            data:response.data.map((rD, index) => { return rD.certSold }),
             borderColor: '#bc5090',
             backgroundColor: '#bc5090',
             yAxisID: 'yProduction',
@@ -167,29 +176,20 @@ const Sales = () => {
           <CCol sm="auto" className="text-end d-flex flex-center flex-justify-end flex-wrap column-gap-1">
             <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Group by')}</h6>
-              <CFormSelect
-                className={'input-sm'}
+              <GroupByFilter
                 value={groupBy}
+                options={['day', 'week', 'month', 'year']}
                 disabled={loading}
-                onChange={(ev) => {
-                  setGroupBy(ev.target.value)
+                onChange={(value) => {
+                  setGroupBy(value)
                 }}
-                name="groupby"
-                id="groupby"
-                data-testid="groupby"
-              >
-                <option value="day">{t('Day')}</option>
-                <option value="week">
-                  {t('Week')}
-                </option>
-                <option value="month">{t('Month')}</option>
-              </CFormSelect>
+              />
             </div>
             <div className="d-flex py-1">
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
                 value={period}
-                options={['cy', 'cy-1', 'cy-2', 'cy-3']}
+                options={['cy', 'cm', 'x', 'xx']}
                 disabled={loading}
                 onChange={(value) => {
                   setPeriod(value)
@@ -227,9 +227,7 @@ const Sales = () => {
                       </div>
                     </div>
                     <Bar data={graphData} options={optionsGraph} />
-                    <div className="text-center" style={{ width: '100%' }} data-testid={"months"}>
-                      {t('Months')}
-                    </div>
+                    {/* <div className="text-center text-capitalize" style={{width: '100%'}} data-testid={"groupByLabel"}>{t(groupBy)}</div> */}
                   </div>
                 ) : (
                   <div className="text-center">
