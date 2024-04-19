@@ -3,6 +3,7 @@ import colorLib from '@kurkle/color';
 import i18n from './i18n'
 
 export const colors =  ['#003f5c', '#7a5195', '#bc5090', '#ef5675', '#ff764a', '#ffa600','#9ceb01']
+export const months =  ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 export const formatDate = (date, flags = '') => {
 

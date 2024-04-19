@@ -23,18 +23,6 @@ export const DateFilter = ({ value, disabled, options, onChange }) => {
   const [to, setTo] = useState('')
   const [val, setVal] = useState(value)
 
-  // let options = [];
-
-  // if(props.options) {
-
-  //   options = props.options;
-
-  // } else {
-
-  //   options = 'y,cm,cy,x,xx'.split(',');
-
-  // }
-
   const changeListener = (ev) => {
 
     if (ev.target.value === 'x') {
@@ -82,16 +70,6 @@ export const DateFilter = ({ value, disabled, options, onChange }) => {
                 <CModalTitle>Select Period</CModalTitle>
               </CModalHeader>
               <CModalBody className={"text-center"}>
-                
-                {/* <p>Seleccionar el intervalo temporal para filtrar los datos, utlizando el formato "YYYY-MM-DD".</p>
-
-                {props.warning && <p><strong>{props.warning}</strong></p>}
-
-                <CInputGroup className="mb-3">
-                  <CFormInput placeholder="Desde" onChange={(ev) => { setFrom(ev.target.value) }} aria-label="Username" />
-                  &nbsp;
-                  <CFormInput placeholder="Hasta" onChange={(ev) => { setTo(ev.target.value) }} aria-label="Server" />
-                </CInputGroup> */}
 
                 <DatePicker
                   dateFormat="yyyy-MM-dd"
