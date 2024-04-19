@@ -78,8 +78,19 @@ const overviewResponseOk = {
 }
 
 const overviewCO2ResponseOk = {
-  "co2Emissons" : 0.354,
-  "co2Avoided" : 0.0249
+  "chart" : {
+    "from" : "2024/04/18 00:00:00",
+    "to" : "2024/04/18 23:59:59",
+    "resultCode" : 200,
+    "resultText" : "",
+    "groupBy" : null
+  },
+  "data" : [ {
+    "from" : "2024/04/18 00:00:00",
+    "to" : "2024/04/18 23:59:59",
+    "co2Avoided" : 0.01315,
+    "co2PerMwh" : 0.061
+  } ]
 }
 
 const alertsResponseOk = [
@@ -99,7 +110,7 @@ const alertsResponseOk = [
   }
 ]
 
-describe("Performance", () => {
+describe("Overview", () => {
 
   beforeEach(() => {
     global.fetch = jest.fn()
@@ -141,21 +152,21 @@ describe("Performance", () => {
       expect(screen.getByTestId('region').innerHTML).toBe('Canelones')
       expect(screen.getByTestId('country').innerHTML).toBe('Uruguay')
       expect(screen.getByTestId('capacity').innerHTML).toBe('50.0 KW')
-      expect(screen.getByTestId('co2-emissions').innerHTML).toBe('0.354 tons')
+      expect(screen.getByTestId('co2-emissions').innerHTML).toBe('0.061 tons')
     }, {timeout:5000})
   }, 10000)
 
   test('correct value should load on CO2 Avoided', async () => {
     render(<HashRouter><Overview /></HashRouter>)
     await waitFor(() => { 
-      expect(screen.getByTestId('co2-avoided').innerHTML).toBe('24.9')
+      expect(screen.getByTestId('co2-avoided').innerHTML).toBe('13.2')
     }, {timeout:5000})
   }, 10000)
 
   test('correct values should load on Production and Climate', async () => {
     render(<HashRouter><Overview /></HashRouter>)
     await waitFor(() => { 
-      expect(screen.getByTestId('production').innerHTML).toBe(i18n.t('Production')+': 10.0 MWh') 
+      expect(screen.getByTestId('production').innerHTML).toBe('10.0 MWh') 
 
       const production = screen.getByTestId('production')
       const irradiation = screen.getByTestId('irradiation')
@@ -165,9 +176,9 @@ describe("Performance", () => {
       expect(irradiation).toBeInTheDocument()
       expect(temperature).toBeInTheDocument()
 
-      expect(production.innerHTML).toBe(i18n.t('Production')+': 10.0 MWh')
-      expect(irradiation.innerHTML).toBe(i18n.t('Irradiation')+': 20.0 Kwh/m2')
-      expect(temperature.innerHTML).toBe(i18n.t('Average Ambient Temperature')+': 30.0 °C')
+      expect(production.innerHTML).toBe('10.0 MWh')
+      expect(irradiation.innerHTML).toBe('20.0 Kwh/m2')
+      expect(temperature.innerHTML).toBe('30.0 °C')
     }, {timeout:5000})
     
   }, 10000)
@@ -175,7 +186,7 @@ describe("Performance", () => {
   test('values should change after change period', async () => {
     render(<Overview />)
     await waitFor(() => { 
-      expect(screen.getByTestId('production').innerHTML).toBe(i18n.t('Production')+': 10.0 MWh') 
+      expect(screen.getByTestId('production').innerHTML).toBe('10.0 MWh') 
       DataAPI.mockResolvedValueOnce({"data": [{ "id" : [ 1 ], "name" : [ "1" ], "code" : [ "1" ], "productionMwh" : 100.0, "irradiationKwhM2" : 200.0, "avgAmbientTemp" : 300.0, "avgModuleTemp" : 400.0, "timeBasedAvailability" : 1000.0, "specificYield" : 500.0, "performanceRatio" : 600.0 } ] })
       DataAPI.mockResolvedValueOnce(alertsResponseOk)
     }, {timeout:5000})

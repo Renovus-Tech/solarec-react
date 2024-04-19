@@ -353,14 +353,14 @@ const Overview = () => {
                   <CCardBody>
                     <CCardTitle component="h3">{t('PRODUCTION AND CLIMATE')}</CCardTitle>
                     <CListGroup flush>
-                      <CListGroupItem data-testid="production" className='d-inline-flex flex-wrap'>{t('Production') + ':'}
-                        <h5 className='m-0 mx-1'>{totalACProductionMwh !== undefined ? round(totalACProductionMwh) + ' MWh' : ''}</h5>
+                      <CListGroupItem className='d-inline-flex flex-wrap'>{t('Production') + ':'}
+                        <h5 className='m-0 mx-1' data-testid="production" >{totalACProductionMwh !== undefined ? round(totalACProductionMwh) + ' MWh' : ''}</h5>
                       </CListGroupItem>
-                      <CListGroupItem data-testid="irradiation" className='d-inline-flex flex-wrap'>{t('Irradiation') + ':'}{' '}
-                        <h5 className='m-0 mx-1'>{irradiationKwhM2 !== undefined ? round(irradiationKwhM2) + ' Kwh/m2' : ''}</h5>
+                      <CListGroupItem className='d-inline-flex flex-wrap'>{t('Irradiation') + ':'}{' '}
+                        <h5 className='m-0 mx-1' data-testid="irradiation">{irradiationKwhM2 !== undefined ? round(irradiationKwhM2) + ' Kwh/m2' : ''}</h5>
                       </CListGroupItem>
-                      <CListGroupItem data-testid="temperature" className='d-inline-flex flex-wrap'>{t('Average Ambient Temperature') + ':'}{' '}
-                        <h5 className='m-0 mx-1'>{avgAmbientTemp !== undefined ? round(avgAmbientTemp) + ' °C' : ''}</h5>
+                      <CListGroupItem className='d-inline-flex flex-wrap'>{t('Average Ambient Temperature') + ':'}{' '}
+                        <h5 className='m-0 mx-1' data-testid="temperature">{avgAmbientTemp !== undefined ? round(avgAmbientTemp) + ' °C' : ''}</h5>
                       </CListGroupItem>
                     </CListGroup>
                   </CCardBody>
