@@ -122,7 +122,7 @@ const Certificates = () => {
               order: 0
             },
             {
-              label: t('D-RECs generated'),
+              label: t('Certificates generated'),
               data: response.data.map((rD, index) => { return rD.certGenerated }), //months.map((x, i) => { return x.certGenerated }),
               borderColor: '#7a5195',
               backgroundColor: '#7a5195',
@@ -130,7 +130,7 @@ const Certificates = () => {
               order: 1
             },
             {
-              label: t('D-RECs sold'),
+              label: t('Certificates sold'),
               data: response.data.map((rD, index) => { return rD.certSold }), //months.map((x, i) => { return x.certSold }),
               borderColor: '#bc5090',
               backgroundColor: '#bc5090',
@@ -257,8 +257,8 @@ const Certificates = () => {
                 {!loading || dataLoadError ?
                   <div style={{marginBottom:'50px'}}>
                     <div className='d-flex'>
-                      <div className="text-left" style={{width: '50%'}} data-testid={"left-units"}>MWh</div>
-                      <div className="text-right" style={{width: '50%'}} data-testid={"right-units"}>{t('Tons')}</div>
+                      <div className="text-left" style={{width: '50%'}} data-testid={"left-units"}>Certificates</div>
+                      <div className="text-right" style={{width: '50%', textAlign: 'right'}} data-testid={"right-units"}>{t('Tons of CO2 avoided')}</div>
                     </div>
                       <Bar 
                             data={graphData}
