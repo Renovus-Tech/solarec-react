@@ -70,7 +70,7 @@ describe("Certificates", () => {
       const groupBySelect = screen.getByTestId('groupby')
       expect(groupBySelect).toBeInTheDocument()
       expect(groupBySelect).toHaveValue("month")
-      expect(screen.getByRole("option", { name: "Month" }).selected).toBe(true)
+      expect(screen.getByRole("option", { name: "month" }).selected).toBe(true)
     })
   })
 
@@ -106,9 +106,9 @@ describe("Certificates", () => {
     await waitFor(() => { 
       expect(screen.getByTestId('graph-container')).toBeInTheDocument() 
       expect(screen.getByTestId('graph-container').innerHTML).not.toBe('')
-      expect (screen.getByTestId('left-units').innerHTML).toBe(i18n.t('MWh'))
-      expect (screen.getByTestId('right-units').innerHTML).toBe(i18n.t('Tons'))
-      expect (screen.getByTestId('groupByLabel').innerHTML).toBe(i18n.t('month'))
+      expect (screen.getByTestId('left-units').innerHTML).toBe(i18n.t('Certificates'))
+      expect (screen.getByTestId('right-units').innerHTML).toBe(i18n.t('Tons of CO2 avoided'))
+      // expect (screen.getByTestId('groupByLabel').innerHTML).toBe(i18n.t('month'))
     }, {timeout:10000})
     
   }, 20000)

@@ -257,7 +257,7 @@ const Certificates = () => {
                 {!loading || dataLoadError ?
                   <div style={{marginBottom:'50px'}}>
                     <div className='d-flex'>
-                      <div className="text-left" style={{width: '50%'}} data-testid={"left-units"}>Certificates</div>
+                      <div className="text-left" style={{width: '50%'}} data-testid={"left-units"}>{t('Certificates')}</div>
                       <div className="text-right" style={{width: '50%', textAlign: 'right'}} data-testid={"right-units"}>{t('Tons of CO2 avoided')}</div>
                     </div>
                       <Bar 

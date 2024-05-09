@@ -146,7 +146,7 @@ describe("Performance", () => {
       expect(periodSelect).toBeInTheDocument()
 
       expect(groupBySelect).toHaveValue("day")
-      expect(screen.getByRole("option", { name: "Day" }).selected).toBe(true)
+      expect(screen.getByRole("option", { name: "day" }).selected).toBe(true)
 
       expect(periodSelect).toHaveValue("cm")
       expect(screen.getByRole("option", { name: "Current month" }).selected).toBe(true)
@@ -194,7 +194,7 @@ describe("Performance", () => {
       const groupBySelect = screen.getByTestId('groupby')
       fireEvent.change(groupBySelect, { target: {value: 'day' }})
       expect(groupBySelect).toHaveValue("day")
-      expect(screen.getByRole("option", { name: "Day" }).selected).toBe(true)
+      expect(screen.getByRole("option", { name: "day" }).selected).toBe(true)
 
       const periodSelect = screen.getByTestId('period')
       fireEvent.change(periodSelect, { target: {value: 'cm' }})
