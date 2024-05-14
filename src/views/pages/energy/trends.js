@@ -74,7 +74,7 @@ const Trends = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const fetchData = (generators) => {
+  const fetchData = (genList = null) => {
     setLoading(true)
 
     const body = {}
@@ -86,7 +86,7 @@ const Trends = () => {
       body.period = period
     }
     body.groupBy = 'hour' //groupBy
-    body.generators = generators
+    body.generators = genList ? genList : selectedGenerators
 
     DataAPI({
       endpoint: 'solar/climate',
@@ -173,11 +173,9 @@ const Trends = () => {
     setSelectedGenerators(newSelected.sort())
   }
 
-  const filterGenerators = (generators) => {
-    setDataLoaded(false)
-    setLoading(true)
+  const filterGenerators = (genList = null) => {
     setGeneratorsSelected(true)
-    fetchData(generators)
+    fetchData(genList)
   }
 
   const options = {
