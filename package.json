@@ -63,6 +63,11 @@
     "license-compatibility-checker": "^0.3.5",
     "prettier": "2.8.8"
   },
+  "overrides": {
+    "postcss": "8.4.38",
+    "nth-check": "2.1.1",
+    "got": "14.4.1"
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/helpers/utils.{js,jsx}",
