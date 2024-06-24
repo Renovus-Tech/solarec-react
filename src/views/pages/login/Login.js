@@ -91,10 +91,10 @@ const Login = () => {
                   <CForm>
                     <h1 className="text-dark-blue">{t('Login')}</h1>
                     <p className="text-muted">{t('Sign In to your account')}</p>
-                    <CInputGroup className="mb-3">
-                      { error !== '' && 
+                    { error !== '' && 
                         <CAlert color="danger" data-testid="error">{error}</CAlert>
                       }
+                    <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={freeSet.cilUser} />
                       </CInputGroupText>
