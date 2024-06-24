@@ -3,6 +3,7 @@
 ![Lines](./badges/coverage-lines.svg)
 ![Statements](./badges/coverage-statements.svg)
 ![Jest coverage](./badges/coverage-jest%20coverage.svg)
+[![CLA assistant](https://cla-assistant.io/readme/badge/Renovus-Tech/solarec-react)](https://cla-assistant.io/Renovus-Tech/solarec-react)
 
 # Solarec
 
