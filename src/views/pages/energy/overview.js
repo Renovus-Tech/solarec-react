@@ -94,7 +94,7 @@ const Overview = () => {
         setUserDataLoaded(true)
         setUser(response.name)
         setRegion(response.state)
-        setCountry(response.country)
+        setCountry(response.country.name)
         setCapacity(formatNumber(response.outputCapacity))
         setLatitude(response.latitude)
         setLongitude(response.longitude)
