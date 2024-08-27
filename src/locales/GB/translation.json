@@ -19,6 +19,8 @@
     "Certificates and Offsets":"Certificates and Offsets",
     "Certificates":"Certificates",
     "Sales":"Sales",
+    "Reports - Settings":"Reports - Settings",
+    "Reports - Generate":"Reports - Generate",
 
     "Setting": "Setting",
     "Settings": "Settings",
@@ -94,10 +96,6 @@
     "Production and Irradiance": "Production and Irradiance",
     "Select one or more inverters": "Select one or more inverters",
 
-    "Generate": "Generate",
-    "Generate and Download Report": "Generate and Download Report",
-    "the selected day and the previous 6 days": "the selected day and the previous 6 days",
-
     "CO2 avoided": "CO2 avoided",
     "D-RECs generated": "D-RECs generated",
     "D-RECs sold": "D-RECs sold",
@@ -109,6 +107,15 @@
     "Irradiance average": "Irradiance average",
     "Inverters in operation": "Inverters in operation",
     "Last updated on": "Last updated on",
-    "Solar Portfolio": "Solar Portfolio"
+    "Solar Portfolio": "Solar Portfolio",
 
+    "Reports":"Reports",
+    "Generate":"Generate",
+    "Generate and Download Report":"Generate and Download Report",
+    "the selected day and the previous 6 days":"the selected day and the previous 6 days",
+    "Select report type":"Select report type",
+    "Select":"Select",
+    "Select report period":"Select report period",
+    "Select report date":"Select report date",
+    "Your report has been requested. You will receive it by e-mail shortly.":"Your report has been requested. You will receive it by e-mail shortly."
 }

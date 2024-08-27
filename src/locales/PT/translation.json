@@ -19,6 +19,8 @@
     "Certificates and Offsets":"Certificados e compensações",
     "Certificates":"Certificados",
     "Sales":"Vendas",
+    "Reports - Settings":"Reports - Configurações",
+    "Reports - Generate":"Reports - Gerar",
 
     "Setting": "Definição",
     "Settings": "Definições",
@@ -94,10 +96,6 @@
     "Production and Irradiance": "Produção e Irradiância",
     "Select one or more inverters": "Selecionar um ou mais inversores",
 
-    "Generate": "Gerar",
-    "Generate and Download Report": "Gerar e descarregar relatório",
-    "the selected day and the previous 6 days": "o dia selecionado e os 6 dias anteriores",
-
     "CO2 avoided": "CO2 evitado",
     "D-RECs generated": "D-RECs geradas",
     "D-RECs sold": "D-RECs vendidas",
@@ -109,6 +107,16 @@
     "Irradiance average": "Irradiância média",
     "Inverters in operation": "Inversores em funcionamento",
     "Last updated on": "Última atualização em",
-    "Solar Portfolio": "Portfólio solar"
+    "Solar Portfolio": "Portfólio solar",
+
+    "Reports":"Relatórios",
+    "Generate": "Gerar",
+    "Generate and Download Report": "Gerar e descarregar relatório",
+    "the selected day and the previous 6 days": "o dia selecionado e os 6 dias anteriores",
+    "Select report type":"Selecione o tipo de relatório",
+    "Select":"Selecione",
+    "Select report period":"Selecione o período do relatório",
+    "Select report date":"Selecione a data do relatório",
+    "Your report has been requested. You will receive it by e-mail shortly.":"Seu relatório foi solicitado. Você receberá por e-mail em breve."
 
 }

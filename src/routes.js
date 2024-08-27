@@ -7,12 +7,14 @@ import i18n from './helpers/i18n'
 const UserSettings = React.lazy(() => import('./views/pages/user/settings'))
 const ClientSettings = React.lazy(() => import('./views/pages/client/settings'))
 
-// Solar
+// Pages
 const Overview = React.lazy(() => import('./views/pages/energy/overview'))
 const Performance = React.lazy(() => import('./views/pages/energy/performance'))
 const Trends = React.lazy(() => import('./views/pages/energy/trends'))
 const Certificates = React.lazy(() => import('./views/pages/revenue/certificates-and-offsets'))
 const Sales = React.lazy(() => import('./views/pages/revenue/sales'))
+const ReportsSettings = React.lazy(() => import('./views/pages/reports/settings'));
+const ReportsGenerate = React.lazy(() => import('./views/pages/reports/generate'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -24,6 +26,8 @@ const routes = [
   { path: '/modules/energy/performance', exact: true, name: i18n.t('Performance'), element: Performance },
   { path: '/modules/revenue/certificates-and-offsets', exact: true, name:  i18n.t('Certificates'), element: Certificates },
   { path: '/modules/revenue/sales', exact: true, name: i18n.t('Sales'), element: Sales },
+  { path: '/modules/reports/settings', exact: true, name: i18n.t('Reports - Settings'), element: ReportsSettings },
+  { path: '/modules/reports/generate', exact: true, name: i18n.t('Reports - Generate'), element: ReportsGenerate },
 ]
 
 const functionalities = JSON.parse(getCookie('functionalities'))

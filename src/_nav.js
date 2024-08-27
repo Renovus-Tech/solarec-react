@@ -46,6 +46,23 @@ let _nav = [
       },
     ],
   },
+  {
+    component: CNavGroup,
+    name: i18n.t('Reports'),
+    icon: <CIcon icon={freeSet.cilDescription} customClassName="nav-icon"/>,
+    items: [
+      {
+        component: CNavItem,
+        name: i18n.t('Settings'),
+        to: '/modules/reports/settings',
+      },
+      {
+        component: CNavItem,
+        name: i18n.t('Generate'),
+        to: '/modules/reports/generate',
+      }
+    ]
+  },
 ]
 
 const functionalities = JSON.parse(getCookie('functionalities'));

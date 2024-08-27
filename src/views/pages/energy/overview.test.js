@@ -20,7 +20,9 @@ const LocationResponseOk = {
   "name": "Domus",
   "address": "Canelones, Uruguay",
   "state": "Canelones",
-  "country": "Uruguay",
+  "country": {
+    "name":"Uruguay"
+  },
   "countryAlpha2": "UY",
   "latitude": -34.7833,
   "longitude": -56.0112,
