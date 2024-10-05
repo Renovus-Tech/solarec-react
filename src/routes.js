@@ -30,8 +30,11 @@ const routes = [
   { path: '/modules/reports/generate', exact: true, name: i18n.t('Reports - Generate'), element: ReportsGenerate },
 ]
 
-const functionalities = JSON.parse(getCookie('functionalities'))
-const filteredRoutes = routes.filter(r => functionalities.indexOf(r.path) > -1 )
+let filteredRoutes = routes;
+if(getCookie('functionalities')) {
+  const functionalities = JSON.parse(getCookie('functionalities'))
+  filteredRoutes = routes.filter(r => functionalities.indexOf(r.path) > -1 )
+}
 
 export default filteredRoutes
 

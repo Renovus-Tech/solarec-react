@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DataAPI from '../../../helpers/DataAPI.js'
-import { getDateLabel, round, colors } from '../../../helpers/utils.js'
+import { getDateLabel, round, colors, lightenColor } from '../../../helpers/utils.js'
 import { DateFilter } from '../../../components/custom/DateFilter.js'
 import { setCookie, getCookie } from '../../../helpers/sessionCookie.js'
 import { useTranslation } from 'react-i18next'
@@ -146,7 +146,24 @@ const Trends = () => {
           }),
         }
         graphData1.datasets.push(datasetACProduction)
+
+        const datasetPredictedACProductionMwh = {
+          label: t('Prediction') + ': ' + gen.name,
+          borderColor: lightenColor(generatorColors[gen.code],60),
+          pointBackgroundColor: 'transparent',
+          pointBorderColor: 'transparent',
+          backgroundColor: 'transparent',
+          yAxisID: 'yACProduction',
+          data: responseData.data.map((rD, index) => {
+            return rD.genData
+              .filter((rGen) => rGen.code === gen.code)
+              .map((rGen, index2) => rGen.predictedACProductionMwh)[0]
+          }),
+        }
+        graphData1.datasets.push(datasetPredictedACProductionMwh)
       })
+
+      
 
       const datasetIrradiance = {
         label: 'Irradiance',
@@ -160,6 +177,19 @@ const Trends = () => {
         }),
       }
       graphData1.datasets.push(datasetIrradiance)
+
+      const datasetTotalPrediction = {
+        label: 'Total Prediction',
+        yAxisID: 'yACProduction',
+        borderColor: 'green',
+        pointBackgroundColor: 'transparent',
+        pointBorderColor: 'transparent',
+        backgroundColor: 'transparent',
+        data: responseData.data.map((x, i) => {
+          return x.totalPredictedACProductionMwh
+        }),
+      }
+      graphData1.datasets.push(datasetTotalPrediction)
 
       setLineChartOneData(graphData1)
     })

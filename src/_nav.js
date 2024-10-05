@@ -65,36 +65,38 @@ let _nav = [
   },
 ]
 
-const functionalities = JSON.parse(getCookie('functionalities'));
-
-const filteredNav = [];
-_nav.forEach(level1 => {
-  if(level1.items && level1.items.length > 0) {
-    const retChildren = []; 
-    level1.items.forEach(level2 => {
-      if(level2.items && level2.items.length > 0) {
-        const retChildren2 = []; 
-        level2.items.forEach(level3 => {
-          if(functionalities.indexOf(level3.to) > -1){
-            retChildren2.push(level3);
-          }
-        });
-        level2.items = retChildren2;
-        retChildren.push(level2);
-      } else {
-        if(functionalities.indexOf(level2.to) > -1){
+let filteredNav = _nav
+if(getCookie('functionalities')) {
+  const functionalities = JSON.parse(getCookie('functionalities'));
+  filteredNav = [];
+  _nav.forEach(level1 => {
+    if(level1.items && level1.items.length > 0) {
+      const retChildren = []; 
+      level1.items.forEach(level2 => {
+        if(level2.items && level2.items.length > 0) {
+          const retChildren2 = []; 
+          level2.items.forEach(level3 => {
+            if(functionalities.indexOf(level3.to) > -1){
+              retChildren2.push(level3);
+            }
+          });
+          level2.items = retChildren2;
           retChildren.push(level2);
+        } else {
+          if(functionalities.indexOf(level2.to) > -1){
+            retChildren.push(level2);
+          }
         }
+      });
+      level1.items = retChildren;
+      filteredNav.push(level1);
+    } else {
+      if(functionalities.indexOf(level1.to) > -1){
+        filteredNav.push(level1)
       }
-    });
-    level1.items = retChildren;
-    filteredNav.push(level1);
-  } else {
-    if(functionalities.indexOf(level1.to) > -1){
-      filteredNav.push(level1)
     }
-  }
-})
+  })
+}
 
 export default filteredNav
 
