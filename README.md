@@ -18,6 +18,8 @@ React Web Application for Solarec.
 * [Quick Start](#quick-start)
 * [Installation](#installation)
 * [Basic usage](#basic-usage)
+* [Project structure](#project-structure)
+* [Data filters](#data-filters)
 
 ## Versions
 
@@ -54,8 +56,10 @@ See [the Releases section of our project](https://github.com/coreui/coreui-free-
 chart.js: ^4.4.0
 classnames: ^2.3.2
 core-js: ^3.31.0
-google-map-react: ^2.2.1,
+google-map-react: ^2.2.1
+i18next: ^23.11.5
 js-cookie: ^3.0.5
+moment: ^2.30.1
 prop-types: ^15.8.1
 react: ^18.2.0
 react-app-polyfill: ^3.0.0
@@ -78,13 +82,22 @@ web-vitals: ^3.3.2
 @babel/preset-react: ^7.23.3
 @testing-library/jest-dom: ^5.16.5
 @testing-library/react: ^14.0.0
-@testing-library/user-event: ^14.4.3
+ajv: ^8.12.0
+ajv-keywords: ^5.1.0
 eslint-config-prettier: ^8.8.0
 eslint-plugin-prettier: ^4.2.1
 jest-canvas-mock: ^2.5.2
 jest-cli: ^29.7.0
+jest-fetch-mock: ^3.0.3
 license-compatibility-checker: ^0.3.5
-prettier": 2.8.8
+prettier: 2.8.8
+
+### Overrides
+
+postcss: 8.4.38
+nth-check: 2.1.1
+got: 14.4.1
+react-error-overlay: 6.0.9
 
 
 ## Quick Start
@@ -135,3 +148,76 @@ or
 # build for production with minification
 $ yarn build
 ```
+
+
+## Project Structure
+```
+solarec-react
+├── public/              # static files
+│   ├── favicon.ico
+│   ├── index.html       # html template
+│   └── manifest.json
+│
+├── src/                 # project root
+│   ├── assets/          # images, icons, etc.
+│   ├── components/      # common components - header, footer, sidebar, etc.
+│   ├── layouts/         # layout containers
+│   ├── helpers/     
+│   ├── scss/            # scss styles
+│   ├── locales/         # translations files
+│   ├── views/           # application views
+│   │   └── pages/        # application pages
+│   │      ├── user/      # user pages
+│   │      ├── client/    # client pages
+│   │      ├── login/     # login and password reset pages
+│   │      ├── enery/     # energy pages
+│   │      ├── revenue/   # revenue pages
+│   │      ├── page404/   
+│   │      └── page500/   
+│   ├── _nav.js          # sidebar navigation config
+│   ├── App.js
+│   ├── index.js
+│   ├── routes.js        # routes config
+│   └── store.js         # template state example 
+│
+├── .env                 # environment variables
+├── licenses.json        # packages licenses information
+├── package.json         # npm dependencies and run scripts
+└── README.md            # Documentation
+```
+
+
+## Data filters
+Attributes used across the app to filter de information needed.
+
+### Period: 
+- cy -> Current year
+- cm -> Current month
+- cw -> Current week
+- y -> Yesterday
+- 30d -> 30 days
+- 12w -> 12 weeks
+- 12m -> 12 month
+- cy-{{x}} -> Current year minus {{x}}
+- x -> Custom range
+	- from
+	- to
+
+### Group by:
+- hour
+- day
+- week
+- month
+- year
+
+
+## Environment variables
+
+| Variable             | Description                                                                                                                                                                                                                          | Default    |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| PORT                 | Port in which you want the app to start                                                                                                                                                                                              | 3000       |
+| CHOKIDAR_USEPOLLING  | When set to true, the watcher runs in polling mode, as necessary inside a VM. Use this option if npm start isn't detecting changes.                                                                                                  | true       |
+| SKIP_PREFLIGHT_CHECK | Manually installing incompatible versions is known to cause hard-to-debug issues. If prefer to ignore this check, set SKIP_PREFLIGHT_CHECK to true. That will permanently disable this message but you might encounter other issues. | true       |
+| REACT_APP_NAME       | Name of the app                                                                                                                                                                                                                      | SOLAREC    |
+| REACT_APP_API_URL    | Endpoint for backend calls                                                                                                                                                                                                           | /api3/rest |
+| GOOGLE_MAPS_API_KEY  | Your Google maps API Key. This is needed to make the map work.                                                                                                                                                                       | ''         |
