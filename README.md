@@ -20,6 +20,7 @@ React Web Application for Solarec.
 * [Basic usage](#basic-usage)
 * [Project structure](#project-structure)
 * [Data filters](#data-filters)
+* [Environment variables](#environment-variables)
 
 ## Versions
 
