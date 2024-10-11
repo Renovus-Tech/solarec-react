@@ -24,7 +24,7 @@ const revenueResponseOk = {
   },
   "data" : [ {
     "from" : "2024/03/01 00:00:00",
-    "to" : "2024/03/31 23:59:59",
+    "to" : "2024/03/31 23:59:59", 
     "co2Avoided" : 30,
     "certGenerated" : 25,
     "certPrice" : 509,
@@ -73,13 +73,14 @@ describe("Sales", () => {
       const groupBySelect = screen.getByTestId('groupby')
       expect(groupBySelect).toBeInTheDocument()
       expect(groupBySelect).toHaveValue("month")
-      expect(screen.getByRole("option", { name: "month" }).selected).toBe(true)
+      expect(screen.getByRole("option", { name: i18n.t("month") }).selected).toBe(true)
     })
   })
 
   test('submit button should be enabled after load', async () => {
     render(<HashRouter><Sales /></HashRouter>)
     const filtersSubmit = screen.getByText(i18n.t('Submit'))
+    expect(filtersSubmit).toBeDisabled()
     await waitFor(() => { expect(filtersSubmit).toBeEnabled() }, {timeout:5000})
   }, 20000)
 
@@ -118,7 +119,7 @@ describe("Sales", () => {
 
   }, 20000)
 
-  test('should show error message when endpoint answers with error', async () => {
+  test('should show error when endpoint answers with error', async () => {
     render(<Sales />)
     jest.spyOn(window, 'alert').mockImplementation(() => {})
     DataAPI.mockResolvedValueOnce({error: "Error"})
@@ -128,7 +129,21 @@ describe("Sales", () => {
       fireEvent.click(submitButton)
     })
     await waitFor(() => { 
-      expect(window.alert).toBeCalledWith('Error') 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
+    }, {timeout:10000})
+  }, 20000)
+
+  test('should show error message when endpoint answers with error message', async () => {
+    render(<Sales />)
+    jest.spyOn(window, 'alert').mockImplementation(() => {})
+    DataAPI.mockResolvedValueOnce({error: { message: "Error"}})
+    await waitFor(() => { 
+      const submitButton = screen.getByTestId('submit-button')
+      expect(submitButton).toBeEnabled()
+      fireEvent.click(submitButton)
+    })
+    await waitFor(() => { 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
     }, {timeout:10000})
   }, 20000)
 

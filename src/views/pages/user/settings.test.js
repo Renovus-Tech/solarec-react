@@ -20,7 +20,7 @@ const DataApiResponseOk = {
   authenticated: true,
   error: null,
   client: {
-      id: 1,
+      id: 1, 
       name: "Canary",
       legalName: "Canelones, Uruguay",
       address: "Canelones, Uruguay",
@@ -146,13 +146,22 @@ describe("User Settigs", () => {
     })
   }, 20000)
 
-  test('should show error alert when endpoint falis', async () => {
+  test('should show error alert when endpoint fails', async () => {
     // DataAPI.mockResolvedValueOnce(DataApiResponseOk)
     jest.spyOn(window, 'alert').mockImplementation(() => {})
     // jest.clearAllMocks()
     DataAPI.mockResolvedValueOnce({error: "Error"})
     render(<HashRouter><Settings /></HashRouter>)
-    await waitFor(() => { expect(window.alert).toBeCalledWith('Error') }, {timeout:10000})
+    await waitFor(() => { expect(window.alert).toHaveBeenCalledWith('Error') }, {timeout:10000})
+  }, 20000)
+
+  test('should show error message alert when endpoint fails with error message', async () => {
+    // DataAPI.mockResolvedValueOnce(DataApiResponseOk)
+    jest.spyOn(window, 'alert').mockImplementation(() => {})
+    // jest.clearAllMocks()
+    DataAPI.mockResolvedValueOnce({error: {message: "Error" }})
+    render(<HashRouter><Settings /></HashRouter>)
+    await waitFor(() => { expect(window.alert).toHaveBeenCalledWith('Error') }, {timeout:10000})
   }, 20000)
 
   test('should show error message when endpint answers with error', async () => {

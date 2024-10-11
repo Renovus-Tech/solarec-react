@@ -20,7 +20,7 @@ const revenueResponseOk = {
     "to" : "2024/04/18 23:59:59",
     "resultCode" : 200,
     "resultText" : "",
-    "groupBy" : "month"
+    "groupBy" : "month" 
   },
   "data" : [ {
     "from" : "2024/03/01 00:00:00",
@@ -115,17 +115,29 @@ describe("Certificates", () => {
 
   test('should show error message when endpoint answers with error', async () => {
     render(<Certificates />)
-
     jest.spyOn(window, 'alert').mockImplementation(() => {})
     DataAPI.mockResolvedValueOnce({error: "Error"})
-
     await waitFor(() => { 
       const submitButton = screen.getByTestId('submit-button')
       expect(submitButton).toBeEnabled()
       fireEvent.click(submitButton)
     })
     await waitFor(() => { 
-      expect(window.alert).toBeCalledWith('Error') 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
+    }, {timeout:10000})
+  }, 20000)
+
+  test('should show error message when endpoint answers with error with message', async () => {
+    render(<Certificates />)
+    jest.spyOn(window, 'alert').mockImplementation(() => {})
+    DataAPI.mockResolvedValueOnce({error: { message: "Error" }})
+    await waitFor(() => { 
+      const submitButton = screen.getByTestId('submit-button')
+      expect(submitButton).toBeEnabled()
+      fireEvent.click(submitButton)
+    })
+    await waitFor(() => { 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
     }, {timeout:10000})
   }, 20000)
 

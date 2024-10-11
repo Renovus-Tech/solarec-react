@@ -149,7 +149,7 @@ describe("Overview", () => {
 
   test('correct values should load on Plant Characteristics', async () => {
     render(<HashRouter><Overview /></HashRouter>)
-    await waitFor(() => { 
+    await waitFor(() => {
       expect(screen.getByTestId('user').innerHTML).toBe('Domus') 
       expect(screen.getByTestId('region').innerHTML).toBe('Canelones')
       expect(screen.getByTestId('country').innerHTML).toBe('Uruguay')

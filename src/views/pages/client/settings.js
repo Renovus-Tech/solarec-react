@@ -125,7 +125,7 @@ const Settings = () => {
               <CRow className="mb-3">
                 <CCol >
                   { settingsLoaded && (
-                    <CForm>
+                    <CForm data-testid={"form"}>
                       
                       {categories.map((category, index) => (
 
@@ -144,8 +144,8 @@ const Settings = () => {
                                 role="input"
                                 aria-label={setting.name}
                                 type={setting.type}
-                                min={setting.min}
-                                max={setting.max}
+                                min={setting.min ? setting.min : ''}
+                                max={setting.max ? setting.max : ''}
                                 value={setting.value?setting.value:setting.valueDefault}
                                 onChange={(ev) => {
                                   handleSettingChange(category.category, setting.name, ev.target.value)

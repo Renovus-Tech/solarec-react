@@ -1,5 +1,5 @@
 // utils.test.js
-import { formatDate, round, formatNumber, transparentize, getDateLabel } from './utils'
+import { formatDate, round, formatNumber, transparentize, getDateLabel, lightenColor, colors } from './utils'
 import i18n from './i18n'
 
 describe("utils", () => {
@@ -75,6 +75,17 @@ describe("utils", () => {
     expect(getDateLabelxx).toEqual('2024-4-14 - 2024-5-25')
     const getDateLabelOtherValue = getDateLabel('otherValue')
     expect(getDateLabelOtherValue).toEqual('otherValue')
+  })
+
+  test('colors function should retrive correct value', () => {
+    expect(colors).toEqual(['#003f5c', '#7a5195', '#bc5090', '#ef5675', '#ff764a', '#ffa600','#9ceb01'])
+  })
+
+  test('lightenColor function should retrive correct value', () => {
+    const lightenColorNull = lightenColor(null)
+    expect(lightenColorNull).toBeNull()
+    const lightenColorColor = lightenColor('#003f5c',60)
+    expect(lightenColorColor).toEqual("#3c7b98")
   })
 
 

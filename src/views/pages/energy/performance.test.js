@@ -47,7 +47,7 @@ const LocationResponseOneGenOk = {
 }
 
 const LocationResponseTwoGenOk = {
-  "id": 1,
+  "id": 1, 
   "code": "Domus",
   "name": "Domus",
   "address": "Canelones, Uruguay",
@@ -243,10 +243,8 @@ describe("Performance", () => {
   test('should show error message when endpint answers with error', async () => {
     DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
     render(<Performance />)
-
     jest.spyOn(window, 'alert').mockImplementation(() => {})
     DataAPI.mockResolvedValueOnce({error: "Error"})
-
     await waitFor(() => { 
       const buttonGen1 = screen.getByTestId('btn-gen-1')
       fireEvent.click(buttonGen1)
@@ -255,9 +253,26 @@ describe("Performance", () => {
       expect(submitButton).toBeEnabled()
       fireEvent.click(submitButton)
     }, {timeout:5000})
-
     await waitFor(() => { 
-      expect(window.alert).toBeCalledWith('Error') 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
+    }, {timeout:10000})
+  }, 20000)
+
+  test('should show error message when endpint answers with error with message', async () => {
+    DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
+    render(<Performance />)
+    jest.spyOn(window, 'alert').mockImplementation(() => {})
+    DataAPI.mockResolvedValueOnce({error: { message: "Error" }})
+    await waitFor(() => { 
+      const buttonGen1 = screen.getByTestId('btn-gen-1')
+      fireEvent.click(buttonGen1)
+      DataAPI.mockResolvedValueOnce(performanceRatioResponseOk)
+      const submitButton = screen.getByTestId('submit-button')
+      expect(submitButton).toBeEnabled()
+      fireEvent.click(submitButton)
+    }, {timeout:5000})
+    await waitFor(() => { 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
     }, {timeout:10000})
   }, 20000)
 

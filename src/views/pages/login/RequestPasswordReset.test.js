@@ -9,6 +9,6 @@ describe("Request Password Reset", () => {
   test('renders RequestPasswordReset', () => {
     render(<RequestPasswordReset />)
     
-  })
+  }) 
 
 })

@@ -60,6 +60,7 @@ export const getDateLabel = (dateValue,from,to,t) => {
 }
 
 export const lightenColor = (hexColor, magnitude) => {
+  if (!hexColor) return hexColor;
   hexColor = hexColor.replace(`#`, ``);
   if (hexColor.length === 6) {
       const decimalColor = parseInt(hexColor, 16);

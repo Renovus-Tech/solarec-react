@@ -15,7 +15,7 @@ import DataAPI from '../../../helpers/DataAPI.js'
 jest.mock('../../../helpers/DataAPI')
 
 describe("Login", () => {
-
+ 
   beforeEach(() => {
     global.fetch = jest.fn()
   })

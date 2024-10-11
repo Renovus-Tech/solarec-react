@@ -111,11 +111,13 @@ const trendsResponseOk = {
       "code" : "1",
       "productionMwh" : 0.0,
       "acProductionMwh" : 0.0,
-      "irradiationKwhM2" : 0.0
+      "irradiationKwhM2" : 0.0,
+      "predictedACProductionMwh" : 0.0
     } ],
     "totalProductionMwh" : 0.0,
     "totalACProductionMwh" : 0.0,
     "totalIrradiationKwhM2" : 0.0,
+    "totalPredictedACProductionMwh" : 0.0,
     "avgAmbientTemp" : 0.0,
     "avgModuleTemp" : 0.0
   }]
@@ -230,10 +232,8 @@ describe("Trends", () => {
   test('should show error message when endpint answers with error', async () => {
     DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
     render(<Trends />)
-
     jest.spyOn(window, 'alert').mockImplementation(() => {})
     DataAPI.mockResolvedValueOnce({error: "Error"})
-
     await waitFor(() => {  
       const buttonGen1 = screen.getByTestId('btn-gen-1')
       fireEvent.click(buttonGen1)
@@ -242,9 +242,26 @@ describe("Trends", () => {
       expect(submitButton).toBeEnabled()
       fireEvent.click(submitButton)
     }, {timeout:5000})
-
     await waitFor(() => { 
-      expect(window.alert).toBeCalledWith('Error') 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
+    }, {timeout:10000})
+  }, 20000)
+
+  test('should show error message when endpint answers with error with message', async () => {
+    DataAPI.mockResolvedValueOnce(LocationResponseTwoGenOk)
+    render(<Trends />)
+    jest.spyOn(window, 'alert').mockImplementation(() => {})
+    DataAPI.mockResolvedValueOnce({error: { message: "Error" }})
+    await waitFor(() => {  
+      const buttonGen1 = screen.getByTestId('btn-gen-1')
+      fireEvent.click(buttonGen1)
+      DataAPI.mockResolvedValueOnce(trendsResponseOk)
+      const submitButton = screen.getByTestId('submit-button')
+      expect(submitButton).toBeEnabled()
+      fireEvent.click(submitButton)
+    }, {timeout:5000})
+    await waitFor(() => { 
+      expect(window.alert).toHaveBeenCalledWith('Error') 
     }, {timeout:10000})
   }, 20000)
 

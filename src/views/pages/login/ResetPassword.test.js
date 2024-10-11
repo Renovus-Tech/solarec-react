@@ -14,6 +14,6 @@ describe("Reset Password", () => {
           <Route path="*" element={<ResetPassword />}></Route>
         </Routes>
       </BrowserRouter>)
-  })
+  }) 
 
 })
