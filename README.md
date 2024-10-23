@@ -46,59 +46,59 @@ See [the Releases section of our project](https://github.com/coreui/coreui-free-
 
 ### Production
 
-@coreui/chartjs: ^3.1.2
-@coreui/coreui: ^4.2.6
-@coreui/icons: ^3.0.1
-@coreui/icons-react: ^2.1.0
-@coreui/react: ^4.9.0-rc.0
-@coreui/react-chartjs: ^2.1.3
-@coreui/utils: ^2.0.2
-@kurkle/color: ^0.3.2
-chart.js: ^4.4.0
-classnames: ^2.3.2
-core-js: ^3.31.0
-google-map-react: ^2.2.1
-i18next: ^23.11.5
-js-cookie: ^3.0.5
-moment: ^2.30.1
-prop-types: ^15.8.1
-react: ^18.2.0
-react-app-polyfill: ^3.0.0
-react-chartjs-2: ^5.2.0
-react-datepicker: ^4.24.0
-react-dom: ^18.2.0
-react-flags-select: ^2.2.3
-react-i18next: ^13.5.0
-react-redux: ^8.1.1
-react-router-dom: ^6.14.0
-react-scripts: 5.0.1
-redux: 4.2.1
-sass": ^1.63.6
-simplebar-react": ^2.4.3
-web-vitals: ^3.3.2
+@coreui/chartjs: ^3.1.2 -> https://github.com/coreui/coreui-chartjs/releases/tag/v3.1.2  
+@coreui/coreui: ^4.2.6 -> https://github.com/coreui/coreui/releases/tag/v4.2.6  
+@coreui/icons: ^3.0.1 -> https://github.com/coreui/coreui-icons/releases/tag/v3.0.1  
+@coreui/icons-react: ^2.1.0 -> https://github.com/coreui/coreui-icons-react  
+@coreui/react: ^4.9.0-rc.0 -> https://github.com/coreui/coreui-react/releases/tag/v4.9.0-rc.0  
+@coreui/react-chartjs: ^2.1.3 -> https://github.com/coreui/coreui-react-chartjs/releases/tag/v2.1.3  
+@coreui/utils: ^2.0.2 -> https://github.com/coreui/coreui-utils/releases/tag/v2.0.2  
+@kurkle/color: ^0.3.2 -> https://github.com/kurkle/color/releases/tag/v0.3.2  
+chart.js: ^4.4.0 -> https://github.com/chartjs/Chart.js/releases/tag/v4.4.0  
+classnames: ^2.3.2 -> https://github.com/JedWatson/classnames/releases/tag/v2.3.2  
+core-js: ^3.31.0 -> https://github.com/zloirock/core-js/releases/tag/v3.31.0  
+google-map-react: ^2.2.1 -> https://github.com/google-map-react/google-map-react/releases/tag/2.2  
+i18next: ^23.11.5 -> https://github.com/i18next/i18next/releases/tag/v23.11.5  
+js-cookie: ^3.0.5 -> https://github.com/js-cookie/js-cookie/releases/tag/v3.0.5  
+moment: ^2.30.1 -> https://github.com/moment/moment/releases/tag/2.30.1  
+prop-types: ^15.8.1 -> https://github.com/facebook/prop-types/releases/tag/v15.8.1  
+react: ^18.2.0 -> https://github.com/facebook/react/releases/tag/v18.2.0  
+react-app-polyfill: ^3.0.0 -> https://github.com/facebook/create-react-app/releases/tag/v3.0.0  
+react-chartjs-2: ^5.2.0 -> https://github.com/reactchartjs/react-chartjs-2/releases/tag/v5.2.0  
+react-datepicker: ^4.24.0 -> https://github.com/Hacker0x01/react-datepicker/releases/tag/v4.24.0  
+react-dom: ^18.2.0 -> https://github.com/facebook/react/releases/tag/v18.2.0  
+react-flags-select: ^2.2.3 -> https://github.com/ekwonye-richard/react-flags-select/releases/tag/v2.2.3  
+react-i18next: ^13.5.0 -> https://github.com/i18next/react-i18next/releases/tag/v13.5.0  
+react-redux: ^8.1.1 -> https://github.com/reduxjs/react-redux/releases/tag/v8.1.1  
+react-router-dom: ^6.14.0 -> https://github.com/remix-run/react-router/releases/tag/react-router%406.14.0  
+react-scripts: 5.0.1 -> https://github.com/facebook/create-react-app/releases/tag/v5.0.1
+redux: 4.2.1 -> https://github.com/reduxjs/redux/releases/tag/v4.2.1  
+sass: ^1.63.6 -> https://github.com/sass/dart-sass/releases/tag/1.63.6  
+simplebar-react: ^2.4.3 -> https://github.com/Grsmto/simplebar/releases/tag/v2.4.3  
+web-vitals: ^3.3.2 -> https://github.com/GoogleChrome/web-vitals/releases/tag/v3.3.2
 
 ### Development
 
-@babel/preset-env: ^7.23.5
-@babel/preset-react: ^7.23.3
-@testing-library/jest-dom: ^5.16.5
-@testing-library/react: ^14.0.0
-ajv: ^8.12.0
-ajv-keywords: ^5.1.0
-eslint-config-prettier: ^8.8.0
-eslint-plugin-prettier: ^4.2.1
-jest-canvas-mock: ^2.5.2
-jest-cli: ^29.7.0
-jest-fetch-mock: ^3.0.3
-license-compatibility-checker: ^0.3.5
-prettier: 2.8.8
+@babel/preset-env: ^7.23.5 -> https://github.com/babel/babel/releases/tag/v7.23.5  
+@babel/preset-react: ^7.23.3 -> https://github.com/babel/babel/releases/tag/v7.23.3  
+@testing-library/jest-dom: ^5.16.5 -> https://github.com/testing-library/jest-dom/releases/tag/v5.16.5  
+@testing-library/react: ^14.0.0 -> https://github.com/testing-library/react-testing-library/releases/tag/v14.0.0  
+ajv: ^8.12.0 -> https://github.com/ajv-validator/ajv/releases/tag/v8.12.0  
+ajv-keywords: ^5.1.0 -> https://github.com/ajv-validator/ajv-keywords/releases/tag/v5.1.0  
+eslint-config-prettier: ^8.8.0 -> https://github.com/prettier/eslint-config-prettier/releases/tag/v8.8.0  
+eslint-plugin-prettier: ^4.2.1 -> https://github.com/prettier/eslint-plugin-prettier/releases/tag/v4.2.1  
+jest-canvas-mock: ^2.5.2 -> https://github.com/hustcc/jest-canvas-mock  
+jest-cli: ^29.7.0 -> https://github.com/jestjs/jest/releases/tag/v29.7.0  
+jest-fetch-mock: ^3.0.3 -> https://github.com/jefflau/jest-fetch-mock/releases/tag/3.0.0  
+license-compatibility-checker: ^0.3.5 -> https://github.com/HansHammel/license-compatibility-checker  
+prettier: 2.8.8 -> https://github.com/prettier/prettier/releases/tag/2.8.8
 
 ### Overrides
 
-postcss: 8.4.38
-nth-check: 2.1.1
-got: 14.4.1
-react-error-overlay: 6.0.9
+postcss: 8.4.38 -> https://github.com/postcss/postcss/releases/tag/8.4.38  
+nth-check: 2.1.1 -> https://github.com/fb55/nth-check/releases/tag/v2.1.1  
+got: 14.4.1 -> https://github.com/sindresorhus/got/releases/tag/v14.4.1  
+react-error-overlay: 6.0.9 -> https://github.com/facebook/create-react-app
 
 
 ## Quick Start
