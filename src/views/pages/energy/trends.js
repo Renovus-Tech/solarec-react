@@ -149,7 +149,9 @@ const Trends = () => {
 
         const datasetPredictedACProductionMwh = {
           label: t('Prediction') + ': ' + gen.name,
-          borderColor: lightenColor(generatorColors[gen.code],60),
+          borderColor: generatorColors[gen.code],
+          borderDash: [10, 5],
+          borderWidth: 2,
           pointBackgroundColor: 'transparent',
           pointBorderColor: 'transparent',
           backgroundColor: 'transparent',
@@ -163,8 +165,6 @@ const Trends = () => {
         graphData1.datasets.push(datasetPredictedACProductionMwh)
       })
 
-      
-
       const datasetIrradiance = {
         label: 'Irradiance',
         yAxisID: 'yIrradiance',
@@ -177,19 +177,6 @@ const Trends = () => {
         }),
       }
       graphData1.datasets.push(datasetIrradiance)
-
-      const datasetTotalPrediction = {
-        label: 'Total Prediction',
-        yAxisID: 'yACProduction',
-        borderColor: 'green',
-        pointBackgroundColor: 'transparent',
-        pointBorderColor: 'transparent',
-        backgroundColor: 'transparent',
-        data: responseData.data.map((x, i) => {
-          return x.totalPredictedACProductionMwh
-        }),
-      }
-      graphData1.datasets.push(datasetTotalPrediction)
 
       setLineChartOneData(graphData1)
     })
