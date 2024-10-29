@@ -8,7 +8,7 @@ import { AppSidebarNav } from './AppSidebarNav'
 // import { logo } from 'src/assets/brand/logo-negative'
 // import { sygnet } from 'src/assets/brand/sygnet'
 import logo from '../assets/logo.png';
-import icon from '../assets/icons/icon-solarec.png';
+import icon from '../assets/icons/icon-grinplus.png';
 
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
@@ -33,8 +33,8 @@ const AppSidebar = () => {
       <CSidebarBrand className="d-none d-md-flex" to="/">
         {/* <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} /> */}
         {/* <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} /> */}
-        <CImage className="sidebar-brand-full" src={logo} height={48} alt="Solarec" />
-        <CImage className="sidebar-brand-narrow" src={icon} height={48} alt="Solarec" />
+        <CImage className="sidebar-brand-full" src={logo} height={48} alt="Grinplus" />
+        <CImage className="sidebar-brand-narrow" src={icon} height={48} alt="Grinplus" />
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>

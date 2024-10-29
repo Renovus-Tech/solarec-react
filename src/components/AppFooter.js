@@ -15,7 +15,7 @@ const AppFooter = () => {
         <a href="https://coreui.io/react" target="_blank" rel="noopener noreferrer">
           CoreUI React Admin &amp; Dashboard Template
         </a> */}
-        <span>&copy; 2023 Solarec</span>
+        <span>&copy; 2024 Grinplus</span>
       </div>
     </CFooter>
   )

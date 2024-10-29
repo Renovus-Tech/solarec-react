@@ -3,7 +3,7 @@ import {
     CImage,
   } from '@coreui/react'
 import GoogleMapReact from 'google-map-react'
-import icon from '../../assets/icons/location-pin-solarec.png'
+import icon from '../../assets/icons/location-pin-grinplus.png'
 import PropTypes from 'prop-types';
 
 const LocationPin = ({ text }) => (

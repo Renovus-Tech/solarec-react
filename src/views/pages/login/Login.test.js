@@ -46,7 +46,7 @@ describe("Login", () => {
 
   test('should display logo correctly', () => {
     render(<HashRouter><Login /></HashRouter>)
-      const image = screen.getByAltText('Solarec')
+      const image = screen.getByAltText('Grinplus')
       expect(image.src).toContain('/logo.png')
 })
   

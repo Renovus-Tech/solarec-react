@@ -155,7 +155,7 @@ const Login = () => {
                   className="text-dark bg-login-right border-light py-5 d-md-down-none text-center d-flex justify-content-center align-items-center flex-column"
                   sm="5"
                 >
-                    <img src={logo} width="250" alt="Solarec" className="mb-3 mw-100" />
+                    <img src={logo} width="250" alt="Grinplus" className="mb-3 mw-100" />
                     <p>{t('Please login with your e-mail and password.')}</p>
                 </CCol>
                 </CRow>
