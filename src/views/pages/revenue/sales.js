@@ -41,6 +41,10 @@ const Sales = () => {
     datasets: [],
   })
 
+  const cookie = getCookie('groupby')
+  const filtersGroupBy = JSON.parse(getCookie('groupby'))
+  const filtersPeriod = JSON.parse(getCookie('periods'))
+
   useEffect(() => {
     fetchData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -178,7 +182,7 @@ const Sales = () => {
               <h6 className="mx-2 m-0 align-self-center">{t('Group by')}</h6>
               <GroupByFilter
                 value={groupBy}
-                options={['day', 'week', 'month', 'year']}
+                options={filtersGroupBy}
                 disabled={loading}
                 onChange={(value) => {
                   setGroupBy(value)
@@ -189,7 +193,8 @@ const Sales = () => {
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
                 value={period}
-                options={['cy', 'cm', 'x', 'xx']}
+                // options={['cy', 'cm', 'x', 'xx']}
+                options={filtersPeriod}
                 disabled={loading}
                 onChange={(value) => {
                   setPeriod(value)

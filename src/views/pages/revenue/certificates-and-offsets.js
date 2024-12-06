@@ -51,7 +51,8 @@ const Certificates = () => {
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState({labels: [], datasets: []});
 
-  
+  const filtersGroupBy = JSON.parse(getCookie('groupby'))
+  const filtersPeriod = JSON.parse(getCookie('periods'))
 
   useEffect(() => {
     fetchData();
@@ -209,7 +210,7 @@ const Certificates = () => {
               <h6 className="mx-2 m-0 align-self-center">{t('Group by')}</h6>
               <GroupByFilter
                 value={groupBy}
-                options={['day', 'week', 'month', 'year']}
+                options={filtersGroupBy}
                 disabled={loading}
                 onChange={(value) => {
                   setGroupBy(value)
@@ -220,7 +221,8 @@ const Certificates = () => {
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
                 value={period}
-                options={['cy', 'cm', 'x', 'xx']}
+                // options={['cy', 'cm', 'x', 'xx']}
+                options={filtersPeriod}
                 disabled={loading}
                 onChange={(value) => {
                   setPeriod(value)

@@ -69,6 +69,8 @@ const Overview = () => {
     labels: [],
   })
 
+  const filtersPeriod = JSON.parse(getCookie('periods'))
+
   useEffect(() => {
     loadData()
     refreshChart(period)
@@ -271,7 +273,8 @@ const Overview = () => {
                 <DateFilter
                   value={period}
                   warning={'Seleccionar un rango máximo de 31 días'}
-                  options={['y', 'cm', 'cy', 'x', 'xx']}
+                  // options={['y', 'cm', 'cy', 'x', 'xx']}
+                  options={filtersPeriod}
                   disabled={loading}
                   onChange={(value) => {
                     setPeriod(value)

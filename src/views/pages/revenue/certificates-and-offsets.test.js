@@ -9,6 +9,7 @@ import i18n from '../../../helpers/i18n'
 import Certificates from './certificates-and-offsets'
 import 'jest-canvas-mock'
 import DataAPI from '../../../helpers/DataAPI.js'
+import { setCookie } from '../../../helpers/sessionCookie.js'
 
 jest.mock('../../../helpers/DataAPI')
 
@@ -43,6 +44,8 @@ describe("Certificates", () => {
   beforeEach(() => {
     global.fetch = jest.fn()
     DataAPI.mockResolvedValueOnce(revenueResponseOk)
+    setCookie('groupby', '["day","week","month","year"]');
+    setCookie('periods', '["y","cm","cy","x","xx"]');
   })
 
   test('correct texts should be in the document', async () => {

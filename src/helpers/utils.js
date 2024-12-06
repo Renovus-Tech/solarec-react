@@ -59,6 +59,21 @@ export const getDateLabel = (dateValue,from,to,t) => {
 
 }
 
+export const getDateCodes = (dates) => {
+  if (!dates) return dates
+  const datesCodes = [];
+  dates.map((date) => {
+    switch(date) {
+      case 'yesterday' : datesCodes.push('y'); break;
+      case 'currentMonth' : datesCodes.push('cm'); break;
+      case 'currentYear' : datesCodes.push('cy'); break;
+      case 'range' : datesCodes.push('x'); datesCodes.push('xx'); break;
+      default : break;
+    }
+  })
+  return datesCodes;
+}
+
 export const lightenColor = (hexColor, magnitude) => {
   if (!hexColor) return hexColor;
   hexColor = hexColor.replace(`#`, ``);

@@ -17,6 +17,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilMenu } from '@coreui/icons'
 import { setCookie, getCookie } from '../helpers/sessionCookie.js'
+import { getDateCodes } from '../helpers/utils.js'
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import logo from '../assets/logo.png'
@@ -75,6 +76,8 @@ const AppHeader = () => {
         // setCookie('functionalities', JSON.stringify(functionalities.map((f) => f.url)))
         setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
         setCookie('dashboard', response.functionalities[0].url)
+        setCookie('groupby', JSON.stringify(Object.keys(response.location.frequency.groupby).filter((gb) => response.location.frequency.groupby[gb] === true)))
+        setCookie('periods', JSON.stringify(getDateCodes(Object.keys(response.location.frequency.periods).filter((p) => response.location.frequency.periods[p] === true))))
         setDashboard(response.functionalities[0].url)
         window.location.reload()
       }

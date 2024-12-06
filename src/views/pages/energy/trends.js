@@ -32,7 +32,7 @@ const Trends = () => {
   const [generatorColors, setGeneratorColors] = useState([])
   const [generatorsSelected, setGeneratorsSelected] = useState(false)
   const [allSelected, setAllSelected] = useState(false)
-
+  const filtersPeriod = JSON.parse(getCookie('periods'))
 
   const [lineChartOneData, setLineChartOneData] = useState({
     labels: [],
@@ -259,7 +259,8 @@ const Trends = () => {
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
                 value={period}
-                options={['y', 'cm', 'cy', 'x', 'xx']}
+                // options={['y', 'cm', 'cy', 'x', 'xx']}
+                options={filtersPeriod}
                 disabled={loading}
                 onChange={(value) => {
                   setPeriod(value)

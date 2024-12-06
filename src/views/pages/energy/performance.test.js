@@ -10,6 +10,7 @@ import { getCookie } from '../../../helpers/sessionCookie.js'
 import Performance from './performance'
 import 'jest-canvas-mock'
 import DataAPI from '../../../helpers/DataAPI.js'
+import { setCookie } from '../../../helpers/sessionCookie.js'
 
 jest.mock('../../../helpers/DataAPI')
 
@@ -127,6 +128,8 @@ describe("Performance", () => {
 
   beforeEach(() => {
     global.fetch = jest.fn()
+    setCookie('groupby', '["day","week","month","year"]');
+    setCookie('periods', '["y","cm","cy","x","xx"]');
   })
 
   test('correct texts should be in the document', async () => {

@@ -45,6 +45,8 @@ const Performance = () => {
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataLoadError, setDataLoadError] = useState(false)
   const colors = ['#003f5c', '#7a5195', '#bc5090', '#ef5675', '#ff764a', '#ffa600', '#9ceb01']
+  const filtersGroupBy = JSON.parse(getCookie('groupby'))
+  const filtersPeriod = JSON.parse(getCookie('periods'))
 
   useEffect(() => {
     const loadGenerators = () => {
@@ -280,7 +282,7 @@ const Performance = () => {
               <h6 className="mx-2 m-0 align-self-center">{t('Group by')}</h6>
               <GroupByFilter
                 value={groupBy}
-                options={['day', 'week', 'month']}
+                options={filtersGroupBy}
                 disabled={loading}
                 onChange={(value) => {
                   setGroupBy(value)
@@ -291,7 +293,8 @@ const Performance = () => {
               <h6 className="mx-2 m-0 align-self-center">{t('Period')}</h6>
               <DateFilter
                 value={period}
-                options={['y', 'cm', 'cy', 'x', 'xx']}
+                // options={['y', 'cm', 'cy', 'x', 'xx']}
+                options={filtersPeriod}
                 disabled={loading}
                 onChange={(value) => {
                   setPeriod(value)

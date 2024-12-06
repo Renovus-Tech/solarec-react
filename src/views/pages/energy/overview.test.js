@@ -9,6 +9,7 @@ import i18n from '../../../helpers/i18n'
 import Overview from './overview'
 import 'jest-canvas-mock'
 import DataAPI from '../../../helpers/DataAPI.js'
+import { setCookie } from '../../../helpers/sessionCookie.js'
 
 jest.mock('../../../helpers/DataAPI')
 
@@ -120,6 +121,8 @@ describe("Overview", () => {
     DataAPI.mockResolvedValueOnce(overviewResponseOk)
     DataAPI.mockResolvedValueOnce(overviewCO2ResponseOk)
     DataAPI.mockResolvedValueOnce(alertsResponseOk)
+    setCookie('groupby', '["day","week","month","year"]');
+    setCookie('periods', '["y","cm","cy","x","xx"]');
   })
 
   test('correct texts should be in the document', async () => {

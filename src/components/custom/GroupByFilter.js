@@ -20,7 +20,7 @@ export const GroupByFilter = ({ value, disabled, options, onChange }) => {
 
 	return (<>
             <CFormSelect value={val} disabled={disabled} onChange={changeListener} name="groupby" id="groupby" className='input-sm text-capitalize' data-testid="groupby">
-              {options.map((option) => {
+              {options && options.map((option) => {
               return <option className="text-capitalize" key={option} value={option} onClick={changeListener}>
                 {i18n.t(option)}
               </option>

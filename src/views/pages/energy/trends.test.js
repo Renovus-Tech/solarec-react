@@ -10,6 +10,7 @@ import { getCookie } from '../../../helpers/sessionCookie.js'
 import Trends from './trends'
 import 'jest-canvas-mock'
 import DataAPI from '../../../helpers/DataAPI.js'
+import { setCookie } from '../../../helpers/sessionCookie.js'
 
 jest.mock('../../../helpers/DataAPI')
 
@@ -127,7 +128,8 @@ describe("Trends", () => {
 
   beforeEach(() => {
     global.fetch = jest.fn()
-
+    setCookie('groupby', '["day","week","month","year"]');
+    setCookie('periods', '["y","cm","cy","x","xx"]');
     // jest.clearAllMocks()
     // DataAPI.mockResolvedValue(DataApiResponseOk)
   })

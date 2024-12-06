@@ -3,6 +3,7 @@ import DataAPI from '../../../helpers/DataAPI.js'
 import { setCookie } from '../../../helpers/sessionCookie.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { getDateCodes } from '../../../helpers/utils.js'
 import {
   CButton,
   CCard,
@@ -52,6 +53,8 @@ const Login = () => {
           setCookie('parkType', response.location.type)
           setCookie('functionalities', JSON.stringify(response.functionalities.map((f) => f.url)))
           setCookie('dashboard', response.functionalities[0].url)
+          setCookie('groupby', JSON.stringify(Object.keys(response.location.frequency.groupby).filter((gb) => response.location.frequency.groupby[gb] === true)))
+          setCookie('periods', JSON.stringify(getDateCodes(Object.keys(response.location.frequency.periods).filter((p) => response.location.frequency.periods[p] === true))))
           
           response.settings.forEach((setting) => {
             if (setting.name === 'language') {
